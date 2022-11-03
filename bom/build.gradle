@@ -2,9 +2,6 @@ plugins {
     id 'io.micronaut.build.internal.bom'
 }
 
-group projectGroupId
-version projectVersion
-
 repositories {
     mavenCentral()
     maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
