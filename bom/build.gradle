@@ -22,14 +22,3 @@ micronautBom {
 
     }
 }
-
-// This adds a publication for backwards compatibility with the old BOM
-publishing {
-    publications {
-        compatibility(MavenPublication) {
-            from components.javaPlatform
-            groupId = 'io.micronaut'
-            artifactId = 'micronaut-bom'
-        }
-    }
-}
