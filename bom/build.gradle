@@ -22,3 +22,7 @@ micronautBom {
 
     }
 }
+
+micronautBuild {
+    binaryCompatibility.enabled = version != '4.0.0-SNAPSHOT'
+}
