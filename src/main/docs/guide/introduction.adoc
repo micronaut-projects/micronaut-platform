@@ -1,0 +1,1 @@
+This Micronaut module specifies the Bill of Materials (BOM) for the Micronaut Project.
