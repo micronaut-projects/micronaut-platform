@@ -198,8 +198,6 @@ managed-jna = { module = "net.java.dev.jna:jna", version.ref = "managed-jna" }
 
 managed-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "managed-jsr305" }
 
-managed-kafka212 = { module = "org.apache.kafka:kafka_2.12", version.ref = "managed-kafka" }
-
 managed-logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "managed-logback" }
 
 managed-lombok = { module = "org.projectlombok:lombok", version.ref = "managed-lombok" }
