@@ -6,13 +6,15 @@ pluginManagement {
 }
 
 plugins {
-    id 'io.micronaut.build.shared.settings' version '6.0.2'
+    id 'io.micronaut.build.shared.settings' version '6.1.0'
 }
 
 rootProject.name = 'project-bom-parent'
 
 include 'bom'
+include 'parent'
 
 micronautBuild {
+    addSnapshotRepository()
     importMicronautCatalog()
 }

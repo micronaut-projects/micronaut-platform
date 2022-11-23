@@ -96,6 +96,23 @@ managed-spotbugs = "4.7.1"
 managed-testcontainers = "1.17.5"
 managed-snakeyaml = "1.33"
 
+## Versions which start with parent- are used to be included in the parent POM as properties
+## using the following mapping rule:
+##   parent-${some-property-name} -> <some-property-name.version>
+parent-micronaut-maven-plugin = "3.5.0"
+parent-azure-functions-maven-plugin = "1.5.0"
+parent-exec-maven-plugin = "1.6.0"
+parent-function-maven-plugin = "0.9.8"
+parent-maven-compiler-plugin = "3.10.1"
+parent-jib-maven-plugin = "3.1.4"
+parent-maven-deploy-plugin = "3.0.0-M2"
+parent-maven-failsafe-plugin = "2.22.2"
+parent-maven-install-plugin = "3.0.0-M1"
+parent-maven-jar-plugin = "3.2.2"
+parent-maven-shade-plugin = "3.2.4"
+parent-maven-surefire-plugin = "2.22.2"
+parent-protoc-jar-maven-plugin = "3.11.4"
+
 [libraries]
 # Libraries prefixed with bom- are BOM files
 boms-micronaut-aws = { module = "io.micronaut.aws:micronaut-aws-bom", version.ref = "managed-micronaut-aws" }
@@ -231,6 +248,21 @@ managed-snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "managed-snak
 managed-spock = { module = "org.spockframework:spock-core", version.ref = "managed-spock" }
 managed-spotbugs = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "managed-spotbugs" }
 
+# Libraries starting with "parent-" are used in the parent POM
+# and we put their coordinates here so that Renovatebot can update them
+parent-micronaut-maven-plugin = { module = "io.micronaut.build:micronaut-maven-plugin", version.ref = "parent-micronaut-maven-plugin" }
+parent-azure-functions-maven-plugin = { module = "com.microsoft.azure:azure-functions-maven-plugin", version.ref = "parent-azure-functions-maven-plugin" }
+parent-exec-maven-plugin = { module = "org.codehaus.mojo:exec-maven-plugin", version.ref = "parent-exec-maven-plugin" }
+parent-function-maven-plugin = { module = "com.google.cloud.functions:function-maven-plugin", version.ref = "parent-function-maven-plugin" }
+parent-maven-compiler-plugin = { module = "org.apache.maven.plugins:maven-compiler-plugin", version.ref = "parent-maven-compiler-plugin" }
+parent-jib-maven-plugin = { module = "com.google.cloud.tools:jib-maven-plugin", version.ref = "parent-jib-maven-plugin" }
+parent-maven-deploy-plugin = { module = "org.apache.maven.plugins:maven-deploy-plugin", version.ref = "parent-maven-deploy-plugin" }
+parent-maven-failsafe-plugin = { module = "org.apache.maven.plugins:maven-failsafe-plugin", version.ref = "parent-maven-failsafe-plugin" }
+parent-maven-install-plugin = { module = "org.apache.maven.plugins:maven-install-plugin", version.ref = "parent-maven-install-plugin" }
+parent-maven-jar-plugin = { module = "org.apache.maven.plugins:maven-jar-plugin", version.ref = "parent-maven-jar-plugin" }
+parent-maven-shade-plugin = { module = "org.apache.maven.plugins:maven-shade-plugin", version.ref = "parent-maven-shade-plugin" }
+parent-maven-surefire-plugin = { module = "org.apache.maven.plugins:maven-surefire-plugin", version.ref = "parent-maven-surefire-plugin" }
+parent-protoc-jar-maven-plugin = { module = "com.github.os72:protoc-jar-maven-plugin", version.ref = "parent-protoc-jar-maven-plugin" }
 #
 # Other libraries are used by Micronaut but will not appear in the BOM
 #
