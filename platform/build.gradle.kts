@@ -8,7 +8,7 @@ repositories {
 }
 
 micronautBom {
-    propertyName.set("bom")
+    propertyName.set("platform")
     extraExcludedProjects.add("parent")
     suppressions {
 
