@@ -7,8 +7,8 @@
     <version>%%version%%</version>
     <packaging>pom</packaging>
     <parent>
-        <groupId>io.micronaut.bom</groupId>
-        <artifactId>micronaut-bom</artifactId>
+        <groupId>io.micronaut.platform</groupId>
+        <artifactId>micronaut-platform</artifactId>
         <version>%%version%%</version>
     </parent>
     <name>Micronaut</name>
