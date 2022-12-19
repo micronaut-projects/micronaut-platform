@@ -22,6 +22,10 @@ micronautBom {
                     "io.opentelemetry.javaagent.instrumentation"
                 )
         )
+        bomAuthorizedGroupIds.put(
+            "io.projectreactor:reactor-bom",
+            setOf("io.projectreactor", "org.reactivestreams")
+        )
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.15.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.15.0-alpha")
 

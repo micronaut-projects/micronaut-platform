@@ -25,7 +25,6 @@ managed-jcache = "1.1.1"
 managed-jna = "5.12.1"
 managed-jsr305 = "3.0.2"
 managed-ktor = "1.6.8"
-managed-logback = "1.4.4"
 managed-lombok = "1.18.24"
 managed-maven-native-plugin = "0.9.13"
 managed-micronaut-acme = "3.2.0"
@@ -94,7 +93,6 @@ managed-rxjava1-interop = "0.13.7"
 managed-spock = "2.2-groovy-4.0"
 managed-spotbugs = "4.7.1"
 managed-testcontainers = "1.17.5"
-managed-snakeyaml = "1.33"
 
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
@@ -215,8 +213,6 @@ managed-jna = { module = "net.java.dev.jna:jna", version.ref = "managed-jna" }
 
 managed-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "managed-jsr305" }
 
-managed-logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "managed-logback" }
-
 managed-lombok = { module = "org.projectlombok:lombok", version.ref = "managed-lombok" }
 
 # The following Managed Micronaut dependencies are for Micronaut projects which do not ship with a BOM yet
@@ -242,8 +238,6 @@ managed-reactive-pg-client = { module = "io.reactiverse:reactive-pg-client", ver
 
 managed-rxjava1 = { module = "io.reactivex:rxjava", version.ref = "managed-rxjava1" }
 managed-rxjava1-interop = { module = "com.github.akarnokd:rxjava2-interop", version.ref = "managed-rxjava1-interop" }
-
-managed-snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "managed-snakeyaml" }
 
 managed-spock = { module = "org.spockframework:spock-core", version.ref = "managed-spock" }
 managed-spotbugs = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "managed-spotbugs" }
