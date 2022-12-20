@@ -97,7 +97,7 @@ managed-testcontainers = "1.17.6"
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
 ##   parent-${some-property-name} -> <some-property-name.version>
-parent-micronaut-maven-plugin = "3.5.1"
+parent-micronaut-maven-plugin = "3.5.2"
 parent-azure-functions-maven-plugin = "1.5.0"
 parent-exec-maven-plugin = "1.6.0"
 parent-function-maven-plugin = "0.9.8"
