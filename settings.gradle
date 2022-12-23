@@ -6,10 +6,10 @@ pluginManagement {
 }
 
 plugins {
-    id 'io.micronaut.build.shared.settings' version '6.1.0'
+    id 'io.micronaut.build.shared.settings' version '6.1.1'
 }
 
-rootProject.name = 'project-platform-parent'
+rootProject.name = 'micronaut-platform-parent'
 
 include 'platform'
 include 'parent'
