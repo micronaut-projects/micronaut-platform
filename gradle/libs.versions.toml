@@ -98,7 +98,7 @@ managed-testcontainers = "1.17.6"
 ## using the following mapping rule:
 ##   parent-${some-property-name} -> <some-property-name.version>
 parent-micronaut-maven-plugin = "3.5.2"
-parent-azure-functions-maven-plugin = "1.5.0"
+parent-azure-functions-maven-plugin = "1.22.0"
 parent-exec-maven-plugin = "1.6.0"
 parent-function-maven-plugin = "0.10.1"
 parent-maven-compiler-plugin = "3.10.1"
