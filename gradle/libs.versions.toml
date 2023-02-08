@@ -109,6 +109,7 @@ parent-maven-install-plugin = "3.1.0"
 parent-maven-jar-plugin = "3.2.2"
 parent-maven-shade-plugin = "3.4.1"
 parent-maven-surefire-plugin = "2.22.2"
+parent-maven-resources-plugin = "3.2.0"
 parent-protoc-jar-maven-plugin = "3.11.4"
 
 [libraries]
