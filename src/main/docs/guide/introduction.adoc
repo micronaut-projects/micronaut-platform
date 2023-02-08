@@ -1,1 +1,36 @@
-This Micronaut module specifies the Bill of Materials (BOM) for the Micronaut Project.
+This Micronaut module specifies the Bill of Materials (BOM) for the Micronaut Project, also known at the Micronaut Platform.
+
+The Micronaut Platform is a collection of modules that can be used to build Micronaut applications and have been verified to work well together.
+
+It aggregates many of the individual Micronaut module BOMs and provides a single BOM to manage the versions of all the modules.
+
+If you are using either the https://micronaut-projects.github.io/micronaut-gradle-plugin/latest/[Micronaut Gradle Plugin] or the https://micronaut-projects.github.io/micronaut-maven-plugin/latest/[Micronaut Maven Plugin], you do not need to add this module to your project as it will be added automatically.
+
+NOTE: The Micronaut Platform BOM exists since Micronaut 4, and corresponds to the Micronaut 3 BOM which was published at `io.micronaut:micronaut-bom`. In Micronaut 4, we provide both the Micronaut Platform BOM (`io.micronaut.platform:micronaut-platform`) and the Micronaut Core BOM (`io.micronaut:micronaut-core-bom`).
+
+== The Micronaut Platform catalog
+
+For Gradle users, the platform is also published as a version catalog which can be used in your build scripts to easily add "blessed" dependencies to your project.
+
+In order to use the version catalog, import it into your `settings.gradle(.kts)` file:
+
+[source,groovy]
+----
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+    versionCatalogs {
+        create("mn") {
+            from("io.micronaut:micronaut-platform:${micronautVersion}")
+        }
+    }
+}
+----
+
+Then, you can use the catalog to add dependencies to your project:
+
+[source,groovy]
+----
+implementation mn.micronaut.data.jdbc
+----
