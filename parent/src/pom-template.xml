@@ -89,7 +89,7 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>io.micronaut.build</groupId>
+                    <groupId>io.micronaut.maven</groupId>
                     <artifactId>micronaut-maven-plugin</artifactId>
                     <version>${micronaut-maven-plugin.version}</version>
                     <extensions>true</extensions>
@@ -256,7 +256,7 @@
                     <version>${jib-maven-plugin.version}</version>
                     <dependencies>
                         <dependency>
-                            <groupId>io.micronaut.build</groupId>
+                            <groupId>io.micronaut.maven</groupId>
                             <artifactId>micronaut-maven-plugin</artifactId>
                             <version>${micronaut-maven-plugin.version}</version>
                         </dependency>
@@ -267,7 +267,7 @@
                         </to>
                         <pluginExtensions>
                             <pluginExtension>
-                                <implementation>io.micronaut.build.jib.JibMicronautExtension</implementation>
+                                <implementation>io.micronaut.maven.jib.JibMicronautExtension</implementation>
                             </pluginExtension>
                         </pluginExtensions>
                     </configuration>
