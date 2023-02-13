@@ -6,7 +6,6 @@
 #
 managed-dekorate = "1.0.3"
 managed-elasticsearch = "7.17.8"
-managed-ignite = "2.14.0"
 managed-junit5 = "5.9.1"
 managed-kotlin = "1.7.22"
 managed-kotlin-coroutines = "1.6.4"
@@ -60,7 +59,8 @@ managed-micronaut-mqtt = "3.0.0-SNAPSHOT"
 managed-micronaut-multitenancy = "5.0.0-SNAPSHOT"
 managed-micronaut-neo4j = "6.0.0-SNAPSHOT"
 managed-micronaut-nats = "4.0.0-SNAPSHOT"
-managed-micronaut-object-storage = "2.0.0-SNAPSHOT"
+#TODO change to 2.0.0-SNAPSHOT once https://github.com/micronaut-projects/micronaut-object-storage/pull/190 is merged
+managed-micronaut-object-storage = "4.0.0-SNAPSHOT"
 managed-micronaut-openapi = "5.0.0-SNAPSHOT"
 managed-micronaut-oraclecloud = "3.0.0-SNAPSHOT"
 managed-micronaut-picocli = "5.0.0-SNAPSHOT"
@@ -82,6 +82,7 @@ managed-micronaut-test-resources = "2.0.0-SNAPSHOT"
 managed-micronaut-toml = "2.0.0-SNAPSHOT"
 managed-micronaut-tracing = "5.0.0-SNAPSHOT"
 managed-micronaut-views = "4.0.0-SNAPSHOT"
+managed-micronaut-xml = "4.0.0-SNAPSHOT"
 managed-reactive-pg-client = "0.11.4"
 managed-spock = "2.3-groovy-4.0"
 managed-spotbugs = "4.7.3"
@@ -196,9 +197,6 @@ managed-graal-sdk = { module = "org.graalvm.sdk:graal-sdk", version.ref = "manag
 managed-hystrix = { module = "com.netflix.hystrix:hystrix-core", version.ref = "managed-hystrix" }
 managed-hystrix-serialization = { module = "com.netflix.hystrix:hystrix-serialization", version.ref = "managed-hystrix" }
 
-managed-ignite = { module = "org.apache.ignite:ignite-core", version.ref = "managed-ignite" }
-managed-ignite-kubernetes = { module = "org.apache.ignite:ignite-kubernetes", version.ref = "managed-ignite" }
-
 managed-javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "managed-javax-annotation-api" }
 
 managed-jcache = { module = "javax.cache:cache-api", version.ref = "managed-jcache" }
@@ -213,25 +211,15 @@ managed-lombok = { module = "org.projectlombok:lombok", version.ref = "managed-l
 managed-micronaut-acme = { module = "io.micronaut.acme:micronaut-acme", version.ref = "managed-micronaut-acme" }
 managed-micronaut-discovery = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "managed-micronaut-discovery" }
 managed-micronaut-hibernate-validator = { module = "io.micronaut.beanvalidation:micronaut-hibernate-validator", version.ref = "managed-micronaut-hibernate-validator" }
-managed-micronaut-ignite-core = { module = "io.micronaut.ignite:micronaut-ignite-core", version.ref = "managed-micronaut-ignite" }
-managed-micronaut-ignite-cache = { module = "io.micronaut.ignite:micronaut-ignite-cache", version.ref = "managed-micronaut-ignite" }
 managed-micronaut-jms = { module = "io.micronaut.jms:micronaut-jms-core", version.ref = "managed-micronaut-jms" }
 managed-micronaut-jms-activemq-classic = { module = "io.micronaut.jms:micronaut-jms-activemq-classic", version.ref = "managed-micronaut-jms" }
 managed-micronaut-jms-activemq-artemis = { module = "io.micronaut.jms:micronaut-jms-activemq-artemis", version.ref = "managed-micronaut-jms" }
 managed-micronaut-jms-sqs = { module = "io.micronaut.jms:micronaut-jms-sqs", version.ref = "managed-micronaut-jms" }
 managed-micronaut-jmx = { module = "io.micronaut.jmx:micronaut-jmx", version.ref = "managed-micronaut-jmx" }
-managed-micronaut-netflix = { module = "io.micronaut.netflix:micronaut-netflix-archaius", version.ref = "managed-micronaut-netflix" }
-managed-micronaut-netflix-hystrix = { module = "io.micronaut.netflix:micronaut-netflix-hystrix", version.ref = "managed-micronaut-netflix" }
-managed-micronaut-netflix-ribbon = { module = "io.micronaut.netflix:micronaut-netflix-ribbon", version.ref = "managed-micronaut-netflix" }
 managed-micronaut-rabbitmq = { module = "io.micronaut.rabbitmq:micronaut-rabbitmq", version.ref = "managed-micronaut-rabbitmq" }
-managed-micronaut-rxjava1 = { module = "io.micronaut.rxjava1:micronaut-rxjava1", version.ref = "managed-micronaut-rxjava1" }
-managed-micronaut-tracing-legacy = { module = "io.micronaut:micronaut-tracing", version.ref = "managed-micronaut-tracing-legacy" }
 managed-micronaut-xml = { module = "io.micronaut.xml:micronaut-jackson-xml", version.ref = "managed-micronaut-xml" }
 
 managed-reactive-pg-client = { module = "io.reactiverse:reactive-pg-client", version.ref = "managed-reactive-pg-client" }
-
-managed-rxjava1 = { module = "io.reactivex:rxjava", version.ref = "managed-rxjava1" }
-managed-rxjava1-interop = { module = "com.github.akarnokd:rxjava2-interop", version.ref = "managed-rxjava1-interop" }
 
 managed-spock = { module = "org.spockframework:spock-core", version.ref = "managed-spock" }
 managed-spotbugs = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "managed-spotbugs" }
