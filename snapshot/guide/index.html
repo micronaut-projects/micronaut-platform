@@ -106,7 +106,61 @@
 
 
 <div class="paragraph">
-<p>This Micronaut module specifies the Bill of Materials (BOM) for the Micronaut Project.</p>
+<p>This Micronaut module specifies the Bill of Materials (BOM) for the Micronaut Project, also known as the Micronaut Platform.</p>
+</div>
+<div class="paragraph">
+<p>The Micronaut Platform is a collection of modules that can be used to build Micronaut applications and have been verified to work well together.</p>
+</div>
+<div class="paragraph">
+<p>It aggregates many of the individual Micronaut module BOMs and provides a single BOM to manage the versions of all the modules.</p>
+</div>
+<div class="paragraph">
+<p>If you use either the <a href="https://micronaut-projects.github.io/micronaut-gradle-plugin/latest/">Micronaut Gradle Plugin</a> or the <a href="https://micronaut-projects.github.io/micronaut-maven-plugin/latest/">Micronaut Maven Plugin</a>, you do not need to add this module to your project as it will be added automatically.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The Micronaut Platform BOM exists since Micronaut Framework 4, and corresponds to the Micronaut Framework  3 BOM which was published at <code>io.micronaut:micronaut-bom</code>. In Micronaut 4, we provide both the Micronaut Platform BOM (<code>io.micronaut.platform:micronaut-platform</code>) and the Micronaut Core BOM (<code>io.micronaut:micronaut-core-bom</code>).
+</td>
+</tr>
+</table>
+</div>
+<div class="sect1">
+<h2 id="_the_micronaut_platform_catalog">The Micronaut Platform catalog</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For Gradle users, the platform is also published as a <a href="https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog">version catalog</a> which can be used in your build scripts to add "blessed" dependencies to your project.</p>
+</div>
+<div class="paragraph">
+<p>In order to use the version catalog, import it into your <code>settings.gradle(.kts)</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+    versionCatalogs {
+        create("mn") {
+            from("io.micronaut:micronaut-platform:${micronautVersion}")
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, you can use the catalog to add dependencies to your project:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">implementation(mn.micronaut.data.jdbc)</code></pre>
+</div>
+</div>
+</div>
 </div>
 
 <h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>2 Release History</h1>
