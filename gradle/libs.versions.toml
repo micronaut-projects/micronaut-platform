@@ -230,6 +230,7 @@ managed-spotbugs = { module = "com.github.spotbugs:spotbugs-annotations", versio
 
 # Libraries starting with "parent-" are used in the parent POM
 # and we put their coordinates here so that Renovatebot can update them
+parent-maven = { module = "org.apache.maven:maven-core", version.ref = "parent-maven" }
 parent-micronaut-maven-plugin = { module = "io.micronaut.build:micronaut-maven-plugin", version.ref = "parent-micronaut-maven-plugin" }
 parent-azure-functions-maven-plugin = { module = "com.microsoft.azure:azure-functions-maven-plugin", version.ref = "parent-azure-functions-maven-plugin" }
 parent-exec-maven-plugin = { module = "org.codehaus.mojo:exec-maven-plugin", version.ref = "parent-exec-maven-plugin" }
@@ -243,6 +244,7 @@ parent-maven-jar-plugin = { module = "org.apache.maven.plugins:maven-jar-plugin"
 parent-maven-shade-plugin = { module = "org.apache.maven.plugins:maven-shade-plugin", version.ref = "parent-maven-shade-plugin" }
 parent-maven-surefire-plugin = { module = "org.apache.maven.plugins:maven-surefire-plugin", version.ref = "parent-maven-surefire-plugin" }
 parent-protoc-jar-maven-plugin = { module = "com.github.os72:protoc-jar-maven-plugin", version.ref = "parent-protoc-jar-maven-plugin" }
+parent-maven-enforcer-plugin = { module = "org.apache.maven.plugins:maven-enforcer-plugin", version.ref = "parent-maven-enforcer-plugin" }
 #
 # Other libraries are used by Micronaut but will not appear in the BOM
 #
