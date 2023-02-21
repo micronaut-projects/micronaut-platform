@@ -257,7 +257,7 @@
                     <dependencies>
                         <dependency>
                             <groupId>io.micronaut.maven</groupId>
-                            <artifactId>micronaut-maven-plugin</artifactId>
+                            <artifactId>micronaut-maven-jib-integration</artifactId>
                             <version>${micronaut-maven-plugin.version}</version>
                         </dependency>
                     </dependencies>
@@ -270,6 +270,37 @@
                                 <implementation>io.micronaut.maven.jib.JibMicronautExtension</implementation>
                             </pluginExtension>
                         </pluginExtensions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.micronaut.maven</groupId>
+                            <artifactId>micronaut-maven-enforcer-rules</artifactId>
+                            <version>${micronaut-maven-plugin.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <id>micronaut-enforce</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <rules combine.children="append">
+                            <requireMavenVersion>
+                                <version>${maven.version}</version>
+                            </requireMavenVersion>
+                            <requireJavaVersion>
+                                <version>17</version>
+                            </requireJavaVersion>
+                            <checkSnakeYaml />
+                        </rules>
                     </configuration>
                 </plugin>
             </plugins>

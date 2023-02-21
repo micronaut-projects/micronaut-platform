@@ -92,6 +92,7 @@ managed-testcontainers = "1.17.6"
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
 ##   parent-${some-property-name} -> <some-property-name.version>
+parent-maven = "3.9.0"
 parent-micronaut-maven-plugin = "4.0.0-SNAPSHOT"
 parent-azure-functions-maven-plugin = "1.23.0"
 parent-exec-maven-plugin = "3.1.0"
@@ -106,6 +107,7 @@ parent-maven-shade-plugin = "3.4.1"
 parent-maven-surefire-plugin = "2.22.2"
 parent-maven-resources-plugin = "3.2.0"
 parent-protoc-jar-maven-plugin = "3.11.4"
+parent-maven-enforcer-plugin = "3.2.1"
 
 [libraries]
 # Libraries prefixed with bom- are BOM files
