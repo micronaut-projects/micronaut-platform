@@ -43,6 +43,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <exec.executable>java</exec.executable>
         <micronaut.version>%%version%%</micronaut.version>
+        <graalvm.metadata-repository.enabled>true</graalvm.metadata-repository.enabled>
     </properties>
     <profiles>
         <profile>
@@ -248,6 +249,9 @@
                         <environment>
                             <USE_NATIVE_IMAGE_JAVA_PLATFORM_MODULE_SYSTEM>false</USE_NATIVE_IMAGE_JAVA_PLATFORM_MODULE_SYSTEM>
                         </environment>
+                        <metadataRepository>
+                            <enabled>${graalvm.metadata-repository.enabled}</enabled>
+                        </metadataRepository>
                     </configuration>
                 </plugin>
                 <plugin>
