@@ -82,6 +82,7 @@ managed-micronaut-test = "4.0.0-SNAPSHOT"
 managed-micronaut-test-resources = "2.0.0-SNAPSHOT"
 managed-micronaut-toml = "2.0.0-SNAPSHOT"
 managed-micronaut-tracing = "5.0.0-SNAPSHOT"
+managed-micronaut-validation = "4.0.0-SNAPSHOT"
 managed-micronaut-views = "4.0.0-SNAPSHOT"
 managed-micronaut-xml = "4.0.0-SNAPSHOT"
 managed-reactive-pg-client = "0.11.4"
@@ -156,6 +157,7 @@ boms-micronaut-sql = { module = "io.micronaut.sql:micronaut-sql-bom", version.re
 boms-micronaut-test = { module = "io.micronaut.test:micronaut-test-bom", version.ref = "managed-micronaut-test" }
 boms-micronaut-toml = { module = "io.micronaut.toml:micronaut-toml-bom", version.ref = "managed-micronaut-toml" }
 boms-micronaut-tracing = { module = "io.micronaut.tracing:micronaut-tracing-bom", version.ref = "managed-micronaut-tracing" }
+boms-micronaut-validation = { module = "io.micronaut.validation:micronaut-validation-bom", version.ref = "managed-micronaut-validation" }
 boms-micronaut-views = { module = "io.micronaut.views:micronaut-views-bom", version.ref = "managed-micronaut-views" }
 boms-micronaut-r2dbc = { module = "io.micronaut.r2dbc:micronaut-r2dbc-bom", version.ref = "managed-micronaut-r2dbc" }
 boms-micronaut-flyway = { module = "io.micronaut.flyway:micronaut-flyway-bom", version.ref = "managed-micronaut-flyway" }
