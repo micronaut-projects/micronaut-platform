@@ -5,7 +5,7 @@
 # that they will appear in the Micronaut BOM as <properties>
 #
 managed-dekorate = "1.0.3"
-managed-elasticsearch = "7.17.8"
+managed-elasticsearch = "7.17.9"
 managed-junit5 = "5.9.2"
 managed-kotlin = "1.7.22"
 managed-kotlin-coroutines = "1.6.4"
