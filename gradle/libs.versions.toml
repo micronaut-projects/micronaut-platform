@@ -5,7 +5,6 @@
 # that they will appear in the Micronaut BOM as <properties>
 #
 managed-dekorate = "1.0.3"
-managed-elasticsearch = "7.17.8"
 managed-junit5 = "5.9.2"
 managed-kotlin = "1.7.22"
 managed-kotlin-coroutines = "1.6.4"
@@ -181,8 +180,6 @@ managed-dekorate-openshift-annotations = { module = "io.dekorate:openshift-annot
 managed-dekorate-prometheus-annotations = { module = "io.dekorate:prometheus-annotations", version.ref = "managed-dekorate" }
 managed-dekorate-servicecatalog-annotations = { module = "io.dekorate:servicecatalog-annotations", version.ref = "managed-dekorate" }
 managed-dekorate-halkyon-annotations = { module = "io.dekorate:halkyon-annotations", version.ref = "managed-dekorate" }
-
-managed-elasticsearch = { module = "org.elasticsearch.client:elasticsearch-rest-high-level-client", version.ref = "managed-elasticsearch" }
 
 managed-google-function-framework = { module = "com.google.cloud.functions:functions-framework-api", version.ref = "managed-google-function-framework" }
 managed-google-function-invoker = { module = "com.google.cloud.functions.invoker:java-function-invoker", version.ref = "managed-google-function-invoker" }
