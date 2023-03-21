@@ -297,9 +297,6 @@
                     </executions>
                     <configuration>
                         <rules combine.children="append">
-                            <requireMavenVersion>
-                                <version>${maven.version}</version>
-                            </requireMavenVersion>
                             <requireJavaVersion>
                                 <version>17</version>
                             </requireJavaVersion>
