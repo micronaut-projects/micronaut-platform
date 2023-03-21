@@ -85,7 +85,6 @@ managed-micronaut-tracing = "5.0.0-SNAPSHOT"
 managed-micronaut-validation = "4.0.0-SNAPSHOT"
 managed-micronaut-views = "4.0.0-SNAPSHOT"
 managed-micronaut-xml = "4.0.0-SNAPSHOT"
-managed-reactive-pg-client = "0.11.4"
 managed-spock = "2.3-groovy-4.0"
 managed-spotbugs = "4.7.3"
 managed-testcontainers = "1.17.6"
@@ -224,8 +223,6 @@ managed-micronaut-jms-sqs = { module = "io.micronaut.jms:micronaut-jms-sqs", ver
 managed-micronaut-jmx = { module = "io.micronaut.jmx:micronaut-jmx", version.ref = "managed-micronaut-jmx" }
 managed-micronaut-rabbitmq = { module = "io.micronaut.rabbitmq:micronaut-rabbitmq", version.ref = "managed-micronaut-rabbitmq" }
 managed-micronaut-xml = { module = "io.micronaut.xml:micronaut-jackson-xml", version.ref = "managed-micronaut-xml" }
-
-managed-reactive-pg-client = { module = "io.reactiverse:reactive-pg-client", version.ref = "managed-reactive-pg-client" }
 
 managed-spock = { module = "org.spockframework:spock-core", version.ref = "managed-spock" }
 managed-spotbugs = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "managed-spotbugs" }
