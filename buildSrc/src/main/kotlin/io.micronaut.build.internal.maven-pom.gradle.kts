@@ -36,9 +36,12 @@ generatePomFile.configure {
 }
 
 afterEvaluate {
-    tasks.named("publishParentPublicationToBuildRepository") {
-        dependsOn(rewritePomFile)
+    val publishingTasks = setOf("publishParentPublicationToBuildRepository", "publishParentPublicationToSonatypeRepository")
+    tasks.configureEach {
+        if (name in publishingTasks)
+            dependsOn(rewritePomFile)
     }
+
     val libsCatalog = extensions.getByType(VersionCatalogsExtension::class).named("libs")
     val prefix = pom.catalogPropertyPrefix.get() + "."
     libsCatalog.versionAliases
