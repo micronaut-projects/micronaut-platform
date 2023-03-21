@@ -9,8 +9,6 @@ managed-elasticsearch = "7.17.8"
 managed-junit5 = "5.9.2"
 managed-kotlin = "1.7.22"
 managed-kotlin-coroutines = "1.6.4"
-managed-google-function-framework = "1.0.4"
-managed-google-function-invoker = "1.2.0"
 managed-gorm = "7.3.2"
 managed-gorm-hibernate = "7.3.0"
 # be sure to update graal version in gradle.properties as well
@@ -183,9 +181,6 @@ managed-dekorate-servicecatalog-annotations = { module = "io.dekorate:servicecat
 managed-dekorate-halkyon-annotations = { module = "io.dekorate:halkyon-annotations", version.ref = "managed-dekorate" }
 
 managed-elasticsearch = { module = "org.elasticsearch.client:elasticsearch-rest-high-level-client", version.ref = "managed-elasticsearch" }
-
-managed-google-function-framework = { module = "com.google.cloud.functions:functions-framework-api", version.ref = "managed-google-function-framework" }
-managed-google-function-invoker = { module = "com.google.cloud.functions.invoker:java-function-invoker", version.ref = "managed-google-function-invoker" }
 
 managed-gorm = { module = "org.grails:grails-datastore-core", version.ref = "managed-gorm" }
 managed-gorm-datastore-async = { module = "org.grails:grails-datastore-async", version.ref = "managed-gorm" }
