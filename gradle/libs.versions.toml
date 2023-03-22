@@ -8,7 +8,7 @@ managed-dekorate = "1.0.3"
 managed-junit5 = "5.9.2"
 managed-kotlin = "1.7.22"
 managed-kotlin-coroutines = "1.6.4"
-managed-gorm = "7.3.2"
+managed-gorm = "7.3.4"
 managed-gorm-hibernate = "7.3.0"
 # be sure to update graal version in gradle.properties as well
 # Intentionally pin to 22.0.0.2 see https://github.com/micronaut-projects/micronaut-kafka/pull/564 and https://github.com/micronaut-projects/micronaut-core/pull/7663
