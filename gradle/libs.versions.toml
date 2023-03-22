@@ -5,7 +5,6 @@
 # that they will appear in the Micronaut BOM as <properties>
 #
 managed-dekorate = "1.0.3"
-managed-elasticsearch = "7.17.8"
 managed-junit5 = "5.9.2"
 managed-kotlin = "1.7.22"
 managed-kotlin-coroutines = "1.6.4"
@@ -16,12 +15,10 @@ managed-gorm-hibernate = "7.3.0"
 managed-graal-sdk = "22.3.1"
 managed-graal = "22.3.0"
 managed-graal-svm = "22.3.0"
-managed-hystrix = "1.5.18"
 managed-javax-annotation-api = "1.3.2"
 managed-jcache = "1.1.1"
 managed-jna = "5.12.1"
 managed-jsr305 = "3.0.2"
-managed-ktor = "1.6.8"
 managed-lombok = "1.18.24"
 managed-maven-native-plugin = "0.9.19"
 managed-micronaut-acme = "4.0.0-SNAPSHOT"
@@ -164,7 +161,6 @@ boms-micronaut-test-resources = { module = "io.micronaut.testresources:micronaut
 boms-junit5 = { module = "org.junit:junit-bom", version.ref = "managed-junit5" }
 boms-kotlin = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "managed-kotlin" }
 boms-kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "managed-kotlin-coroutines" }
-boms-ktor = { module = "io.ktor:ktor-bom", version.ref = "managed-ktor" }
 boms-testcontainers = { module = "org.testcontainers:testcontainers-bom", version.ref = "managed-testcontainers" }
 
 #
@@ -180,7 +176,6 @@ managed-dekorate-prometheus-annotations = { module = "io.dekorate:prometheus-ann
 managed-dekorate-servicecatalog-annotations = { module = "io.dekorate:servicecatalog-annotations", version.ref = "managed-dekorate" }
 managed-dekorate-halkyon-annotations = { module = "io.dekorate:halkyon-annotations", version.ref = "managed-dekorate" }
 
-managed-elasticsearch = { module = "org.elasticsearch.client:elasticsearch-rest-high-level-client", version.ref = "managed-elasticsearch" }
 
 managed-gorm = { module = "org.grails:grails-datastore-core", version.ref = "managed-gorm" }
 managed-gorm-datastore-async = { module = "org.grails:grails-datastore-async", version.ref = "managed-gorm" }
@@ -194,9 +189,6 @@ managed-gorm-hibernate = { module = "org.grails:grails-datastore-gorm-hibernate5
 
 managed-graal = { module = "org.graalvm.nativeimage:svm", version.ref = "managed-graal-svm" }
 managed-graal-sdk = { module = "org.graalvm.sdk:graal-sdk", version.ref = "managed-graal-sdk" }
-
-managed-hystrix = { module = "com.netflix.hystrix:hystrix-core", version.ref = "managed-hystrix" }
-managed-hystrix-serialization = { module = "com.netflix.hystrix:hystrix-serialization", version.ref = "managed-hystrix" }
 
 managed-javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "managed-javax-annotation-api" }
 
