@@ -56,7 +56,7 @@ managed-micronaut-microstream = "2.0.0-SNAPSHOT"
 managed-micronaut-liquibase = "6.0.0-SNAPSHOT"
 managed-micronaut-mongo = "5.0.0-M1"
 managed-micronaut-mqtt = "3.0.0-SNAPSHOT"
-managed-micronaut-multitenancy = "5.0.0-SNAPSHOT"
+managed-micronaut-multitenancy = "5.0.0-M1"
 managed-micronaut-neo4j = "6.0.0-SNAPSHOT"
 managed-micronaut-nats = "4.0.0-SNAPSHOT"
 #TODO change to 2.0.0-SNAPSHOT once https://github.com/micronaut-projects/micronaut-object-storage/pull/190 is merged
