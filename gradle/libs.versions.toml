@@ -6,8 +6,6 @@
 #
 managed-dekorate = "1.0.3"
 managed-junit5 = "5.9.2"
-managed-gorm = "7.3.2"
-managed-gorm-hibernate = "7.3.0"
 # be sure to update graal version in gradle.properties as well
 # Intentionally pin to 22.0.0.2 see https://github.com/micronaut-projects/micronaut-kafka/pull/564 and https://github.com/micronaut-projects/micronaut-core/pull/7663
 managed-graal-sdk = "22.3.1"
@@ -169,17 +167,6 @@ managed-dekorate-openshift-annotations = { module = "io.dekorate:openshift-annot
 managed-dekorate-prometheus-annotations = { module = "io.dekorate:prometheus-annotations", version.ref = "managed-dekorate" }
 managed-dekorate-servicecatalog-annotations = { module = "io.dekorate:servicecatalog-annotations", version.ref = "managed-dekorate" }
 managed-dekorate-halkyon-annotations = { module = "io.dekorate:halkyon-annotations", version.ref = "managed-dekorate" }
-
-
-managed-gorm = { module = "org.grails:grails-datastore-core", version.ref = "managed-gorm" }
-managed-gorm-datastore-async = { module = "org.grails:grails-datastore-async", version.ref = "managed-gorm" }
-managed-gorm-datastore-gorm = { module = "org.grails:grails-datastore-gorm", version.ref = "managed-gorm" }
-managed-gorm-datastore-gorm-async = { module = "org.grails:grails-datastore-gorm-async", version.ref = "managed-gorm" }
-managed-gorm-datastore-gorm-support = { module = "org.grails:grails-datastore-gorm-support", version.ref = "managed-gorm" }
-managed-gorm-datastore-gorm-test = { module = "org.grails:grails-datastore-gorm-test", version.ref = "managed-gorm" }
-managed-gorm-datastore-gorm-validation = { module = "org.grails:grails-datastore-gorm-validation", version.ref = "managed-gorm" }
-managed-gorm-datastore-web = { module = "org.grails:grails-datastore-web", version.ref = "managed-gorm" }
-managed-gorm-hibernate = { module = "org.grails:grails-datastore-gorm-hibernate5", version.ref = "managed-gorm-hibernate" }
 
 managed-graal = { module = "org.graalvm.nativeimage:svm", version.ref = "managed-graal-svm" }
 managed-graal-sdk = { module = "org.graalvm.sdk:graal-sdk", version.ref = "managed-graal-sdk" }
