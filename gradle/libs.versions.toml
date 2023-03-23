@@ -6,8 +6,6 @@
 #
 managed-dekorate = "1.0.3"
 managed-junit5 = "5.9.2"
-managed-kotlin = "1.7.22"
-managed-kotlin-coroutines = "1.6.4"
 managed-gorm = "7.3.2"
 managed-gorm-hibernate = "7.3.0"
 # be sure to update graal version in gradle.properties as well
@@ -157,8 +155,6 @@ boms-micronaut-flyway = { module = "io.micronaut.flyway:micronaut-flyway-bom", v
 boms-micronaut-test-resources = { module = "io.micronaut.testresources:micronaut-test-resources-bom", version.ref = "managed-micronaut-test-resources" }
 
 boms-junit5 = { module = "org.junit:junit-bom", version.ref = "managed-junit5" }
-boms-kotlin = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "managed-kotlin" }
-boms-kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "managed-kotlin-coroutines" }
 boms-testcontainers = { module = "org.testcontainers:testcontainers-bom", version.ref = "managed-testcontainers" }
 
 #
