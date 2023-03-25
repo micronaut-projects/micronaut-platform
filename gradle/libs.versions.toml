@@ -22,6 +22,7 @@ managed-micronaut-aws = "4.0.0-SNAPSHOT"
 managed-micronaut-azure = "5.0.0-SNAPSHOT"
 managed-micronaut-cache = "4.0.0-M1"
 managed-micronaut-cassandra = "6.0.0-M1"
+managed-micronaut-chatbots = "2.0.0-SNAPSHOT"
 managed-micronaut-coherence = "3.8.0-SNAPSHOT"
 managed-micronaut-core = "4.0.0-M1"
 managed-micronaut-crac = "2.0.0-SNAPSHOT"
@@ -108,6 +109,7 @@ boms-micronaut-aws = { module = "io.micronaut.aws:micronaut-aws-bom", version.re
 boms-micronaut-azure = { module = "io.micronaut.azure:micronaut-azure-bom", version.ref = "managed-micronaut-azure" }
 boms-micronaut-cache = { module = "io.micronaut.cache:micronaut-cache-bom", version.ref = "managed-micronaut-cache" }
 boms-micronaut-cassandra = { module = "io.micronaut.cassandra:micronaut-cassandra-bom", version.ref = "managed-micronaut-cassandra" }
+boms-micronaut-chatbots = { module = "io.micronaut.chatbots:micronaut-chatbots-bom", version.ref = "managed-micronaut-chatbots" }
 boms-micronaut-coherence = { module = "io.micronaut.coherence:micronaut-coherence-bom", version.ref = "managed-micronaut-coherence" }
 boms-micronaut-core = { module = "io.micronaut:micronaut-core-bom", version.ref = "managed-micronaut-core" }
 boms-micronaut-crac = { module = "io.micronaut.crac:micronaut-crac-bom", version.ref = "managed-micronaut-crac" }
