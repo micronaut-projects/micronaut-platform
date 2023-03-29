@@ -54,7 +54,7 @@ managed-micronaut-nats = "4.0.0-SNAPSHOT"
 #TODO change to 2.0.0-SNAPSHOT once https://github.com/micronaut-projects/micronaut-object-storage/pull/190 is merged
 managed-micronaut-object-storage = "4.0.0-SNAPSHOT"
 managed-micronaut-openapi = "5.0.0-M1"
-managed-micronaut-oraclecloud = "3.0.0-SNAPSHOT"
+managed-micronaut-oraclecloud = "3.0.0-M1"
 managed-micronaut-picocli = "5.0.0-M1"
 managed-micronaut-problem = "3.0.0-M1"
 managed-micronaut-pulsar = "2.0.0-SNAPSHOT"
