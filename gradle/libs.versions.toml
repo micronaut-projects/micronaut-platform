@@ -75,7 +75,7 @@ managed-micronaut-test-resources = "2.0.0-M1"
 managed-micronaut-toml = "2.0.0-M1"
 managed-micronaut-validation = "4.0.0-M2"
 managed-micronaut-views = "4.0.0-M1"
-managed-micronaut-xml = "4.0.0-M1"
+managed-micronaut-jackson-xml = "4.0.0-M3"
 managed-spock = "2.3-groovy-4.0"
 managed-spotbugs = "4.7.3"
 managed-testcontainers = "1.17.6"
@@ -121,6 +121,7 @@ boms-micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql-bom"
 boms-micronaut-groovy = { module = "io.micronaut.groovy:micronaut-groovy-bom", version.ref = "managed-micronaut-groovy" }
 boms-micronaut-grpc = { module = "io.micronaut.grpc:micronaut-grpc-bom", version.ref = "managed-micronaut-grpc" }
 boms-micronaut-hibernate-validator = { module = "io.micronaut.beanvalidation:micronaut-hibernate-validator-bom", version.ref = "managed-micronaut-hibernate-validator" }
+boms-micronaut-jackson-xml = { module = "io.micronaut.xml:micronaut-jackson-xml-bom", version.ref = "managed-micronaut-jackson-xml" }
 boms-micronaut-jaxrs = { module = "io.micronaut.jaxrs:micronaut-jaxrs-bom", version.ref = "managed-micronaut-jaxrs" }
 boms-micronaut-jms = { module = "io.micronaut.jms:micronaut-jms-bom", version.ref = "managed-micronaut-jms" }
 boms-micronaut-jmx = { module = "io.micronaut.jmx:micronaut-jmx-bom", version.ref = "managed-micronaut-jmx" }
@@ -189,7 +190,6 @@ managed-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "ma
 managed-lombok = { module = "org.projectlombok:lombok", version.ref = "managed-lombok" }
 
 # The following Managed Micronaut dependencies are for Micronaut projects which do not ship with a BOM yet
-managed-micronaut-xml = { module = "io.micronaut.xml:micronaut-jackson-xml", version.ref = "managed-micronaut-xml" }
 managed-spock = { module = "org.spockframework:spock-core", version.ref = "managed-spock" }
 managed-spotbugs = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "managed-spotbugs" }
 
