@@ -77,7 +77,7 @@
                                 <path>
                                     <groupId>io.micronaut</groupId>
                                     <artifactId>micronaut-graal</artifactId>
-                                    <version>${micronaut.version}</version>
+                                    <version>${micronaut.core.version}</version>
                                 </path>
                             </annotationProcessorPaths>
                         </configuration>
@@ -177,12 +177,12 @@
                             <path>
                                 <groupId>io.micronaut</groupId>
                                 <artifactId>micronaut-inject-java</artifactId>
-                                <version>${micronaut.version}</version>
+                                <version>${micronaut.core.version}</version>
                             </path>
                             <path>
                                 <groupId>io.micronaut</groupId>
                                 <artifactId>micronaut-validation</artifactId>
-                                <version>${micronaut.version}</version>
+                                <version>${micronaut.core.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
