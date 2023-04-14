@@ -118,7 +118,6 @@ public abstract class RewritePom extends DefaultTask {
         Transformer transf = transformerFactory.newTransformer();
 
         transf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transf.setOutputProperty(OutputKeys.INDENT, "yes");
         transf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
         DOMSource source = new DOMSource(doc);
