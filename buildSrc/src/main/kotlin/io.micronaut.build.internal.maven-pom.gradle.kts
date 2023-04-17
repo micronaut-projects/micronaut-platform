@@ -35,7 +35,11 @@ generatePomFile.configure {
 }
 
 afterEvaluate {
-    val publishingTasks = setOf("publishParentPublicationToMavenLocal", "publishParentPublicationToBuildRepository", "publishParentPublicationToSonatypeRepository")
+    val publishingTasks = setOf(
+        "publishParentPublicationToMavenLocal",
+        "publishParentPublicationToBuildRepository",
+        "publishParentPublicationToSonatypeRepository",
+        "signParentPublication")
     tasks.configureEach {
         if (name in publishingTasks)
             dependsOn(rewritePomFile)
@@ -54,4 +58,8 @@ afterEvaluate {
 
 tasks.withType<PublishToMavenRepository>().configureEach {
     enabled = !name.startsWith("publishMaven")
+}
+
+plugins.withId("signing") {
+    extensions.getByType(SigningExtension::class.java).sign(publishing.publications["parent"])
 }
