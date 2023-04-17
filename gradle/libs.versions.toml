@@ -98,7 +98,7 @@ parent-maven-shade-plugin = "3.4.1"
 parent-maven-surefire-plugin = "3.0.0"
 parent-maven-resources-plugin = "3.2.0"
 parent-protoc-jar-maven-plugin = "3.11.4"
-parent-maven-enforcer-plugin = "3.2.1"
+parent-maven-enforcer-plugin = "3.3.0"
 
 [libraries]
 # Libraries prefixed with bom- are BOM files
