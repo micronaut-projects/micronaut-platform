@@ -10,7 +10,7 @@ managed-junit5 = "5.9.2"
 # Intentionally pin to 22.0.0.2 see https://github.com/micronaut-projects/micronaut-kafka/pull/564 and https://github.com/micronaut-projects/micronaut-core/pull/7663
 managed-graal-sdk = "22.3.2"
 managed-graal = "22.3.0"
-managed-graal-svm = "22.3.1"
+managed-graal-svm = "22.3.2"
 managed-javax-annotation-api = "1.3.2"
 managed-jna = "5.12.1"
 managed-jsr305 = "3.0.2"
