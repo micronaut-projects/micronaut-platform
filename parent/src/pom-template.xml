@@ -179,11 +179,6 @@
                                 <artifactId>micronaut-inject-java</artifactId>
                                 <version>${micronaut.core.version}</version>
                             </path>
-                            <path>
-                                <groupId>io.micronaut.validation</groupId>
-                                <artifactId>micronaut-validation-processor</artifactId>
-                                <version>${micronaut.validation.version}</version>
-                            </path>
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
