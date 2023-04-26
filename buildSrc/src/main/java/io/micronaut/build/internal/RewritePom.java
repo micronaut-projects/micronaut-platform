@@ -36,6 +36,7 @@ import org.gradle.maven.MavenModule;
 import org.gradle.maven.MavenPomArtifact;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.traversal.DocumentTraversal;
 import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.NodeIterator;
@@ -51,6 +52,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -118,11 +123,32 @@ public abstract class RewritePom extends DefaultTask {
         Transformer transf = transformerFactory.newTransformer();
 
         transf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transf.setOutputProperty(OutputKeys.METHOD, "xml");
+        transf.setOutputProperty(OutputKeys.INDENT, "yes");
         transf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
-        DOMSource source = new DOMSource(doc);
+        DOMSource source = new DOMSource(normalize(doc));
         StreamResult output = new StreamResult(getOutputFile().get().getAsFile());
         transf.transform(source, output);
+    }
+
+    private Document normalize(Document document) {
+        document.normalize();
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        NodeList nodeList;
+        try {
+            nodeList = (NodeList) xPath.evaluate("//text()[normalize-space()='']",
+                document,
+                XPathConstants.NODESET);
+
+            for (int i = 0; i < nodeList.getLength(); ++i) {
+                Node node = nodeList.item(i);
+                node.getParentNode().removeChild(node);
+            }
+        } catch (XPathExpressionException e) {
+            getLogger().warn("Error normalizing document: " + e.getMessage(), e);
+        }
+        return document;
     }
 
     private Map<String, String> fetchBomProperties() {
