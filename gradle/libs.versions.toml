@@ -196,7 +196,7 @@ managed-spotbugs = { module = "com.github.spotbugs:spotbugs-annotations", versio
 # Libraries starting with "parent-" are used in the parent POM
 # and we put their coordinates here so that Renovatebot can update them
 parent-maven = { module = "org.apache.maven:maven-core", version.ref = "parent-maven" }
-parent-micronaut-maven-plugin = { module = "io.micronaut.build:micronaut-maven-plugin", version.ref = "parent-micronaut-maven-plugin" }
+parent-micronaut-maven-plugin = { module = "io.micronaut.maven:micronaut-maven-plugin", version.ref = "parent-micronaut-maven-plugin" }
 parent-azure-functions-maven-plugin = { module = "com.microsoft.azure:azure-functions-maven-plugin", version.ref = "parent-azure-functions-maven-plugin" }
 parent-exec-maven-plugin = { module = "org.codehaus.mojo:exec-maven-plugin", version.ref = "parent-exec-maven-plugin" }
 parent-function-maven-plugin = { module = "com.google.cloud.functions:function-maven-plugin", version.ref = "parent-function-maven-plugin" }
