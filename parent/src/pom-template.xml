@@ -242,9 +242,6 @@
                         <buildArgs>
                             <buildArg>--no-fallback</buildArg>
                         </buildArgs>
-                        <environment>
-                            <USE_NATIVE_IMAGE_JAVA_PLATFORM_MODULE_SYSTEM>false</USE_NATIVE_IMAGE_JAVA_PLATFORM_MODULE_SYSTEM>
-                        </environment>
                         <metadataRepository>
                             <enabled>${graalvm.metadata-repository.enabled}</enabled>
                         </metadataRepository>
