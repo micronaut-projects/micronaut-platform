@@ -73,6 +73,7 @@ managed-micronaut-sql = "5.0.0-M6"
 managed-micronaut-test = "4.0.0-M4"
 managed-micronaut-test-resources = "2.0.0-M7"
 managed-micronaut-toml = "2.0.0-M1"
+managed-micronaut-tracing = "5.0.0-M1"
 managed-micronaut-validation = "4.0.0-M7"
 managed-micronaut-views = "4.0.0-M1"
 managed-micronaut-jackson-xml = "4.0.0-M3"
@@ -159,6 +160,7 @@ boms-micronaut-sql = { module = "io.micronaut.sql:micronaut-sql-bom", version.re
 boms-micronaut-test = { module = "io.micronaut.test:micronaut-test-bom", version.ref = "managed-micronaut-test" }
 boms-micronaut-test-resources = { module = "io.micronaut.testresources:micronaut-test-resources-bom", version.ref = "managed-micronaut-test-resources" }
 boms-micronaut-toml = { module = "io.micronaut.toml:micronaut-toml-bom", version.ref = "managed-micronaut-toml" }
+boms-micronaut-tracing = { module = "io.micronaut.tracing:micronaut-tracing-bom", version.ref = "managed-micronaut-tracing" }
 boms-micronaut-validation = { module = "io.micronaut.validation:micronaut-validation-bom", version.ref = "managed-micronaut-validation" }
 boms-micronaut-views = { module = "io.micronaut.views:micronaut-views-bom", version.ref = "managed-micronaut-views" }
 
