@@ -12,7 +12,6 @@ publishing {
     publications {
         create<MavenPublication>("parent") {
             from(components["javaPlatform"])
-            artifactId = "micronaut-${project.name}"
         }
     }
 }
@@ -36,7 +35,11 @@ generatePomFile.configure {
 }
 
 afterEvaluate {
-    val publishingTasks = setOf("publishParentPublicationToBuildRepository", "publishParentPublicationToSonatypeRepository")
+    val publishingTasks = setOf(
+        "publishParentPublicationToMavenLocal",
+        "publishParentPublicationToBuildRepository",
+        "publishParentPublicationToSonatypeRepository",
+        "signParentPublication")
     tasks.configureEach {
         if (name in publishingTasks)
             dependsOn(rewritePomFile)
@@ -51,4 +54,12 @@ afterEvaluate {
             pom.pomProperties.put(alias.substring(prefix.length).replace(".", "-"), requiredVersion)
         }
     pom.tokenReplacements.put("version", version.toString())
+}
+
+tasks.withType<PublishToMavenRepository>().configureEach {
+    enabled = !name.startsWith("publishMaven")
+}
+
+plugins.withId("signing") {
+    extensions.getByType(SigningExtension::class.java).sign(publishing.publications["parent"])
 }

@@ -4,7 +4,6 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven { setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots")}
 }
 
 micronautBom {
@@ -52,7 +51,7 @@ micronautBom {
             "io.projectreactor:reactor-bom",
             setOf("io.projectreactor", "org.reactivestreams")
         )
-        dependencies.add("io.zipkin.brave:brave-bom:5.14.1")
+        dependencies.add("io.zipkin.brave:brave-bom:5.15.0")
         dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:2.16.3")
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.22.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.22.0-alpha")

@@ -5,101 +5,101 @@
 # that they will appear in the Micronaut BOM as <properties>
 #
 managed-dekorate = "1.0.3"
-managed-junit5 = "5.9.2"
+managed-junit5 = "5.9.3"
 # be sure to update graal version in gradle.properties as well
 # Intentionally pin to 22.0.0.2 see https://github.com/micronaut-projects/micronaut-kafka/pull/564 and https://github.com/micronaut-projects/micronaut-core/pull/7663
-managed-graal-sdk = "22.3.1"
+managed-graal-sdk = "22.3.2"
 managed-graal = "22.3.0"
-managed-graal-svm = "22.3.1"
+managed-graal-svm = "22.3.2"
 managed-javax-annotation-api = "1.3.2"
-managed-jna = "5.12.1"
+managed-jna = "5.13.0"
 managed-jsr305 = "3.0.2"
 managed-lombok = "1.18.26"
-managed-maven-native-plugin = "0.9.19"
+managed-maven-native-plugin = "0.9.22"
 managed-micronaut-acme = "4.0.0-M1"
 managed-micronaut-aot = "2.0.0-M1"
-managed-micronaut-aws = "4.0.0-M1"
-managed-micronaut-azure = "5.0.0-M1"
-managed-micronaut-cache = "4.0.0-M1"
-managed-micronaut-cassandra = "6.0.0-M1"
+managed-micronaut-aws = "4.0.0-M3"
+managed-micronaut-azure = "5.0.0-M2"
+managed-micronaut-cache = "4.0.0-M2"
+managed-micronaut-cassandra = "6.0.0-M2"
 managed-micronaut-chatbots = "2.0.0-M1"
 managed-micronaut-coherence = "4.0.0-M1"
-managed-micronaut-core = "4.0.0-M1"
-managed-micronaut-crac = "2.0.0-M1"
-managed-micronaut-data = "4.0.0-M2"
+managed-micronaut-core = "4.0.0-M4"
+managed-micronaut-crac = "2.0.0-M3"
+managed-micronaut-data = "4.0.0-M4"
 managed-micronaut-discovery = "4.0.0-M1"
-managed-micronaut-elasticsearch = "5.0.0-M1"
+managed-micronaut-elasticsearch = "5.0.0-M2"
 managed-micronaut-email = "2.0.0-M1"
-managed-micronaut-flyway = "6.0.0-M2"
-managed-micronaut-gcp = "5.0.0-M1"
+managed-micronaut-flyway = "6.0.0-M3"
+managed-micronaut-gcp = "5.0.0-M4"
 managed-micronaut-graphql = "4.0.0-M1"
 managed-micronaut-groovy = "4.0.0-M1"
 managed-micronaut-grpc = "4.0.0-M1"
 managed-micronaut-hibernate-validator = "4.0.0-M2"
-managed-micronaut-jaxrs = "4.0.0-M1"
-managed-micronaut-jms = "3.0.0-M1"
+managed-micronaut-jaxrs = "4.0.0-M2"
+managed-micronaut-jms = "3.0.0-M2"
 managed-micronaut-jmx = "4.0.0-M1"
-managed-micronaut-kafka = "5.0.0-M1"
-managed-micronaut-kotlin = "4.0.0-M1"
+managed-micronaut-kafka = "5.0.0-M3"
+managed-micronaut-kotlin = "4.0.0-M2"
 managed-micronaut-kubernetes = "5.0.0-M1"
 managed-micronaut-micrometer = "5.0.0-M1"
 managed-micronaut-microstream = "2.0.0-M1"
-managed-micronaut-liquibase = "6.0.0-M1"
-managed-micronaut-logging = "1.0.0-M1"
+managed-micronaut-liquibase = "6.0.0-M2"
+managed-micronaut-logging = "1.0.0-M2"
 managed-micronaut-mongo = "5.0.0-M1"
-managed-micronaut-mqtt = "3.0.0-M1"
-managed-micronaut-multitenancy = "5.0.0-M1"
-managed-micronaut-neo4j = "6.0.0-M1"
-managed-micronaut-nats = "4.0.0-M1"
-managed-micronaut-object-storage = "2.0.0-M1"
-managed-micronaut-openapi = "5.0.0-M1"
-managed-micronaut-oraclecloud = "3.0.0-M1"
-managed-micronaut-picocli = "5.0.0-M1"
+managed-micronaut-mqtt = "3.0.0-M2"
+managed-micronaut-multitenancy = "5.0.0-M3"
+managed-micronaut-neo4j = "6.0.0-M2"
+managed-micronaut-nats = "4.0.0-M2"
+managed-micronaut-object-storage = "2.0.0-M3"
+managed-micronaut-openapi = "5.0.0-M3"
+managed-micronaut-oraclecloud = "3.0.0-M5"
+managed-micronaut-picocli = "5.0.0-M2"
 managed-micronaut-problem = "3.0.0-M1"
 managed-micronaut-pulsar = "2.0.0-M1"
-managed-micronaut-rabbitmq = "4.0.0-M1"
-managed-micronaut-r2dbc = "5.0.0-M2"
-managed-micronaut-reactor = "3.0.0-M1"
-managed-micronaut-redis = "6.0.0-M1"
+managed-micronaut-rabbitmq = "4.0.0-M3"
+managed-micronaut-r2dbc = "5.0.0-M5"
+managed-micronaut-reactor = "3.0.0-M2"
+managed-micronaut-redis = "6.0.0-M3"
 managed-micronaut-rss = "4.0.0-M1"
 managed-micronaut-rxjava2 = "2.0.0-M1"
 managed-micronaut-rxjava3 = "3.0.0-M1"
-managed-micronaut-security = "4.0.0-M1"
-managed-micronaut-serialization = "2.0.0-M1"
-managed-micronaut-servlet = "4.0.0-M1"
-managed-micronaut-session = "4.0.0-M1"
+managed-micronaut-security = "4.0.0-M3"
+managed-micronaut-serialization = "2.0.0-M8"
+managed-micronaut-servlet = "4.0.0-M5"
+managed-micronaut-session = "4.0.0-M2"
 managed-micronaut-spring = "5.0.0-M1"
-managed-micronaut-sql = "5.0.0-M3"
-managed-micronaut-test = "4.0.0-M1"
-managed-micronaut-test-resources = "2.0.0-M1"
+managed-micronaut-sql = "5.0.0-M6"
+managed-micronaut-test = "4.0.0-M4"
+managed-micronaut-test-resources = "2.0.0-M7"
 managed-micronaut-toml = "2.0.0-M1"
 managed-micronaut-tracing = "5.0.0-M1"
-managed-micronaut-validation = "4.0.0-M2"
+managed-micronaut-validation = "4.0.0-M7"
 managed-micronaut-views = "4.0.0-M1"
-managed-micronaut-xml = "4.0.0-M1"
+managed-micronaut-jackson-xml = "4.0.0-M3"
 managed-spock = "2.3-groovy-4.0"
 managed-spotbugs = "4.7.3"
-managed-testcontainers = "1.17.6"
+managed-testcontainers = "1.18.1"
 
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
 ##   parent-${some-property-name} -> <some-property-name.version>
-parent-maven = "3.9.0"
-parent-micronaut-maven-plugin = "4.0.0-SNAPSHOT"
-parent-azure-functions-maven-plugin = "1.23.0"
+parent-maven = "3.9.2"
+parent-micronaut-maven-plugin = "4.0.0-M3"
+parent-azure-functions-maven-plugin = "1.26.0"
 parent-exec-maven-plugin = "3.1.0"
 parent-function-maven-plugin = "0.10.1"
-parent-maven-compiler-plugin = "3.10.1"
-parent-jib-maven-plugin = "3.3.1"
-parent-maven-deploy-plugin = "3.1.0"
-parent-maven-failsafe-plugin = "2.22.2"
-parent-maven-install-plugin = "3.1.0"
+parent-maven-compiler-plugin = "3.11.0"
+parent-jib-maven-plugin = "3.3.2"
+parent-maven-deploy-plugin = "3.1.1"
+parent-maven-failsafe-plugin = "3.1.0"
+parent-maven-install-plugin = "3.1.1"
 parent-maven-jar-plugin = "3.3.0"
 parent-maven-shade-plugin = "3.4.1"
-parent-maven-surefire-plugin = "2.22.2"
+parent-maven-surefire-plugin = "3.1.0"
 parent-maven-resources-plugin = "3.2.0"
 parent-protoc-jar-maven-plugin = "3.11.4"
-parent-maven-enforcer-plugin = "3.2.1"
+parent-maven-enforcer-plugin = "3.3.0"
 
 [libraries]
 # Libraries prefixed with bom- are BOM files
@@ -122,6 +122,7 @@ boms-micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql-bom"
 boms-micronaut-groovy = { module = "io.micronaut.groovy:micronaut-groovy-bom", version.ref = "managed-micronaut-groovy" }
 boms-micronaut-grpc = { module = "io.micronaut.grpc:micronaut-grpc-bom", version.ref = "managed-micronaut-grpc" }
 boms-micronaut-hibernate-validator = { module = "io.micronaut.beanvalidation:micronaut-hibernate-validator-bom", version.ref = "managed-micronaut-hibernate-validator" }
+boms-micronaut-jackson-xml = { module = "io.micronaut.xml:micronaut-jackson-xml-bom", version.ref = "managed-micronaut-jackson-xml" }
 boms-micronaut-jaxrs = { module = "io.micronaut.jaxrs:micronaut-jaxrs-bom", version.ref = "managed-micronaut-jaxrs" }
 boms-micronaut-jms = { module = "io.micronaut.jms:micronaut-jms-bom", version.ref = "managed-micronaut-jms" }
 boms-micronaut-jmx = { module = "io.micronaut.jmx:micronaut-jmx-bom", version.ref = "managed-micronaut-jmx" }
@@ -191,14 +192,13 @@ managed-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "ma
 managed-lombok = { module = "org.projectlombok:lombok", version.ref = "managed-lombok" }
 
 # The following Managed Micronaut dependencies are for Micronaut projects which do not ship with a BOM yet
-managed-micronaut-xml = { module = "io.micronaut.xml:micronaut-jackson-xml", version.ref = "managed-micronaut-xml" }
 managed-spock = { module = "org.spockframework:spock-core", version.ref = "managed-spock" }
 managed-spotbugs = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "managed-spotbugs" }
 
 # Libraries starting with "parent-" are used in the parent POM
 # and we put their coordinates here so that Renovatebot can update them
 parent-maven = { module = "org.apache.maven:maven-core", version.ref = "parent-maven" }
-parent-micronaut-maven-plugin = { module = "io.micronaut.build:micronaut-maven-plugin", version.ref = "parent-micronaut-maven-plugin" }
+parent-micronaut-maven-plugin = { module = "io.micronaut.maven:micronaut-maven-plugin", version.ref = "parent-micronaut-maven-plugin" }
 parent-azure-functions-maven-plugin = { module = "com.microsoft.azure:azure-functions-maven-plugin", version.ref = "parent-azure-functions-maven-plugin" }
 parent-exec-maven-plugin = { module = "org.codehaus.mojo:exec-maven-plugin", version.ref = "parent-exec-maven-plugin" }
 parent-function-maven-plugin = { module = "com.google.cloud.functions:function-maven-plugin", version.ref = "parent-function-maven-plugin" }
