@@ -52,7 +52,7 @@ micronautBom {
             setOf("io.projectreactor", "org.reactivestreams")
         )
         dependencies.add("io.zipkin.brave:brave-bom:5.16.0")
-        dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:2.16.3")
+        dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:2.16.4")
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.26.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.26.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.26.0")
