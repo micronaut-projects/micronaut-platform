@@ -4,7 +4,6 @@
 # Versions which start with managed- are managed by Micronaut in the sense
 # that they will appear in the Micronaut BOM as <properties>
 #
-managed-dekorate = "3.6.1"
 managed-junit5 = "5.9.3"
 # be sure to update graal version in gradle.properties as well
 # Intentionally pin to 22.0.0.2 see https://github.com/micronaut-projects/micronaut-kafka/pull/564 and https://github.com/micronaut-projects/micronaut-core/pull/7663
@@ -171,15 +170,6 @@ boms-testcontainers = { module = "org.testcontainers:testcontainers-bom", versio
 # Libraries which start with managed- are managed by Micronaut in the sense
 # that they will appear in the Micronaut BOM
 #
-managed-dekorate = { module = "io.dekorate:dekorate-project", version.ref = "managed-dekorate" }
-managed-dekorate-jaeger-annotations = { module = "io.dekorate:jaeger-annotations", version.ref = "managed-dekorate" }
-managed-dekorate-knative-annotations = { module = "io.dekorate:knative-annotations", version.ref = "managed-dekorate" }
-managed-dekorate-kubernetes-annotations = { module = "io.dekorate:kubernetes-annotations", version.ref = "managed-dekorate" }
-managed-dekorate-openshift-annotations = { module = "io.dekorate:openshift-annotations", version.ref = "managed-dekorate" }
-managed-dekorate-prometheus-annotations = { module = "io.dekorate:prometheus-annotations", version.ref = "managed-dekorate" }
-managed-dekorate-servicecatalog-annotations = { module = "io.dekorate:servicecatalog-annotations", version.ref = "managed-dekorate" }
-managed-dekorate-halkyon-annotations = { module = "io.dekorate:halkyon-annotations", version.ref = "managed-dekorate" }
-
 managed-graal = { module = "org.graalvm.nativeimage:svm", version.ref = "managed-graal-svm" }
 managed-graal-sdk = { module = "org.graalvm.sdk:graal-sdk", version.ref = "managed-graal-sdk" }
 
