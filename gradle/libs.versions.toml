@@ -23,6 +23,7 @@ managed-micronaut-cache = "4.0.0-M5"
 managed-micronaut-cassandra = "6.0.0-M7"
 managed-micronaut-chatbots = "2.0.0-M5"
 managed-micronaut-coherence = "4.0.0-M2"
+managed-micronaut-control-panel = "1.0.0-M1"
 managed-micronaut-core = "4.0.0-RC3"
 managed-micronaut-crac = "2.0.0-M6"
 managed-micronaut-data = "4.0.0-M11"
@@ -110,6 +111,7 @@ boms-micronaut-cassandra = { module = "io.micronaut.cassandra:micronaut-cassandr
 boms-micronaut-chatbots = { module = "io.micronaut.chatbots:micronaut-chatbots-bom", version.ref = "managed-micronaut-chatbots" }
 boms-micronaut-coherence = { module = "io.micronaut.coherence:micronaut-coherence-bom", version.ref = "managed-micronaut-coherence" }
 boms-micronaut-core = { module = "io.micronaut:micronaut-core-bom", version.ref = "managed-micronaut-core" }
+boms-micronaut-control-panel = { module = "io.micronaut.controlpanel:micronaut-control-panel-bom", version.ref = "managed-micronaut-control-panel" }
 boms-micronaut-crac = { module = "io.micronaut.crac:micronaut-crac-bom", version.ref = "managed-micronaut-crac" }
 boms-micronaut-data = { module = "io.micronaut.data:micronaut-data-bom", version.ref = "managed-micronaut-data" }
 boms-micronaut-discovery = { module = "io.micronaut.discovery:micronaut-discovery-client-bom", version.ref = "managed-micronaut-discovery" }
