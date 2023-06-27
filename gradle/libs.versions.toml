@@ -97,7 +97,7 @@ parent-maven-install-plugin = "3.1.1"
 parent-maven-jar-plugin = "3.3.0"
 parent-maven-shade-plugin = "3.5.0"
 parent-maven-surefire-plugin = "3.1.2"
-parent-maven-resources-plugin = "3.2.0"
+parent-maven-resources-plugin = "3.3.1"
 parent-protoc-jar-maven-plugin = "3.11.4"
 parent-maven-enforcer-plugin = "3.3.0"
 
@@ -202,6 +202,7 @@ parent-maven-install-plugin = { module = "org.apache.maven.plugins:maven-install
 parent-maven-jar-plugin = { module = "org.apache.maven.plugins:maven-jar-plugin", version.ref = "parent-maven-jar-plugin" }
 parent-maven-shade-plugin = { module = "org.apache.maven.plugins:maven-shade-plugin", version.ref = "parent-maven-shade-plugin" }
 parent-maven-surefire-plugin = { module = "org.apache.maven.plugins:maven-surefire-plugin", version.ref = "parent-maven-surefire-plugin" }
+parent-maven-resources-plugin = { module = "org.apache.maven.plugins:maven-resources-plugin", version.ref = "parent-maven-resources-plugin" }
 parent-protoc-jar-maven-plugin = { module = "com.github.os72:protoc-jar-maven-plugin", version.ref = "parent-protoc-jar-maven-plugin" }
 parent-maven-enforcer-plugin = { module = "org.apache.maven.plugins:maven-enforcer-plugin", version.ref = "parent-maven-enforcer-plugin" }
 #
