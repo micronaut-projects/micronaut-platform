@@ -8,5 +8,5 @@ repositories {
 }
 
 dependencies {
-    implementation("io.micronaut.build.internal.publishing:io.micronaut.build.internal.publishing.gradle.plugin:6.5.2")
+    implementation("io.micronaut.build.internal.publishing:io.micronaut.build.internal.publishing.gradle.plugin:6.5.3")
 }
