@@ -100,6 +100,8 @@ parent-maven-surefire-plugin = "3.1.2"
 parent-maven-resources-plugin = "3.3.1"
 parent-protoc-jar-maven-plugin = "3.11.4"
 parent-maven-enforcer-plugin = "3.3.0"
+parent-gmavenplus-plugin = "3.0.0"
+parent-jrebel-maven-plugin = "1.2.0"
 
 [libraries]
 # Libraries prefixed with bom- are BOM files
@@ -205,6 +207,8 @@ parent-maven-surefire-plugin = { module = "org.apache.maven.plugins:maven-surefi
 parent-maven-resources-plugin = { module = "org.apache.maven.plugins:maven-resources-plugin", version.ref = "parent-maven-resources-plugin" }
 parent-protoc-jar-maven-plugin = { module = "com.github.os72:protoc-jar-maven-plugin", version.ref = "parent-protoc-jar-maven-plugin" }
 parent-maven-enforcer-plugin = { module = "org.apache.maven.plugins:maven-enforcer-plugin", version.ref = "parent-maven-enforcer-plugin" }
+parent-gmavenplus-plugin = { module = "org.codehaus.gmavenplus:gmavenplus-plugin", version.ref = "parent-gmavenplus-plugin" }
+parent-jrebel-maven-plugin = { module = "org.zeroturnaround:jrebel-maven-plugin", version.ref = "parent-jrebel-maven-plugin" }
 #
 # Other libraries are used by Micronaut but will not appear in the BOM
 #
