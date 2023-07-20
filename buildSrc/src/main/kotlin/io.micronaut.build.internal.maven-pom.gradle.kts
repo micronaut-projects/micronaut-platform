@@ -39,6 +39,7 @@ afterEvaluate {
         "publishParentPublicationToMavenLocal",
         "publishParentPublicationToBuildRepository",
         "publishParentPublicationToSonatypeRepository",
+        "publishParentPublicationToExternalRepository",
         "signParentPublication")
     tasks.configureEach {
         if (name in publishingTasks)
