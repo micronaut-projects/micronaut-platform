@@ -16,13 +16,14 @@ In order to use the version catalog, import it into your `settings.gradle(.kts)`
 
 [source,kotlin]
 ----
+val micronautVersion: String by settings // from gradle.properties
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
     }
     versionCatalogs {
         create("mn") {
-            from("io.micronaut:micronaut-platform:${micronautVersion}")
+            from("io.micronaut.platform:micronaut-platform:${micronautVersion}")
         }
     }
 }
