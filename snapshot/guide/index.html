@@ -140,13 +140,14 @@ The Micronaut Platform BOM exists since Micronaut Framework 4, and corresponds t
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">dependencyResolutionManagement {
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">val micronautVersion: String by settings // from gradle.properties
+dependencyResolutionManagement {
     repositories {
         mavenCentral()
     }
     versionCatalogs {
         create("mn") {
-            from("io.micronaut:micronaut-platform:${micronautVersion}")
+            from("io.micronaut.platform:micronaut-platform:${micronautVersion}")
         }
     }
 }</code></pre>
