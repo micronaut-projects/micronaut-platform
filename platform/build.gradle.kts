@@ -11,6 +11,13 @@ micronautBom {
     extraExcludedProjects.add("parent")
     suppressions {
 
+        // For 4.1.0, these versions have no `-api` at the end (as they come from micronaut-data, instead of micronaut-sql as previously)
+        // https://github.com/micronaut-projects/micronaut-platform/issues/893
+        acceptedVersionRegressions.addAll(
+            "jakarta-transaction-api",
+            "jakarta-persistence-api",
+        )
+
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
         bomAuthorizedGroupIds.put(
                 "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom",
