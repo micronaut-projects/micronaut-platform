@@ -4,6 +4,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    gradlePluginPortal() // needed for checkBom task to resolve plugin dependencies defined in kotest-pom
 }
 
 micronautBom {
