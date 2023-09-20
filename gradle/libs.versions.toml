@@ -5,11 +5,6 @@
 # that they will appear in the Micronaut BOM as <properties>
 #
 managed-junit5 = "5.10.0"
-# be sure to update graal version in gradle.properties as well
-# Intentionally pin to 22.0.0.2 see https://github.com/micronaut-projects/micronaut-kafka/pull/564 and https://github.com/micronaut-projects/micronaut-core/pull/7663
-managed-graal-sdk = "23.0.1"
-managed-graal = "22.3.0"
-managed-graal-svm = "23.0.1"
 managed-javax-annotation-api = "1.3.2"
 managed-jna = "5.13.0"
 managed-jsr305 = "3.0.2"
@@ -175,9 +170,6 @@ boms-testcontainers = { module = "org.testcontainers:testcontainers-bom", versio
 # Libraries which start with managed- are managed by Micronaut in the sense
 # that they will appear in the Micronaut BOM
 #
-managed-graal = { module = "org.graalvm.nativeimage:svm", version.ref = "managed-graal-svm" }
-managed-graal-sdk = { module = "org.graalvm.sdk:graal-sdk", version.ref = "managed-graal-sdk" }
-
 managed-javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "managed-javax-annotation-api" }
 
 managed-jna = { module = "net.java.dev.jna:jna", version.ref = "managed-jna" }
