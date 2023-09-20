@@ -77,7 +77,7 @@ managed-spotbugs = "4.7.3"
 managed-testcontainers = "1.19.0"
 
 ## The following versions are deprecated and must be removed in the next major release
-managed-graal-sdk = "23.0.1"
+managed-graal-sdk = "23.1.0"
 managed-graal = "22.3.0"
 managed-graal-svm = "23.0.1"
 
