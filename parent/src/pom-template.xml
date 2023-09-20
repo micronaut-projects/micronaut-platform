@@ -54,19 +54,6 @@
                     <exists>${env.JAVA_HOME}/bin/native-image</exists>
                 </file>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.graalvm.sdk</groupId>
-                    <artifactId>graal-sdk</artifactId>
-                    <version>${graal.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.nativeimage</groupId>
-                    <artifactId>svm</artifactId>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -236,10 +223,10 @@
                     <artifactId>native-maven-plugin</artifactId>
                     <version>${maven.native.plugin.version}</version>
                     <extensions>true</extensions>
-                    <configuration combine.self="override">
+                    <configuration>
                         <imageName>${project.artifactId}</imageName>
                         <mainClass>${exec.mainClass}</mainClass>
-                        <buildArgs>
+                        <buildArgs combine.children="append">
                             <buildArg>--no-fallback</buildArg>
                         </buildArgs>
                         <metadataRepository>
