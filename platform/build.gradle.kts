@@ -10,6 +10,13 @@ micronautBom {
     propertyName.set("platform")
     extraExcludedProjects.add("parent")
     suppressions {
+        // Can be removed after 4.1.3 (see https://github.com/micronaut-projects/micronaut-platform/pull/941)
+        this.acceptedLibraryRegressions.addAll(
+            "micronaut-oraclecloud-bmc-computecloudatcustomer",
+            "micronaut-oraclecloud-bmc-fleetsoftwareupdate",
+            "micronaut-oraclecloud-bmc-osmanagementhub",
+            "micronaut-oraclecloud-bmc-ocicontrolcenter"
+        )
 
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
         bomAuthorizedGroupIds.put(
