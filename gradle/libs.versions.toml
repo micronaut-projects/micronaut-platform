@@ -100,7 +100,7 @@ parent-maven-surefire-plugin = "3.1.2"
 parent-maven-resources-plugin = "3.3.1"
 parent-protoc-jar-maven-plugin = "3.11.4"
 parent-maven-enforcer-plugin = "3.4.1"
-parent-gmavenplus-plugin = "3.0.0"
+parent-gmavenplus-plugin = "3.0.2"
 parent-jrebel-maven-plugin = "1.2.0"
 
 [libraries]
