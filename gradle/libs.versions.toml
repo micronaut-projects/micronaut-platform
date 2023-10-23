@@ -79,7 +79,7 @@ managed-testcontainers = "1.19.1"
 ## The following versions are deprecated and must be removed in the next major release
 managed-graal-sdk = "23.1.1"
 managed-graal = "22.3.0"
-managed-graal-svm = "23.1.0"
+managed-graal-svm = "23.1.1"
 
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
