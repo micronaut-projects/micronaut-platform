@@ -10,6 +10,7 @@ repositories {
 micronautBom {
     propertyName.set("platform")
     extraExcludedProjects.add("parent")
+
     suppressions {
         // Can be removed after 4.1.3 (see https://github.com/micronaut-projects/micronaut-platform/pull/941)
         this.acceptedLibraryRegressions.addAll(
@@ -71,6 +72,9 @@ micronautBom {
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.31.0")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:1.31.0-alpha")
 
+        // This is in the micrometer BOM for version 1.11.5, but the module is never published
+        // See https://github.com/micrometer-metrics/micrometer/issues/4350
+        dependencies.add("io.micrometer:micrometer-osgi-test:1.11.5")
     }
 }
 
