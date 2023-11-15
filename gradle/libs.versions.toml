@@ -74,7 +74,7 @@ managed-micronaut-views = "5.0.0"
 managed-micronaut-jackson-xml = "4.1.0"
 managed-spock = "2.3-groovy-4.0"
 managed-spotbugs = "4.8.1"
-managed-testcontainers = "1.19.1"
+managed-testcontainers = "1.19.2"
 
 ## The following versions are deprecated and must be removed in the next major release
 managed-graal-sdk = "23.1.1"
