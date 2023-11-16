@@ -74,7 +74,8 @@ managed-micronaut-views = "5.0.1"
 managed-micronaut-jackson-xml = "4.1.0"
 managed-spock = "2.3-groovy-4.0"
 managed-spotbugs = "4.8.1"
-managed-testcontainers = "1.19.2"
+## There's a bug in testcontainers 1.19.2 which causes issues with testresources and mongo/kafka
+managed-testcontainers = "1.19.1"
 
 ## The following versions are deprecated and must be removed in the next major release
 managed-graal-sdk = "23.1.1"
