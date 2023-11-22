@@ -23,6 +23,7 @@ managed-micronaut-core = "4.2.0"
 managed-micronaut-crac = "2.1.0"
 managed-micronaut-data = "4.3.1"
 managed-micronaut-discovery = "4.1.0"
+managed-micronaut-eclipsestore = "1.0.1"
 managed-micronaut-elasticsearch = "5.1.0"
 managed-micronaut-email = "2.3.0"
 managed-micronaut-flyway = "6.2.1"
@@ -116,6 +117,7 @@ boms-micronaut-control-panel = { module = "io.micronaut.controlpanel:micronaut-c
 boms-micronaut-crac = { module = "io.micronaut.crac:micronaut-crac-bom", version.ref = "managed-micronaut-crac" }
 boms-micronaut-data = { module = "io.micronaut.data:micronaut-data-bom", version.ref = "managed-micronaut-data" }
 boms-micronaut-discovery = { module = "io.micronaut.discovery:micronaut-discovery-client-bom", version.ref = "managed-micronaut-discovery" }
+boms-micronaut-eclipsestore = { module = "io.micronaut.eclipsestore:micronaut-eclipsestore-bom", version.ref = "managed-micronaut-eclipsestore" }
 boms-micronaut-elasticsearch = { module = "io.micronaut.elasticsearch:micronaut-elasticsearch-bom", version.ref = "managed-micronaut-elasticsearch" }
 boms-micronaut-email = { module = "io.micronaut.email:micronaut-email-bom", version.ref = "managed-micronaut-email" }
 boms-micronaut-flyway = { module = "io.micronaut.flyway:micronaut-flyway-bom", version.ref = "managed-micronaut-flyway" }
