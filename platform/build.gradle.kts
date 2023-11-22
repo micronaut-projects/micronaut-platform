@@ -75,6 +75,12 @@ micronautBom {
         // This is in the micrometer BOM for version 1.11.5, but the module is never published
         // See https://github.com/micrometer-metrics/micrometer/issues/4350
         dependencies.add("io.micrometer:micrometer-osgi-test:1.11.5")
+
+        // This is in the micrometer BOM for version 1.11.5, but the module is never published
+        // See https://github.com/micrometer-metrics/micrometer/issues/4350
+        dependencies.add("io.micrometer:micrometer-osgi-test:1.11.5")
+
+
     }
 }
 
