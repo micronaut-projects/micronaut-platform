@@ -11,6 +11,29 @@ micronautBom {
     extraExcludedProjects.add("parent")
     suppressions {
 
+        // ReleaseCandidate ChatBots module removed from 4.0.8 (first official release will be 4.3.0)
+        // this can be removed on the 4.0.x branch after 4.0.8 is released
+        acceptedVersionRegressions.add("micronaut-chatbots")
+        acceptedLibraryRegressions.addAll(
+            "micronaut-chatbots-basecamp-api",
+            "micronaut-chatbots-basecamp-lambda",
+            "micronaut-chatbots-telegram-gcp-function",
+            "micronaut-chatbots-telegram-lambda",
+            "micronaut-chatbots-telegram-http",
+            "micronaut-chatbots-basecamp-azure-function",
+            "micronaut-chatbots-basecamp-http",
+            "micronaut-chatbots-http",
+            "micronaut-chatbots-basecamp-core",
+            "micronaut-chatbots-core",
+            "micronaut-chatbots-telegram-azure-function",
+            "micronaut-chatbots-bom",
+            "micronaut-chatbots-google-api",
+            "micronaut-chatbots-telegram-api",
+            "micronaut-chatbots-lambda",
+            "micronaut-chatbots-telegram-core",
+            "micronaut-chatbots-basecamp-gcp-function"
+        )
+
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
         bomAuthorizedGroupIds.put(
                 "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom",
