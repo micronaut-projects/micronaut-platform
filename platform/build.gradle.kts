@@ -69,7 +69,7 @@ micronautBom {
 
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.31.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.31.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.31.0")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.0.0")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:1.31.0-alpha")
 
         // This is in the micrometer BOM for version 1.11.5, but the module is never published
