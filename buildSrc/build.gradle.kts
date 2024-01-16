@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.micronaut.build.internal.publishing:io.micronaut.build.internal.publishing.gradle.plugin:6.6.1")
+    implementation("io.micronaut.build.internal.publishing:io.micronaut.build.internal.publishing.gradle.plugin:6.6.2")
 }
 
 java {
