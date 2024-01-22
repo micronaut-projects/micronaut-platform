@@ -67,9 +67,9 @@ micronautBom {
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.31.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.31.0")
 
-        // This is in the micrometer BOM for version 1.11.5, but the module is never published
-        // See https://github.com/micrometer-metrics/micrometer/issues/4350
-        dependencies.add("io.micrometer:micrometer-osgi-test:1.11.5")
+        // This is in the micrometer BOM for version 1.12.2, but the module is never published
+        // See https://github.com/micrometer-metrics/micrometer/issues/4606
+        dependencies.add("io.micrometer:docs:1.12.2")
     }
 }
 
