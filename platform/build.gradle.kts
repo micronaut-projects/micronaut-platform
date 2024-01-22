@@ -20,6 +20,10 @@ micronautBom {
             "micronaut-oraclecloud-bmc-ocicontrolcenter"
         )
 
+        // as of micronaut-acme 5.0.0
+        // acme removed this acme4j-utils and included it in the acme4j-client lib as of v3.0.0
+        acceptedLibraryRegressions.add("acme4j-utils")
+
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
         bomAuthorizedGroupIds.put(
                 "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom",
