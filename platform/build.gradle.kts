@@ -20,6 +20,10 @@ micronautBom {
             "micronaut-oraclecloud-bmc-ocicontrolcenter"
         )
 
+        // as of micronaut-acme 5.0.0
+        // acme removed this acme4j-utils and included it in the acme4j-client lib as of v3.0.0
+        acceptedLibraryRegressions.add("acme4j-utils")
+
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
         bomAuthorizedGroupIds.put(
                 "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom",
@@ -62,14 +66,16 @@ micronautBom {
             setOf("io.projectreactor", "org.reactivestreams")
         )
 
-        dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:2.16.3")
+        dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:2.17.2")
+        dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:5.18.1")
+
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.31.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.31.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.31.0")
 
-        // This is in the micrometer BOM for version 1.11.5, but the module is never published
-        // See https://github.com/micrometer-metrics/micrometer/issues/4350
-        dependencies.add("io.micrometer:micrometer-osgi-test:1.11.5")
+        // This is in the micrometer BOM for version 1.12.2, but the module is never published
+        // See https://github.com/micrometer-metrics/micrometer/issues/4606
+        dependencies.add("io.micrometer:docs:1.12.2")
     }
 }
 
