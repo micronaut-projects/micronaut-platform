@@ -45,6 +45,7 @@
         <exec.executable>java</exec.executable>
         <micronaut.version>%%version%%</micronaut.version>
         <graalvm.metadata-repository.enabled>true</graalvm.metadata-repository.enabled>
+        <resources.autodetection.enabled>true</resources.autodetection.enabled>
     </properties>
     <profiles>
         <profile>
@@ -253,7 +254,7 @@
                         <metadataRepository>
                             <enabled>${graalvm.metadata-repository.enabled}</enabled>
                         </metadataRepository>
-                        <isDetectionEnabled>true</isDetectionEnabled>
+                        <isDetectionEnabled>${resources.autodetection.enabled}</isDetectionEnabled>
                     </configuration>
                 </plugin>
                 <plugin>
