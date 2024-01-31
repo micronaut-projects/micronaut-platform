@@ -181,13 +181,14 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
-                        <annotationProcessorPaths>
+                        <annotationProcessorPaths combine.children="append">
                             <path>
                                 <groupId>io.micronaut</groupId>
                                 <artifactId>micronaut-inject-java</artifactId>
                                 <version>${micronaut.core.version}</version>
                             </path>
                         </annotationProcessorPaths>
+                        <annotationProcessorPathsUseDepMgmt>true</annotationProcessorPathsUseDepMgmt>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -252,6 +253,7 @@
                         <metadataRepository>
                             <enabled>${graalvm.metadata-repository.enabled}</enabled>
                         </metadataRepository>
+                        <isDetectionEnabled>true</isDetectionEnabled>
                     </configuration>
                 </plugin>
                 <plugin>
