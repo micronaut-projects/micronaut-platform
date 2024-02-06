@@ -85,6 +85,7 @@
                             <execution>
                                 <id>test-native</id>
                                 <goals>
+                                    <goal>generateTestResourceConfig</goal>
                                     <goal>test</goal>
                                 </goals>
                                 <phase>test</phase>
