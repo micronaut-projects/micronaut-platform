@@ -65,6 +65,18 @@ micronautBom {
             "io.projectreactor:reactor-bom",
             setOf("io.projectreactor", "org.reactivestreams")
         )
+        // micronaut-oraclecloud (since v3.6.0) pulls in the ojdbc-bom which imports dependencies from many groups
+        bomAuthorizedGroupIds.put(
+            "com.oracle.database.jdbc:ojdbc-bom",
+            setOf(
+                "com.oracle.database.ha",
+                "com.oracle.database.nl",
+                "com.oracle.database.nls",
+                "com.oracle.database.observability",
+                "com.oracle.database.security",
+                "com.oracle.database.xml",
+            )
+        )
 
         dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:2.17.2")
         dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:5.18.1")
