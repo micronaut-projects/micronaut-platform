@@ -23,7 +23,7 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("mn") {
-            from("io.micronaut.platform:micronaut-platform:${micronautVersion}")
+            from("io.micronaut.platform:micronaut-platform:$micronautVersion")
         }
     }
 }
