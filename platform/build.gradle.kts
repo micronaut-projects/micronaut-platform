@@ -79,11 +79,11 @@ micronautBom {
         )
 
         dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:2.17.2")
-        dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:5.18.1")
+        dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:6.0.2")
 
-        dependencies.add("io.opentelemetry:opentelemetry-bom:1.31.0")
-        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.31.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.31.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom:1.36.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.36.0-alpha")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.33.1")
 
         // This is in the micrometer BOM for version 1.12.2, but the module is never published
         // See https://github.com/micrometer-metrics/micrometer/issues/4606
