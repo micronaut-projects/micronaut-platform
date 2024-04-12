@@ -46,6 +46,7 @@
         <micronaut.version>%%version%%</micronaut.version>
         <graalvm.metadata-repository.enabled>true</graalvm.metadata-repository.enabled>
         <resources.autodetection.enabled>true</resources.autodetection.enabled>
+        <resources.autodetection.ignoreExistingResourcesConfig>true</resources.autodetection.ignoreExistingResourcesConfig>
     </properties>
     <profiles>
         <profile>
