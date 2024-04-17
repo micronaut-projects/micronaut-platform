@@ -80,7 +80,7 @@ managed-spotbugs = "4.8.4"
 ## The following versions are deprecated and must be removed in the next major release
 managed-graal-sdk = "24.0.1"
 managed-graal = "22.3.0"
-managed-graal-svm = "24.0.0"
+managed-graal-svm = "24.0.1"
 
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
