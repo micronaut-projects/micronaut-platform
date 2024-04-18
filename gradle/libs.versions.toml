@@ -59,7 +59,6 @@ managed-micronaut-r2dbc = "5.4.0"
 managed-micronaut-reactor = "3.3.0"
 managed-micronaut-redis = "6.4.0"
 managed-micronaut-rss = "4.3.0"
-managed-micronaut-rxjava2 = "2.3.0"
 managed-micronaut-rxjava3 = "3.3.0"
 managed-micronaut-security = "4.7.0"
 managed-micronaut-serialization = "2.9.0"
@@ -155,7 +154,6 @@ boms-micronaut-rabbitmq = { module = "io.micronaut.rabbitmq:micronaut-rabbitmq-b
 boms-micronaut-reactor = { module = "io.micronaut.reactor:micronaut-reactor-bom", version.ref = "managed-micronaut-reactor" }
 boms-micronaut-redis = { module = "io.micronaut.redis:micronaut-redis-bom", version.ref = "managed-micronaut-redis" }
 boms-micronaut-rss = { module = "io.micronaut.rss:micronaut-rss-bom", version.ref = "managed-micronaut-rss" }
-boms-micronaut-rxjava2 = { module = "io.micronaut.rxjava2:micronaut-rxjava2-bom", version.ref = "managed-micronaut-rxjava2" }
 boms-micronaut-rxjava3 = { module = "io.micronaut.rxjava3:micronaut-rxjava3-bom", version.ref = "managed-micronaut-rxjava3" }
 boms-micronaut-security = { module = "io.micronaut.security:micronaut-security-bom", version.ref = "managed-micronaut-security" }
 boms-micronaut-serialization = { module = "io.micronaut.serde:micronaut-serde-bom", version.ref = "managed-micronaut-serialization" }
