@@ -12,18 +12,6 @@ micronautBom {
     extraExcludedProjects.add("parent")
 
     suppressions {
-        // Can be removed after 4.1.3 (see https://github.com/micronaut-projects/micronaut-platform/pull/941)
-        this.acceptedLibraryRegressions.addAll(
-            "micronaut-oraclecloud-bmc-computecloudatcustomer",
-            "micronaut-oraclecloud-bmc-fleetsoftwareupdate",
-            "micronaut-oraclecloud-bmc-osmanagementhub",
-            "micronaut-oraclecloud-bmc-ocicontrolcenter"
-        )
-
-        // as of micronaut-acme 5.0.0
-        // acme removed this acme4j-utils and included it in the acme4j-client lib as of v3.0.0
-        acceptedLibraryRegressions.add("acme4j-utils")
-
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
         bomAuthorizedGroupIds.put(
                 "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom",
@@ -89,8 +77,4 @@ micronautBom {
         // See https://github.com/micrometer-metrics/micrometer/issues/4606
         dependencies.add("io.micrometer:docs:1.12.2")
     }
-}
-
-micronautBuild {
-    binaryCompatibility.enabled.set(version != "4.0.0-SNAPSHOT")
 }
