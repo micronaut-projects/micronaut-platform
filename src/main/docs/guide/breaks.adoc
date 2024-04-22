@@ -1,0 +1,7 @@
+This section documents breaking changes between Micronaut versions
+
+== 5.0.0
+
+=== Removals
+
+- `micronaut-rxjava2` has been removed from the Micronaut platform.
