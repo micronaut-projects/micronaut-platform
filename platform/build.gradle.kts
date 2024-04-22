@@ -85,10 +85,26 @@ micronautBom {
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.36.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.33.1")
 
-        // This is in the micrometer BOM for version 1.12.2, but the module is never published
-        // See https://github.com/micrometer-metrics/micrometer/issues/4606
-        dependencies.add("io.micrometer:docs:1.12.2")
-
+        "microstream was removed in Micronaut 5.0.0".apply {
+            acceptedVersionRegressions.addAll(
+                "microstream",
+                "micronaut-microstream"
+            )
+            acceptedLibraryRegressions.addAll(
+                "microstream",
+                "microstream-storage-restservice",
+                "microstream-storage-embedded-configuration",
+                "microstream-sql",
+                "microstream-aws-s3",
+                "microstream-cache",
+                "microstream-aws-dynamodb",
+                "micronaut-microstream-bom",
+                "micronaut-microstream",
+                "micronaut-microstream-annotations",
+                "micronaut-microstream-cache",
+                "micronaut-microstream-rest"
+            )
+        }
         "rxJava2 was removed in Micronaut 5.0.0".apply {
             acceptedVersionRegressions.addAll(
                 "rxjava2",
