@@ -41,7 +41,6 @@ managed-micronaut-kubernetes = "6.1.0"
 managed-micronaut-liquibase = "6.3.0"
 managed-micronaut-logging = "1.3.0"
 managed-micronaut-micrometer = "5.5.0"
-managed-micronaut-microstream = "2.4.0"
 managed-micronaut-mongo = "5.3.0"
 managed-micronaut-mqtt = "3.3.0"
 managed-micronaut-multitenancy = "5.3.0"
@@ -136,7 +135,6 @@ boms-micronaut-kubernetes = { module = "io.micronaut.kubernetes:micronaut-kubern
 boms-micronaut-liquibase = { module = "io.micronaut.liquibase:micronaut-liquibase-bom", version.ref = "managed-micronaut-liquibase" }
 boms-micronaut-logging = { module = "io.micronaut.logging:micronaut-logging-bom", version.ref = "managed-micronaut-logging" }
 boms-micronaut-micrometer = { module = "io.micronaut.micrometer:micronaut-micrometer-bom", version.ref = "managed-micronaut-micrometer" }
-boms-micronaut-microstream = { module = "io.micronaut.microstream:micronaut-microstream-bom", version.ref = "managed-micronaut-microstream" }
 boms-micronaut-mongo = { module = "io.micronaut.mongodb:micronaut-mongo-bom", version.ref = "managed-micronaut-mongo" }
 boms-micronaut-mqtt = { module = "io.micronaut.mqtt:micronaut-mqtt-bom", version.ref = "managed-micronaut-mqtt" }
 boms-micronaut-multitenancy = { module = "io.micronaut.multitenancy:micronaut-multitenancy-bom", version.ref = "managed-micronaut-multitenancy" }

@@ -4,4 +4,5 @@ This section documents breaking changes between Micronaut versions
 
 === Removals
 
+- `micronaut-microstream` has been removed from the Micronaut platform.
 - `micronaut-rxjava2` has been removed from the Micronaut platform.
