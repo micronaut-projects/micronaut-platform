@@ -94,3 +94,32 @@ micronautBom {
 micronautBuild {
     binaryCompatibility.enabled.set(version != "4.0.0-SNAPSHOT")
 }
+
+tasks {
+    // This is a workaround for the `jackson-databind` version being removed from the catalog
+    // because it's not referenced anywhere anymore. However we must keep it for backwards
+    // compatibility. This canbe removed after the next major release.
+    if (version.toString().startsWith("4.")) {
+        generateCatalogAsToml {
+            doLast {
+                val catalogFile = outputFile.get().asFile.readLines()
+                // append one line after the first line which starts with `jackson = `
+                val newCatalogFile = catalogFile.joinToString("\n") {
+                    if (it.startsWith("jackson = ")) {
+                        var versionPart = it.substringAfterLast(" = ")
+                        "$it\n#@NextMajorVersion @Deprecated Delete in Micronaut Framework 5.\njackson-databind = $versionPart"
+                    } else {
+                        it
+                    }
+                }
+                outputFile.get().asFile.writeText(newCatalogFile)
+            }
+        }
+    }
+    checkVersionCatalogCompatibility {
+        doFirst {
+            println(baseline.get().asFile)
+            println(current.get().asFile)
+        }
+    }
+}
