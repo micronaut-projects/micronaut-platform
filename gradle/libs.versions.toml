@@ -129,7 +129,7 @@ boms-micronaut-gcp = { module = "io.micronaut.gcp:micronaut-gcp-bom", version.re
 boms-micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql-bom", version.ref = "managed-micronaut-graphql" }
 boms-micronaut-groovy = { module = "io.micronaut.groovy:micronaut-groovy-bom", version.ref = "managed-micronaut-groovy" }
 boms-micronaut-grpc = { module = "io.micronaut.grpc:micronaut-grpc-bom", version.ref = "managed-micronaut-grpc" }
-boms-micronaut-grpc = { module = "io.micronaut.guice:micronaut-guice-bom", version.ref = "managed-micronaut-guice" }
+boms-micronaut-guice = { module = "io.micronaut.guice:micronaut-guice-bom", version.ref = "managed-micronaut-guice" }
 boms-micronaut-hibernate-validator = { module = "io.micronaut.beanvalidation:micronaut-hibernate-validator-bom", version.ref = "managed-micronaut-hibernate-validator" }
 boms-micronaut-jackson-xml = { module = "io.micronaut.xml:micronaut-jackson-xml-bom", version.ref = "managed-micronaut-jackson-xml" }
 boms-micronaut-jaxrs = { module = "io.micronaut.jaxrs:micronaut-jaxrs-bom", version.ref = "managed-micronaut-jaxrs" }
