@@ -89,7 +89,7 @@ managed-graal-svm = "23.1.4"
 ## using the following mapping rule:
 ##   parent-${some-property-name} -> <some-property-name.version>
 parent-maven = "3.9.8"
-parent-micronaut-maven-plugin = "4.6.1"
+parent-micronaut-maven-plugin = "4.6.3"
 parent-azure-functions-maven-plugin = "1.36.0"
 parent-exec-maven-plugin = "3.3.0"
 parent-function-maven-plugin = "0.11.0"
