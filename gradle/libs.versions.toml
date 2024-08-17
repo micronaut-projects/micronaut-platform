@@ -88,7 +88,7 @@ managed-graal-svm = "23.1.4"
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
 ##   parent-${some-property-name} -> <some-property-name.version>
-parent-maven = "3.9.8"
+parent-maven = "3.9.9"
 parent-micronaut-maven-plugin = "4.6.3"
 parent-azure-functions-maven-plugin = "1.36.0"
 parent-exec-maven-plugin = "3.4.1"
