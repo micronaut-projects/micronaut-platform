@@ -28,6 +28,7 @@ managed-micronaut-elasticsearch = "5.6.0"
 managed-micronaut-email = "2.6.0"
 managed-micronaut-flyway = "7.4.0"
 managed-micronaut-gcp = "5.7.1"
+managed-micronaut-graal-languages = "1.0.0"
 managed-micronaut-graphql = "4.5.0"
 managed-micronaut-groovy = "4.4.0"
 managed-micronaut-grpc = "4.7.0"
@@ -126,6 +127,7 @@ boms-micronaut-elasticsearch = { module = "io.micronaut.elasticsearch:micronaut-
 boms-micronaut-email = { module = "io.micronaut.email:micronaut-email-bom", version.ref = "managed-micronaut-email" }
 boms-micronaut-flyway = { module = "io.micronaut.flyway:micronaut-flyway-bom", version.ref = "managed-micronaut-flyway" }
 boms-micronaut-gcp = { module = "io.micronaut.gcp:micronaut-gcp-bom", version.ref = "managed-micronaut-gcp" }
+boms-micronaut-graalpy = { module = "io.micronaut.graal-languages:micronaut-graal-languages-bom", version.ref = "managed-micronaut-graal-languages" }
 boms-micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql-bom", version.ref = "managed-micronaut-graphql" }
 boms-micronaut-groovy = { module = "io.micronaut.groovy:micronaut-groovy-bom", version.ref = "managed-micronaut-groovy" }
 boms-micronaut-grpc = { module = "io.micronaut.grpc:micronaut-grpc-bom", version.ref = "managed-micronaut-grpc" }
