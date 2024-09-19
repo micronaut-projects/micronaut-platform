@@ -66,7 +66,7 @@ micronautBom {
             )
         )
 
-        dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:3.4.0")
+        dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:3.4.2")
         dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:6.0.3")
 
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.40.0")
