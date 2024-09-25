@@ -107,6 +107,7 @@ parent-protoc-jar-maven-plugin = "3.11.4"
 parent-maven-enforcer-plugin = "3.5.0"
 parent-gmavenplus-plugin = "3.0.2"
 parent-jrebel-maven-plugin = "1.2.0"
+parent-graalpy-maven-plugin = "24.1.0"
 
 [libraries]
 # Libraries prefixed with bom- are BOM files
@@ -218,6 +219,7 @@ parent-maven-enforcer-plugin = { module = "org.apache.maven.plugins:maven-enforc
 parent-gmavenplus-plugin = { module = "org.codehaus.gmavenplus:gmavenplus-plugin", version.ref = "parent-gmavenplus-plugin" }
 parent-jrebel-maven-plugin = { module = "org.zeroturnaround:jrebel-maven-plugin", version.ref = "parent-jrebel-maven-plugin" }
 parent-maven-native-plugin = { module = "org.graalvm.buildtools:native-maven-plugin", version.ref = "managed-maven-native-plugin" }
+parent-graalpy-maven-plugin = { module = "org.graalvm.python:graalpy-maven-plugin", version.ref = "parent-graalpy-maven-plugin" }
 
 # The following dependencies are deprecated and must be removed in the next major release
 managed-graal = { module = "org.graalvm.nativeimage:svm", version.ref = "managed-graal-svm" }
