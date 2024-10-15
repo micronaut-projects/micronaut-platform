@@ -107,7 +107,7 @@ parent-protoc-jar-maven-plugin = "3.11.4"
 parent-maven-enforcer-plugin = "3.5.0"
 parent-gmavenplus-plugin = "4.0.1"
 parent-jrebel-maven-plugin = "1.2.0"
-parent-graalpy-maven-plugin = "24.1.0"
+parent-graalpy-maven-plugin = "24.1.1"
 
 [libraries]
 # Libraries prefixed with bom- are BOM files
