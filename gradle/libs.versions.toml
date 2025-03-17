@@ -80,7 +80,7 @@ managed-micronaut-validation = "4.9.0"
 managed-micronaut-views = "5.7.0"
 managed-micronaut-jackson-xml = "4.6.0"
 managed-spock = "2.3-groovy-4.0"
-managed-spotbugs = "4.9.2"
+managed-spotbugs = "4.9.3"
 
 ## The following versions are deprecated and must be removed in the next major release
 managed-graal-sdk = "24.1.2"
