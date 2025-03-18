@@ -84,6 +84,10 @@ micronautBom {
         // Removed reactor-netty-http removed in https://github.com/micronaut-projects/micronaut-r2dbc/commit/ae5f341d26b89800b45caffd1494771948584588
         acceptedVersionRegressions.add("reactor-netty")
         acceptedLibraryRegressions.add("reactor-netty-http")
+
+        // Removed in https://github.com/micronaut-projects/micronaut-r2dbc/releases/tag/v6.0.0
+        acceptedVersionRegressions.add("r2dbc-io-asyncer-mysql")
+        acceptedLibraryRegressions.add("r2dbc-io-asyncer-mysql")
     }
 }
 
