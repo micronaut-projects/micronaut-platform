@@ -88,6 +88,14 @@ micronautBom {
         // Removed in https://github.com/micronaut-projects/micronaut-r2dbc/releases/tag/v6.0.0
         acceptedVersionRegressions.add("r2dbc-io-asyncer-mysql")
         acceptedLibraryRegressions.add("r2dbc-io-asyncer-mysql")
+
+        // Micronaut Coherence 5 regressions
+        acceptedLibraryRegressions.add("coherence-java-client")
+        acceptedLibraryRegressions.add("micronaut-coherence-grpc-test")
+        acceptedLibraryRegressions.add("micronaut-coherence-grpc-client")
+        acceptedLibraryRegressions.add("coherence-grpc-proxy")
+
+
     }
 }
 
