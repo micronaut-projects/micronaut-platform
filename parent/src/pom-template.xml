@@ -348,6 +348,11 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.openrewrite.maven</groupId>
+                    <artifactId>rewrite-maven-plugin</artifactId>
+                    <version>6.10.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
