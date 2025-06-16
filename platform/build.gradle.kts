@@ -95,7 +95,10 @@ micronautBom {
         acceptedLibraryRegressions.add("micronaut-coherence-grpc-client")
         acceptedLibraryRegressions.add("coherence-grpc-proxy")
 
-
+        // Netty 4.2 moved these from incubator to the Netty monorepo
+        acceptedVersionRegressions.add("netty-iouring")
+        acceptedVersionRegressions.add("netty-http3")
+        acceptedLibraryRegressions.add("netty-incubator-codec-http3")
     }
 }
 
