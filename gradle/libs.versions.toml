@@ -33,6 +33,7 @@ managed-micronaut-graphql = "4.8.0"
 managed-micronaut-groovy = "4.7.0"
 managed-micronaut-grpc = "4.10.0"
 managed-micronaut-guice = "1.2.0"
+managed-micronaut-guides = "0.1.0"
 managed-micronaut-hibernate-validator = "4.8.0"
 managed-micronaut-jaxrs = "4.9.0"
 managed-micronaut-jms = "4.3.0"
@@ -136,6 +137,7 @@ boms-micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql-bom"
 boms-micronaut-groovy = { module = "io.micronaut.groovy:micronaut-groovy-bom", version.ref = "managed-micronaut-groovy" }
 boms-micronaut-grpc = { module = "io.micronaut.grpc:micronaut-grpc-bom", version.ref = "managed-micronaut-grpc" }
 boms-micronaut-guice = { module = "io.micronaut.guice:micronaut-guice-bom", version.ref = "managed-micronaut-guice" }
+boms-micronaut-guides = { module = "io.micronaut.guides:micronaut-guides-bom", version.ref = "managed-micronaut-guides" }
 boms-micronaut-hibernate-validator = { module = "io.micronaut.beanvalidation:micronaut-hibernate-validator-bom", version.ref = "managed-micronaut-hibernate-validator" }
 boms-micronaut-jackson-xml = { module = "io.micronaut.xml:micronaut-jackson-xml-bom", version.ref = "managed-micronaut-jackson-xml" }
 boms-micronaut-jaxrs = { module = "io.micronaut.jaxrs:micronaut-jaxrs-bom", version.ref = "managed-micronaut-jaxrs" }
