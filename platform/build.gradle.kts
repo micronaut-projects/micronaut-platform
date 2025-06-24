@@ -101,6 +101,7 @@ micronautBom {
         acceptedLibraryRegressions.add("netty-incubator-codec-http3")
 
         // Langchain4j BOM no longer imported
+        acceptedVersionRegressions.add("langchain4j")
         acceptedLibraryRegressions.add("boms-langchain4j")
     }
 }
