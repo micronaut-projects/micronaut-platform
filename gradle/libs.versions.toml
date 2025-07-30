@@ -84,15 +84,15 @@ managed-spock = "2.3-groovy-4.0"
 managed-spotbugs = "4.9.3"
 
 ## The following versions are deprecated and must be removed in the next major release
-managed-graal-sdk = "24.2.1"
+managed-graal-sdk = "24.2.2"
 managed-graal = "23.1.3"
-managed-graal-svm = "23.1.7"
+managed-graal-svm = "23.1.8"
 
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
 ##   parent-${some-property-name} -> <some-property-name.version>
-parent-maven = "3.9.10"
-parent-micronaut-maven-plugin = "4.9.0"
+parent-maven = "3.9.11"
+parent-micronaut-maven-plugin = "4.10.0"
 parent-azure-functions-maven-plugin = "1.38.0"
 parent-exec-maven-plugin = "3.5.1"
 parent-function-maven-plugin = "0.11.1"
@@ -106,12 +106,11 @@ parent-maven-shade-plugin = "3.6.0"
 parent-maven-surefire-plugin = "3.5.3"
 parent-maven-resources-plugin = "3.3.1"
 parent-protoc-jar-maven-plugin = "3.11.4"
-parent-maven-enforcer-plugin = "3.6.0"
+parent-maven-enforcer-plugin = "3.6.1"
 parent-gmavenplus-plugin = "4.2.1"
 parent-jrebel-maven-plugin = "1.2.1"
-parent-graalpy-maven-plugin = "24.2.1"
+parent-graalpy-maven-plugin = "24.2.2"
 parent-openrewrite-maven-plugin = "6.15.0"
-
 
 [libraries]
 # Libraries prefixed with bom- are BOM files
