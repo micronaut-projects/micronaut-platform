@@ -109,7 +109,7 @@ parent-protoc-jar-maven-plugin = "3.11.4"
 parent-maven-enforcer-plugin = "3.6.1"
 parent-gmavenplus-plugin = "4.2.1"
 parent-jrebel-maven-plugin = "1.2.1"
-parent-graalpy-maven-plugin = "24.2.1"
+parent-graalpy-maven-plugin = "24.2.2"
 parent-openrewrite-maven-plugin = "6.12.1"
 
 
