@@ -69,7 +69,7 @@ micronautBom {
         dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:3.5.1")
         dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:6.0.3")
 
-        dependencies.add("io.opentelemetry:opentelemetry-bom:1.52.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom:1.53.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.40.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.33.5")
 
@@ -222,7 +222,7 @@ micronautBom {
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-networkloadbalancer:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-marketplaceprivateoffer:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-jmsjavadownloads:5.2.1")
-        dependencies.add("io.opentelemetry:opentelemetry-bom:1.50.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom:1.53.0")
         dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.32.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.50.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.16.0")
