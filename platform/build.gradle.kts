@@ -71,7 +71,7 @@ micronautBom {
 
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.52.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.40.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.33.5")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.19.0")
 
         // This is in the micrometer BOM for version 1.13.3, but the module is never published
         // See https://github.com/micrometer-metrics/micrometer/issues/5395
@@ -225,7 +225,7 @@ micronautBom {
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.50.0")
         dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.32.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.50.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.16.0")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.19.0")
     }
 }
 
