@@ -4,12 +4,12 @@
 # Versions which start with managed- are managed by Micronaut in the sense
 # that they will appear in the Micronaut BOM as <properties>
 #
-managed-junit5 = "5.12.2" # it should be aligned with gradle/libs.versions.toml #L6 in https://github.com/micronaut-projects/micronaut-test/
+managed-junit5 = "5.13.4" # it should be aligned with gradle/libs.versions.toml #L6 in https://github.com/micronaut-projects/micronaut-test/
 managed-javax-annotation-api = "1.3.2"
 managed-jna = "5.17.0"
 managed-jsr305 = "3.0.2"
 managed-lombok = "1.18.38"
-managed-maven-native-plugin = "0.10.6"
+managed-maven-native-plugin = "0.11.0"
 managed-micronaut-acme = "5.5.0"
 managed-micronaut-aot = "2.8.1"
 managed-micronaut-aws = "4.11.0"
@@ -19,7 +19,7 @@ managed-micronaut-cassandra = "6.7.0"
 managed-micronaut-chatbots = "1.5.0"
 managed-micronaut-coherence = "5.0.6"
 managed-micronaut-control-panel = "1.8.0"
-managed-micronaut-core = "4.9.9"
+managed-micronaut-core = "4.9.10"
 managed-micronaut-crac = "2.7.0"
 managed-micronaut-data = "4.13.3"
 managed-micronaut-discovery = "4.7.1"
@@ -55,7 +55,7 @@ managed-micronaut-nats = "4.8.0"
 managed-micronaut-object-storage = "2.9.0"
 managed-micronaut-opensearch = "1.6.0"
 managed-micronaut-openapi = "6.17.3"
-managed-micronaut-oraclecloud = "5.2.4"
+managed-micronaut-oraclecloud = "5.3.0"
 managed-micronaut-picocli = "5.8.0"
 managed-micronaut-problem = "3.8.0"
 managed-micronaut-pulsar = "2.6.0"
@@ -92,7 +92,7 @@ managed-graal-svm = "23.1.7"
 ## using the following mapping rule:
 ##   parent-${some-property-name} -> <some-property-name.version>
 parent-maven = "3.9.10"
-parent-micronaut-maven-plugin = "4.9.0"
+parent-micronaut-maven-plugin = "4.10.1"
 parent-azure-functions-maven-plugin = "1.38.0"
 parent-exec-maven-plugin = "3.5.1"
 parent-function-maven-plugin = "0.11.1"
