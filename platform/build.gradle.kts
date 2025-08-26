@@ -220,7 +220,7 @@ micronautBom {
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-databasetools:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-loggingingestion:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-networkloadbalancer:5.2.1")
-        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-marketplaceprivateoffer:5.2.1")
+        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-marketplaceprivateoffer:5.3.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-jmsjavadownloads:5.2.1")
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.50.0")
         dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.32.0")
