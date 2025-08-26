@@ -127,7 +127,7 @@ micronautBom {
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-devops:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-dts:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-dblm:5.2.1")
-        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-opa:5.2.1")
+        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-opa:5.3.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-identitydomains:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-monitoring:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-circuitbreaker:5.2.1")
