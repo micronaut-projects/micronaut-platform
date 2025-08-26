@@ -105,7 +105,7 @@ micronautBom {
         acceptedLibraryRegressions.add("boms-langchain4j")
 
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.53.0")
-        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.32.0")
+        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.34.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.50.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.19.0")
     }
