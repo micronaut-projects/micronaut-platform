@@ -105,7 +105,7 @@ micronautBom {
         acceptedLibraryRegressions.add("boms-langchain4j")
 
         // https://github.com/micronaut-projects/micronaut-oracle-cloud/issues/1151
-        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-distributeddatabase:5.2.1")
+        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-distributeddatabase:5.3.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-onesubscription:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-dataintegration:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-identity:5.2.1")
