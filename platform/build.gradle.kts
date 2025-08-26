@@ -147,7 +147,7 @@ micronautBom {
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-oda:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-demandsignal:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-atp:5.2.1")
-        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-adm:5.2.1")
+        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-adm:5.3.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-generativeaiagent:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-audit:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-ailanguage:5.2.1")
