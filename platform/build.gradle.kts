@@ -161,7 +161,7 @@ micronautBom {
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-mediaservices:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-cloudguard:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-clusterplacementgroups:5.2.1")
-        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-dashboardservice:5.2.1")
+        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-dashboardservice:5.3.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-functions:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-apmtraces:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-desktops:5.2.1")
