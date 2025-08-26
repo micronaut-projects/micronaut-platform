@@ -192,7 +192,7 @@ micronautBom {
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-generativeaiinference:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-licensemanager:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-databasemanagement:5.2.1")
-        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-loganalytics:5.2.1")
+        dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-loganalytics:5.3.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-integration:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-mysql:5.2.1")
         dependencies.add("io.micronaut.oraclecloud:micronaut-oraclecloud-bmc-containerinstances:5.2.1")
