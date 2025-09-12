@@ -45,6 +45,7 @@ managed-micronaut-kubernetes = "7.1.1"
 managed-micronaut-langchain4j = "1.1.0"
 managed-micronaut-liquibase = "6.8.0"
 managed-micronaut-logging = "1.7.0"
+managed-micronaut-mcp = "0.0.3"
 managed-micronaut-micrometer = "5.12.0"
 managed-micronaut-microstream = "2.9.0"
 managed-micronaut-mongo = "5.7.0"
@@ -149,6 +150,7 @@ boms-micronaut-kubernetes = { module = "io.micronaut.kubernetes:micronaut-kubern
 boms-micronaut-langchain4j = { module = "io.micronaut.langchain4j:micronaut-langchain4j-bom", version.ref = "managed-micronaut-langchain4j" }
 boms-micronaut-liquibase = { module = "io.micronaut.liquibase:micronaut-liquibase-bom", version.ref = "managed-micronaut-liquibase" }
 boms-micronaut-logging = { module = "io.micronaut.logging:micronaut-logging-bom", version.ref = "managed-micronaut-logging" }
+boms-micronaut-mcp = { module = "io.micronaut.mcp:micronaut-mcp-bom", version.ref = "managed-micronaut-mcp" }
 boms-micronaut-micrometer = { module = "io.micronaut.micrometer:micronaut-micrometer-bom", version.ref = "managed-micronaut-micrometer" }
 boms-micronaut-microstream = { module = "io.micronaut.microstream:micronaut-microstream-bom", version.ref = "managed-micronaut-microstream" }
 boms-micronaut-mongo = { module = "io.micronaut.mongodb:micronaut-mongo-bom", version.ref = "managed-micronaut-mongo" }
