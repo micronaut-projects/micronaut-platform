@@ -352,7 +352,7 @@
                     <groupId>org.openrewrite.maven</groupId>
                     <artifactId>rewrite-maven-plugin</artifactId>
                     <version>${openrewrite-maven-plugin.version}</version>
-                     <configuration>
+                    <configuration>
                         <!-- OpenRewrite configuration here -->
                     </configuration>
                     <dependencies>
