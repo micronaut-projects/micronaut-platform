@@ -352,13 +352,6 @@
                     <groupId>org.openrewrite.maven</groupId>
                     <artifactId>rewrite-maven-plugin</artifactId>
                     <version>${openrewrite-maven-plugin.version}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>io.micronaut.openrewrite</groupId>
-                            <artifactId>micronaut-openrewrite</artifactId>
-                            <version>LATEST</version>
-                        </dependency>
-                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>
