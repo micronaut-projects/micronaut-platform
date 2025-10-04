@@ -77,7 +77,14 @@ micronautBom {
         // See https://github.com/micrometer-metrics/micrometer/issues/5395
         dependencies.add("io.micrometer:concurrency-tests:1.13.3")
 
+        // modules no longer published by the OCI SDK
         acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-applicationmigration")
+        acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-aianomalydetection")
+        acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-osmanagement")
+        acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-dts")
+        acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-servicemesh")
+
+
         acceptedLibraryRegressions.add("kafka")
         acceptedVersionRegressions.add("kafka-compat")
 
