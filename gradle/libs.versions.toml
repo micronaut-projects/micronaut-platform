@@ -56,6 +56,7 @@ managed-micronaut-nats = "4.8.0"
 managed-micronaut-object-storage = "2.9.0"
 managed-micronaut-opensearch = "1.6.0"
 managed-micronaut-openapi = "6.17.3"
+managed-micronaut-openrewrite = "0.0.3"
 managed-micronaut-oraclecloud = "5.3.1"
 managed-micronaut-picocli = "5.8.0"
 managed-micronaut-problem = "3.8.0"
@@ -161,6 +162,7 @@ boms-micronaut-neo4j = { module = "io.micronaut.neo4j:micronaut-neo4j-bom", vers
 boms-micronaut-object-storage = { module = "io.micronaut.objectstorage:micronaut-object-storage-bom", version.ref = "managed-micronaut-object-storage" }
 boms-micronaut-openapi = { module = "io.micronaut.openapi:micronaut-openapi-bom", version.ref = "managed-micronaut-openapi" }
 boms-micronaut-opensearch = { module = "io.micronaut.opensearch:micronaut-opensearch-bom", version.ref = "managed-micronaut-opensearch" }
+boms-micronaut-openrewrite = { module = "io.micronaut.openrewrite:micronaut-openrewrite-bom", version.ref = "managed-micronaut-openrewrite" }
 boms-micronaut-oraclecloud = { module = "io.micronaut.oraclecloud:micronaut-oraclecloud-bom", version.ref = "managed-micronaut-oraclecloud" }
 boms-micronaut-picocli = { module = "io.micronaut.picocli:micronaut-picocli-bom", version.ref = "managed-micronaut-picocli" }
 boms-micronaut-problem-json = { module = "io.micronaut.problem:micronaut-problem-json-bom", version.ref = "managed-micronaut-problem" }
