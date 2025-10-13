@@ -12,18 +12,6 @@ micronautBom {
     extraExcludedProjects.add("parent")
 
     suppressions {
-        // Can be removed after 4.1.3 (see https://github.com/micronaut-projects/micronaut-platform/pull/941)
-        this.acceptedLibraryRegressions.addAll(
-            "micronaut-oraclecloud-bmc-computecloudatcustomer",
-            "micronaut-oraclecloud-bmc-fleetsoftwareupdate",
-            "micronaut-oraclecloud-bmc-osmanagementhub",
-            "micronaut-oraclecloud-bmc-ocicontrolcenter"
-        )
-
-        // as of micronaut-acme 5.0.0
-        // acme removed this acme4j-utils and included it in the acme4j-client lib as of v3.0.0
-        acceptedLibraryRegressions.add("acme4j-utils")
-
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
         bomAuthorizedGroupIds.put(
                 "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom",
@@ -78,12 +66,53 @@ micronautBom {
             )
         )
 
-        dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:3.4.0")
-        dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:6.0.2")
+        dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:3.5.1")
+        dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:6.0.3")
 
-        dependencies.add("io.opentelemetry:opentelemetry-bom:1.36.0")
-        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.36.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:1.33.1")
+        dependencies.add("io.opentelemetry:opentelemetry-bom:1.53.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.40.0-alpha")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.19.0")
+
+        // modules no longer published by the OCI SDK
+        acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-applicationmigration")
+        acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-aianomalydetection")
+        acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-osmanagement")
+        acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-dts")
+        acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-servicemesh")
+
+
+        acceptedLibraryRegressions.add("kafka")
+        acceptedVersionRegressions.add("kafka-compat")
+
+        // Removed reactor-netty-http removed in https://github.com/micronaut-projects/micronaut-r2dbc/commit/ae5f341d26b89800b45caffd1494771948584588
+        acceptedVersionRegressions.add("reactor-netty")
+        acceptedLibraryRegressions.add("reactor-netty-http")
+
+        // Removed in https://github.com/micronaut-projects/micronaut-r2dbc/releases/tag/v6.0.0
+        acceptedVersionRegressions.add("r2dbc-io-asyncer-mysql")
+        acceptedLibraryRegressions.add("r2dbc-io-asyncer-mysql")
+
+        // Micronaut Coherence 5 regressions
+        acceptedLibraryRegressions.add("coherence-java-client")
+        acceptedLibraryRegressions.add("micronaut-coherence-grpc-test")
+        acceptedLibraryRegressions.add("micronaut-coherence-grpc-client")
+        acceptedLibraryRegressions.add("coherence-grpc-proxy")
+
+        // Netty 4.2 moved these from incubator to the Netty monorepo
+        acceptedVersionRegressions.add("netty-iouring")
+        acceptedVersionRegressions.add("netty-http3")
+        acceptedLibraryRegressions.add("netty-incubator-codec-http3")
+
+        // Langchain4j BOM no longer imported
+        acceptedVersionRegressions.add("langchain4j")
+        acceptedLibraryRegressions.add("boms-langchain4j")
+
+        dependencies.add("io.opentelemetry:opentelemetry-bom:1.53.0")
+        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.37.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.50.0-alpha")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.19.0")
+
+        acceptedVersionRegressions.add("jackson-databind")
 
         "microstream was removed in Micronaut 5.0.0".apply {
             acceptedVersionRegressions.addAll(
@@ -105,6 +134,7 @@ micronautBom {
                 "micronaut-microstream-rest"
             )
         }
+
         "rxJava2 was removed in Micronaut 5.0.0".apply {
             acceptedVersionRegressions.addAll(
                 "rxjava2",
@@ -123,4 +153,33 @@ micronautBom {
 
 micronautBuild {
     binaryCompatibility.enabled.set(version != "4.0.0-SNAPSHOT")
+}
+
+tasks {
+    // This is a workaround for the `jackson-databind` version being removed from the catalog
+    // because it's not referenced anywhere anymore. However we must keep it for backwards
+    // compatibility. This canbe removed after the next major release.
+    if (version.toString().startsWith("4.")) {
+        generateCatalogAsToml {
+            doLast {
+                val catalogFile = outputFile.get().asFile.readLines()
+                // append one line after the first line which starts with `jackson = `
+                val newCatalogFile = catalogFile.joinToString("\n") {
+                    if (it.startsWith("jackson = ")) {
+                        var versionPart = it.substringAfterLast(" = ")
+                        "$it\n#@NextMajorVersion @Deprecated Delete in Micronaut Framework 5.\njackson-databind = $versionPart"
+                    } else {
+                        it
+                    }
+                }
+                outputFile.get().asFile.writeText(newCatalogFile)
+            }
+        }
+    }
+    checkVersionCatalogCompatibility {
+        doFirst {
+            println(baseline.get().asFile)
+            println(current.get().asFile)
+        }
+    }
 }

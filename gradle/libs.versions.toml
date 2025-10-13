@@ -4,103 +4,113 @@
 # Versions which start with managed- are managed by Micronaut in the sense
 # that they will appear in the Micronaut BOM as <properties>
 #
-managed-junit5 = "5.10.2"
+managed-junit5 = "5.14.0" # it should be aligned with gradle/libs.versions.toml #L6 in https://github.com/micronaut-projects/micronaut-test/
 managed-javax-annotation-api = "1.3.2"
-managed-jna = "5.14.0"
+managed-jna = "5.18.1"
 managed-jsr305 = "3.0.2"
-managed-lombok = "1.18.32"
-managed-maven-native-plugin = "0.10.1"
-managed-micronaut-acme = "5.1.0"
-managed-micronaut-aot = "2.4.0"
-managed-micronaut-aws = "4.5.0"
-managed-micronaut-azure = "5.4.0"
-managed-micronaut-cache = "4.3.0"
-managed-micronaut-cassandra = "6.4.0"
-managed-micronaut-chatbots = "1.1.0"
-managed-micronaut-coherence = "4.0.0"
-managed-micronaut-control-panel = "1.3.0"
-managed-micronaut-core = "4.4.3"
-managed-micronaut-crac = "2.3.0"
-managed-micronaut-data = "4.7.0"
-managed-micronaut-discovery = "4.3.0"
-managed-micronaut-eclipsestore = "1.4.0"
-managed-micronaut-elasticsearch = "5.4.0"
-managed-micronaut-email = "2.5.0"
-managed-micronaut-flyway = "7.2.0"
-managed-micronaut-gcp = "5.5.0"
-managed-micronaut-graphql = "4.3.0"
-managed-micronaut-groovy = "4.3.0"
-managed-micronaut-grpc = "4.4.0"
-managed-micronaut-hibernate-validator = "4.3.0"
-managed-micronaut-jaxrs = "4.4.0"
-managed-micronaut-jms = "3.4.0"
-managed-micronaut-jmx = "4.3.0"
-managed-micronaut-kafka = "5.4.0"
-managed-micronaut-kotlin = "4.3.0"
-managed-micronaut-kubernetes = "6.1.0"
-managed-micronaut-liquibase = "6.3.0"
-managed-micronaut-logging = "1.3.0"
-managed-micronaut-micrometer = "5.5.0"
-managed-micronaut-mongo = "5.3.0"
-managed-micronaut-mqtt = "3.3.0"
-managed-micronaut-multitenancy = "5.3.0"
-managed-micronaut-neo4j = "6.5.0"
-managed-micronaut-nats = "4.3.0"
-managed-micronaut-object-storage = "2.4.0"
-managed-micronaut-opensearch = "1.0.0"
-managed-micronaut-openapi = "6.8.0"
-managed-micronaut-oraclecloud = "4.0.0"
-managed-micronaut-picocli = "5.3.0"
-managed-micronaut-problem = "3.3.0"
-managed-micronaut-pulsar = "2.3.0"
-managed-micronaut-rabbitmq = "4.4.0"
-managed-micronaut-r2dbc = "5.4.0"
-managed-micronaut-reactor = "3.3.0"
-managed-micronaut-redis = "6.4.0"
-managed-micronaut-rss = "4.3.0"
-managed-micronaut-rxjava3 = "3.3.0"
-managed-micronaut-security = "4.7.0"
-managed-micronaut-serialization = "2.9.0"
-managed-micronaut-servlet = "4.7.0"
-managed-micronaut-session = "4.3.0"
-managed-micronaut-spring = "5.6.0"
-managed-micronaut-sql = "5.6.0"
-managed-micronaut-test = "4.3.0"
-managed-micronaut-test-resources = "2.5.0"
-managed-micronaut-toml = "2.3.0"
-managed-micronaut-tracing = "6.5.1"
-managed-micronaut-validation = "4.5.0"
-managed-micronaut-views = "5.2.0"
-managed-micronaut-jackson-xml = "4.3.0"
+managed-lombok = "1.18.42"
+managed-maven-native-plugin = "0.11.1"
+managed-micronaut-acme = "5.5.0"
+managed-micronaut-aot = "2.9.0"
+managed-micronaut-aws = "4.11.0"
+managed-micronaut-azure = "5.12.0"
+managed-micronaut-cache = "5.3.0"
+managed-micronaut-cassandra = "6.7.0"
+managed-micronaut-chatbots = "1.5.0"
+managed-micronaut-coherence = "5.0.6"
+managed-micronaut-control-panel = "1.9.1"
+managed-micronaut-core = "4.10.3"
+managed-micronaut-crac = "2.7.0"
+managed-micronaut-data = "4.13.7"
+managed-micronaut-discovery = "4.7.1"
+managed-micronaut-eclipsestore = "1.10.0"
+managed-micronaut-elasticsearch = "5.9.0"
+managed-micronaut-email = "2.9.1"
+managed-micronaut-flyway = "7.8.0"
+managed-micronaut-gcp = "5.13.0"
+managed-micronaut-graal-languages = "1.2.0"
+managed-micronaut-graphql = "4.8.0"
+managed-micronaut-groovy = "4.7.0"
+managed-micronaut-grpc = "4.12.0"
+managed-micronaut-guice = "1.2.0"
+managed-micronaut-guides = "0.1.0"
+managed-micronaut-hibernate-validator = "4.8.0"
+managed-micronaut-jaxrs = "4.9.2"
+managed-micronaut-jms = "4.3.0"
+managed-micronaut-jmx = "4.7.0"
+managed-micronaut-json-schema = "1.7.2"
+managed-micronaut-kafka = "5.9.0"
+managed-micronaut-kotlin = "4.7.0"
+managed-micronaut-kubernetes = "7.1.1"
+managed-micronaut-langchain4j = "1.3.0"
+managed-micronaut-liquibase = "6.9.0"
+managed-micronaut-logging = "1.7.1"
+managed-micronaut-mcp = "0.0.12"
+managed-micronaut-micrometer = "5.13.0"
+managed-micronaut-mongo = "5.7.0"
+managed-micronaut-mqtt = "3.7.0"
+managed-micronaut-multitenancy = "5.7.0"
+managed-micronaut-neo4j = "6.10.0"
+managed-micronaut-nats = "4.8.0"
+managed-micronaut-object-storage = "2.9.0"
+managed-micronaut-opensearch = "1.6.0"
+managed-micronaut-openapi = "6.18.1"
+managed-micronaut-openrewrite = "0.0.3"
+managed-micronaut-oraclecloud = "5.5.0"
+managed-micronaut-picocli = "5.8.0"
+managed-micronaut-problem = "3.8.0"
+managed-micronaut-pulsar = "2.6.0"
+managed-micronaut-rabbitmq = "4.8.0"
+managed-micronaut-r2dbc = "6.1.0"
+managed-micronaut-reactor = "3.9.0"
+managed-micronaut-redis = "6.9.0"
+managed-micronaut-rss = "4.7.0"
+managed-micronaut-rxjava3 = "3.8.0"
+managed-micronaut-security = "4.15.0"
+managed-micronaut-serialization = "2.15.5"
+managed-micronaut-servlet = "5.5.1"
+managed-micronaut-session = "4.7.0"
+managed-micronaut-spring = "5.11.2"
+managed-micronaut-sourcegen = "1.8.2"
+managed-micronaut-sql = "6.2.2"
+managed-micronaut-test = "4.9.0"
+managed-micronaut-test-resources = "2.10.1"
+managed-micronaut-toml = "2.7.0"
+managed-micronaut-tracing = "7.1.4"
+managed-micronaut-validation = "4.11.0"
+managed-micronaut-views = "5.9.0"
+managed-micronaut-jackson-xml = "4.7.0"
 managed-spock = "2.3-groovy-4.0"
-managed-spotbugs = "4.8.4"
+managed-spotbugs = "4.9.6"
 
 ## The following versions are deprecated and must be removed in the next major release
-managed-graal-sdk = "24.0.1"
-managed-graal = "22.3.0"
-managed-graal-svm = "24.0.1"
+managed-graal-sdk = "24.2.2"
+managed-graal = "23.1.3"
+managed-graal-svm = "23.1.8"
 
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
 ##   parent-${some-property-name} -> <some-property-name.version>
-parent-maven = "3.9.6"
-parent-micronaut-maven-plugin = "4.5.2"
-parent-azure-functions-maven-plugin = "1.33.0"
-parent-exec-maven-plugin = "3.2.0"
-parent-function-maven-plugin = "0.11.0"
-parent-maven-compiler-plugin = "3.13.0"
-parent-jib-maven-plugin = "3.4.2"
-parent-maven-deploy-plugin = "3.1.1"
-parent-maven-failsafe-plugin = "3.2.5"
-parent-maven-install-plugin = "3.1.1"
-parent-maven-jar-plugin = "3.4.0"
-parent-maven-shade-plugin = "3.5.2"
-parent-maven-surefire-plugin = "3.2.5"
+parent-maven = "3.9.11"
+parent-micronaut-maven-plugin = "4.10.2"
+parent-azure-functions-maven-plugin = "1.39.0"
+parent-exec-maven-plugin = "3.6.1"
+parent-function-maven-plugin = "0.11.1"
+parent-maven-compiler-plugin = "3.14.1"
+parent-jib-maven-plugin = "3.4.6"
+parent-maven-deploy-plugin = "3.1.4"
+parent-maven-failsafe-plugin = "3.5.4"
+parent-maven-install-plugin = "3.1.4"
+parent-maven-jar-plugin = "3.4.2"
+parent-maven-shade-plugin = "3.6.1"
+parent-maven-surefire-plugin = "3.5.4"
 parent-maven-resources-plugin = "3.3.1"
 parent-protoc-jar-maven-plugin = "3.11.4"
-parent-maven-enforcer-plugin = "3.4.1"
-parent-gmavenplus-plugin = "3.0.2"
-parent-jrebel-maven-plugin = "1.2.0"
+parent-maven-enforcer-plugin = "3.6.2"
+parent-gmavenplus-plugin = "4.2.1"
+parent-jrebel-maven-plugin = "1.2.1"
+parent-graalpy-maven-plugin = "25.0.0"
+parent-openrewrite-maven-plugin = "6.21.1"
 
 [libraries]
 # Libraries prefixed with bom- are BOM files
@@ -121,19 +131,25 @@ boms-micronaut-elasticsearch = { module = "io.micronaut.elasticsearch:micronaut-
 boms-micronaut-email = { module = "io.micronaut.email:micronaut-email-bom", version.ref = "managed-micronaut-email" }
 boms-micronaut-flyway = { module = "io.micronaut.flyway:micronaut-flyway-bom", version.ref = "managed-micronaut-flyway" }
 boms-micronaut-gcp = { module = "io.micronaut.gcp:micronaut-gcp-bom", version.ref = "managed-micronaut-gcp" }
+boms-micronaut-graal-languages = { module = "io.micronaut.graal-languages:micronaut-graal-languages-bom", version.ref = "managed-micronaut-graal-languages" }
 boms-micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql-bom", version.ref = "managed-micronaut-graphql" }
 boms-micronaut-groovy = { module = "io.micronaut.groovy:micronaut-groovy-bom", version.ref = "managed-micronaut-groovy" }
 boms-micronaut-grpc = { module = "io.micronaut.grpc:micronaut-grpc-bom", version.ref = "managed-micronaut-grpc" }
+boms-micronaut-guice = { module = "io.micronaut.guice:micronaut-guice-bom", version.ref = "managed-micronaut-guice" }
+boms-micronaut-guides = { module = "io.micronaut.guides:micronaut-guides-bom", version.ref = "managed-micronaut-guides" }
 boms-micronaut-hibernate-validator = { module = "io.micronaut.beanvalidation:micronaut-hibernate-validator-bom", version.ref = "managed-micronaut-hibernate-validator" }
 boms-micronaut-jackson-xml = { module = "io.micronaut.xml:micronaut-jackson-xml-bom", version.ref = "managed-micronaut-jackson-xml" }
 boms-micronaut-jaxrs = { module = "io.micronaut.jaxrs:micronaut-jaxrs-bom", version.ref = "managed-micronaut-jaxrs" }
 boms-micronaut-jms = { module = "io.micronaut.jms:micronaut-jms-bom", version.ref = "managed-micronaut-jms" }
 boms-micronaut-jmx = { module = "io.micronaut.jmx:micronaut-jmx-bom", version.ref = "managed-micronaut-jmx" }
+boms-micronaut-json-schema = { module = "io.micronaut.jsonschema:micronaut-json-schema-bom", version.ref = "managed-micronaut-json-schema" }
 boms-micronaut-kafka = { module = "io.micronaut.kafka:micronaut-kafka-bom", version.ref = "managed-micronaut-kafka" }
 boms-micronaut-kotlin = { module = "io.micronaut.kotlin:micronaut-kotlin-bom", version.ref = "managed-micronaut-kotlin" }
 boms-micronaut-kubernetes = { module = "io.micronaut.kubernetes:micronaut-kubernetes-bom", version.ref = "managed-micronaut-kubernetes" }
+boms-micronaut-langchain4j = { module = "io.micronaut.langchain4j:micronaut-langchain4j-bom", version.ref = "managed-micronaut-langchain4j" }
 boms-micronaut-liquibase = { module = "io.micronaut.liquibase:micronaut-liquibase-bom", version.ref = "managed-micronaut-liquibase" }
 boms-micronaut-logging = { module = "io.micronaut.logging:micronaut-logging-bom", version.ref = "managed-micronaut-logging" }
+boms-micronaut-mcp = { module = "io.micronaut.mcp:micronaut-mcp-bom", version.ref = "managed-micronaut-mcp" }
 boms-micronaut-micrometer = { module = "io.micronaut.micrometer:micronaut-micrometer-bom", version.ref = "managed-micronaut-micrometer" }
 boms-micronaut-mongo = { module = "io.micronaut.mongodb:micronaut-mongo-bom", version.ref = "managed-micronaut-mongo" }
 boms-micronaut-mqtt = { module = "io.micronaut.mqtt:micronaut-mqtt-bom", version.ref = "managed-micronaut-mqtt" }
@@ -143,6 +159,7 @@ boms-micronaut-neo4j = { module = "io.micronaut.neo4j:micronaut-neo4j-bom", vers
 boms-micronaut-object-storage = { module = "io.micronaut.objectstorage:micronaut-object-storage-bom", version.ref = "managed-micronaut-object-storage" }
 boms-micronaut-openapi = { module = "io.micronaut.openapi:micronaut-openapi-bom", version.ref = "managed-micronaut-openapi" }
 boms-micronaut-opensearch = { module = "io.micronaut.opensearch:micronaut-opensearch-bom", version.ref = "managed-micronaut-opensearch" }
+boms-micronaut-openrewrite = { module = "io.micronaut.openrewrite:micronaut-openrewrite-bom", version.ref = "managed-micronaut-openrewrite" }
 boms-micronaut-oraclecloud = { module = "io.micronaut.oraclecloud:micronaut-oraclecloud-bom", version.ref = "managed-micronaut-oraclecloud" }
 boms-micronaut-picocli = { module = "io.micronaut.picocli:micronaut-picocli-bom", version.ref = "managed-micronaut-picocli" }
 boms-micronaut-problem-json = { module = "io.micronaut.problem:micronaut-problem-json-bom", version.ref = "managed-micronaut-problem" }
@@ -158,6 +175,7 @@ boms-micronaut-serialization = { module = "io.micronaut.serde:micronaut-serde-bo
 boms-micronaut-servlet = { module = "io.micronaut.servlet:micronaut-servlet-bom", version.ref = "managed-micronaut-servlet" }
 boms-micronaut-session = { module = "io.micronaut.session:micronaut-session-bom", version.ref = "managed-micronaut-session" }
 boms-micronaut-spring = { module = "io.micronaut.spring:micronaut-spring-bom", version.ref = "managed-micronaut-spring" }
+boms-micronaut-sourcegen = { module = "io.micronaut.sourcegen:micronaut-sourcegen-bom", version.ref = "managed-micronaut-sourcegen" }
 boms-micronaut-sql = { module = "io.micronaut.sql:micronaut-sql-bom", version.ref = "managed-micronaut-sql" }
 boms-micronaut-test = { module = "io.micronaut.test:micronaut-test-bom", version.ref = "managed-micronaut-test" }
 boms-micronaut-test-resources = { module = "io.micronaut.testresources:micronaut-test-resources-bom", version.ref = "managed-micronaut-test-resources" }
@@ -206,6 +224,8 @@ parent-maven-enforcer-plugin = { module = "org.apache.maven.plugins:maven-enforc
 parent-gmavenplus-plugin = { module = "org.codehaus.gmavenplus:gmavenplus-plugin", version.ref = "parent-gmavenplus-plugin" }
 parent-jrebel-maven-plugin = { module = "org.zeroturnaround:jrebel-maven-plugin", version.ref = "parent-jrebel-maven-plugin" }
 parent-maven-native-plugin = { module = "org.graalvm.buildtools:native-maven-plugin", version.ref = "managed-maven-native-plugin" }
+parent-graalpy-maven-plugin = { module = "org.graalvm.python:graalpy-maven-plugin", version.ref = "parent-graalpy-maven-plugin" }
+parent-openrewrite-maven-plugin = { module = "org.openrewrite.maven:rewrite-maven-plugin", version.ref = "parent-openrewrite-maven-plugin" }
 
 # The following dependencies are deprecated and must be removed in the next major release
 managed-graal = { module = "org.graalvm.nativeimage:svm", version.ref = "managed-graal-svm" }

@@ -211,6 +211,9 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -344,6 +347,17 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.openrewrite.maven</groupId>
+                    <artifactId>rewrite-maven-plugin</artifactId>
+                    <version>${openrewrite-maven-plugin.version}</version>
+                    <configuration>
+                        <!-- OpenRewrite configuration here -->
+                    </configuration>
+                    <dependencies>
+                        <!-- OpenRewrite dependencies here -->
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>
