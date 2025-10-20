@@ -81,7 +81,7 @@ managed-micronaut-toml = "2.8.0"
 managed-micronaut-tracing = "7.2.0"
 managed-micronaut-validation = "4.12.0"
 managed-micronaut-views = "5.9.0"
-managed-micronaut-jackson-xml = "4.7.0"
+managed-micronaut-jackson-xml = "4.8.0"
 managed-spock = "2.3-groovy-4.0"
 managed-spotbugs = "4.9.7"
 
