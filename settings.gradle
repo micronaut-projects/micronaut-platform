@@ -2,11 +2,12 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
+        mavenLocal()
     }
 }
 
 plugins {
-    id 'io.micronaut.build.shared.settings' version '7.6.5'
+    id 'io.micronaut.build.shared.settings' version '7.6.6'
 }
 
 rootProject.name = 'micronaut-platform-parent'
