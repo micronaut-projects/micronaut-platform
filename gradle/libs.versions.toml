@@ -84,6 +84,7 @@ managed-micronaut-views = "5.9.0"
 managed-micronaut-jackson-xml = "4.8.0"
 managed-spock = "2.3-groovy-4.0"
 managed-spotbugs = "4.9.7"
+managed-testcontainers = "1.21.4"
 
 ## The following versions are deprecated and must be removed in the next major release
 managed-graal-sdk = "24.2.2"
@@ -190,6 +191,7 @@ boms-micronaut-views = { module = "io.micronaut.views:micronaut-views-bom", vers
 boms-micronaut-aot = { module = "io.micronaut.aot:micronaut-aot-bom", version.ref = "managed-micronaut-aot" }
 
 boms-junit5 = { module = "org.junit:junit-bom", version.ref = "managed-junit5" }
+boms-testcontainers = { module = "org.testcontainers:testcontainers-bom", version.ref = "managed-testcontainers" }
 
 #
 # Libraries which start with managed- are managed by Micronaut in the sense
