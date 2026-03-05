@@ -114,6 +114,40 @@ micronautBom {
 
         acceptedVersionRegressions.add("jackson-databind")
 
+        acceptedLibraryRegressions.add("jackson-datatype-jsr310")
+        acceptedLibraryRegressions.add("netty-contrib-multipart-vintage")
+        acceptedLibraryRegressions.add("micronaut-test-resources-elasticsearch")
+        "junit-platform has changed in JUnit 6".apply {
+            acceptedVersionRegressions.addAll(
+                "junit-platform"
+            )
+            acceptedLibraryRegressions.addAll(
+                "junit-platform-runner",
+                "junit-platform-jfr"
+            )
+        }
+        "junit-platform has changed in JUnit 6".apply {
+            acceptedLibraryRegressions.addAll(
+                "jackson-datatype-jdk8",
+                "jackson-datatype-jsr310",
+                "jackson-module-parameterNames"
+            )
+        }
+        "oracle cloud sdk changes".apply {
+            acceptedLibraryRegressions.addAll(
+                "micronaut-oraclecloud-bmc-globallydistributeddatabase",
+            )
+        }
+        "neo4j changes".apply {
+            acceptedVersionRegressions.addAll(
+                "neo4j"
+            )
+            acceptedLibraryRegressions.addAll(
+                "neo4j-harness",
+            )
+        }
+
+
         "microstream was removed in Micronaut 5.0.0".apply {
             acceptedVersionRegressions.addAll(
                 "microstream",
