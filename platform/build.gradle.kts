@@ -182,6 +182,18 @@ micronautBom {
                 "micronaut-rxjava2-http-server-netty",
             )
         }
+
+        "removed graal deprecated versions".apply {
+            acceptedVersionRegressions.addAll(
+                "graal",
+                "graal-svm",
+                "graal-sdk"
+            )
+            acceptedLibraryRegressions.addAll(
+                "graal",
+                "graal-sdk"
+            )
+        }
     }
 }
 
