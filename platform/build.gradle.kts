@@ -183,6 +183,12 @@ micronautBom {
             )
         }
 
+        "openapi-generator temporarily removed in Micronaut 5.0.0".apply {
+            acceptedLibraryRegressions.addAll(
+                "micronaut-openapi-generator"
+            )
+        }
+
         "removed graal deprecated versions".apply {
             acceptedVersionRegressions.addAll(
                 "graal",
