@@ -104,7 +104,15 @@
                     <groupId>io.micronaut.maven</groupId>
                     <artifactId>micronaut-maven-plugin</artifactId>
                     <version>${micronaut-maven-plugin.version}</version>
-                    <extensions>true</extensions>
+                    <extensions>true</extensions>     
+                    <configuration>
+                        <configurationValidation>
+                            <enabled>true</enabled>
+                            <failOnNotPresent>true</failOnNotPresent>
+                            <validateDependencyInjection>true</validateDependencyInjection>
+                            <cacheEnabled>true</cacheEnabled>
+                        </configurationValidation>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>com.github.os72</groupId>
