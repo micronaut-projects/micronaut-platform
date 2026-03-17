@@ -109,7 +109,7 @@
                         <configurationValidation>
                             <enabled>true</enabled>
                             <failOnNotPresent>true</failOnNotPresent>
-                            <validateDependencyInjection> true </validateDependencyInjection>
+                            <validateDependencyInjection>true</validateDependencyInjection>
                             <cacheEnabled>true</cacheEnabled>
                         </configurationValidation>
                     </configuration>
