@@ -71,7 +71,7 @@ micronautBom {
 
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.53.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.40.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.21.0")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.27.0")
 
         // modules no longer published by the OCI SDK
         acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-applicationmigration")
@@ -110,7 +110,7 @@ micronautBom {
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.53.0")
         dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.37.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.50.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.21.0")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.27.0")
 
         acceptedVersionRegressions.add("jackson-databind")
 
