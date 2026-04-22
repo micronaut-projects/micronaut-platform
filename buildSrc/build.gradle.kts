@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.micronaut.build.internal.publishing:io.micronaut.build.internal.publishing.gradle.plugin:8.0.0-M17")
+    implementation("io.micronaut.build.internal.publishing:io.micronaut.build.internal.publishing.gradle.plugin:8.0.0-M18")
 }
 
 java {
