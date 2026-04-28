@@ -1,5 +1,31 @@
+import org.gradle.api.publish.maven.tasks.GenerateMavenPom
+
 plugins {
     id("io.micronaut.build.internal.bom")
+}
+
+fun normalizeDuplicatePomProperties(pomFile: File) {
+    val duplicatePomProperties = mapOf(
+        "micronaut.mongodb.version" to "micronaut.mongo.version",
+        "micronaut.oracle.cloud.version" to "micronaut.oraclecloud.version",
+        "micronaut.problem.json.version" to "micronaut.problem.version"
+    )
+    var pom = pomFile.readText()
+    duplicatePomProperties.forEach { (duplicate, replacement) ->
+        val duplicatePattern = Regex("""<${Regex.escape(duplicate)}>([^<]+)</${Regex.escape(duplicate)}>""")
+        val replacementPattern = Regex("""<${Regex.escape(replacement)}>([^<]+)</${Regex.escape(replacement)}>""")
+        val duplicateVersion = duplicatePattern.find(pom)?.groupValues?.get(1)
+        val replacementVersion = replacementPattern.find(pom)?.groupValues?.get(1)
+        if (duplicateVersion != null && replacementVersion != null && duplicateVersion != replacementVersion) {
+            throw GradleException(
+                "Cannot normalize duplicate POM property '$duplicate' to '$replacement' " +
+                    "because they use different versions: $duplicateVersion and $replacementVersion"
+            )
+        }
+        pom = pom.replace(Regex("""(?m)^    <${Regex.escape(duplicate)}>[^<]+</${Regex.escape(duplicate)}>\R?"""), "")
+        pom = pom.replace("$" + "{$duplicate}", "$" + "{$replacement}")
+    }
+    pomFile.writeText(pom)
 }
 
 repositories {
@@ -214,6 +240,12 @@ micronautBuild {
 }
 
 tasks {
+    withType<GenerateMavenPom>().configureEach {
+        doLast {
+            normalizeDuplicatePomProperties(destination)
+        }
+    }
+
     generateCatalogAsToml {
         doLast {
             val duplicateVersionAliases = mapOf(
