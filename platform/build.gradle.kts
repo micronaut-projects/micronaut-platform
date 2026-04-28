@@ -146,7 +146,13 @@ micronautBom {
                 "neo4j-harness",
             )
         }
-
+        "duplicate Micronaut module aliases are normalized in Micronaut 5.0.0".apply {
+            acceptedVersionRegressions.addAll(
+                "micronaut-mongodb",
+                "micronaut-oracle-cloud",
+                "micronaut-problem-json"
+            )
+        }
 
         "microstream was removed in Micronaut 5.0.0".apply {
             acceptedVersionRegressions.addAll(
@@ -208,6 +214,44 @@ micronautBuild {
 }
 
 tasks {
+    generateCatalogAsToml {
+        doLast {
+            val duplicateVersionAliases = mapOf(
+                "micronaut-mongodb" to "micronaut-mongo",
+                "micronaut-oracle-cloud" to "micronaut-oraclecloud",
+                "micronaut-problem-json" to "micronaut-problem"
+            )
+            val catalogFile = outputFile.get().asFile
+            val catalogLines = catalogFile.readLines()
+            val versions = catalogLines.mapNotNull {
+                Regex("""^([A-Za-z0-9_.-]+) = "([^"]+)"""").find(it)?.destructured?.let { (alias, version) ->
+                    alias to version
+                }
+            }.toMap()
+            duplicateVersionAliases.forEach { (duplicate, replacement) ->
+                val duplicateVersion = versions[duplicate]
+                val replacementVersion = versions[replacement]
+                if (duplicateVersion != null && replacementVersion != null && duplicateVersion != replacementVersion) {
+                    throw GradleException(
+                        "Cannot normalize duplicate version alias '$duplicate' to '$replacement' " +
+                            "because they use different versions: $duplicateVersion and $replacementVersion"
+                    )
+                }
+            }
+            val normalizedCatalog = catalogLines.mapNotNull { line ->
+                val duplicateAlias = duplicateVersionAliases.keys.firstOrNull { line.startsWith("$it = \"") }
+                if (duplicateAlias != null) {
+                    null
+                } else {
+                    duplicateVersionAliases.entries.fold(line) { current, (duplicate, replacement) ->
+                        current.replace("""version.ref = "$duplicate"""", """version.ref = "$replacement"""")
+                    }
+                }
+            }
+            catalogFile.writeText(normalizedCatalog.joinToString("\n"))
+        }
+    }
+
     // This is a workaround for the `jackson-databind` version being removed from the catalog
     // because it's not referenced anywhere anymore. However we must keep it for backwards
     // compatibility. This canbe removed after the next major release.
