@@ -10,6 +10,17 @@ repositories {
 micronautBom {
     propertyName.set("platform")
     extraExcludedProjects.add("parent")
+    excludeFromInlining(
+        "micronaut-core-bom",
+        "boms-kotlin-coroutines",
+        "kotlinx-coroutines-*",
+        "reactor",
+        "reactor-test"
+    )
+    excludeFromInlining(
+        "micronaut-reactor-bom",
+        "boms-reactor"
+    )
 
     suppressions {
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
@@ -180,6 +191,26 @@ micronautBom {
                 "micronaut-rxjava2",
                 "micronaut-rxjava2-http-client",
                 "micronaut-rxjava2-http-server-netty",
+            )
+        }
+
+        "reactor and kotlin coroutines are provided by module BOMs".apply {
+            acceptedVersionRegressions.addAll(
+                "kotlin-coroutines",
+                "reactor",
+                "reactor-bom"
+            )
+            acceptedLibraryRegressions.addAll(
+                "boms-kotlin-coroutines",
+                "boms-reactor",
+                "kotlinx-coroutines-core",
+                "kotlinx-coroutines-jdk8",
+                "kotlinx-coroutines-reactive",
+                "kotlinx-coroutines-reactor",
+                "kotlinx-coroutines-rx2",
+                "kotlinx-coroutines-slf4j",
+                "reactor",
+                "reactor-test"
             )
         }
 
