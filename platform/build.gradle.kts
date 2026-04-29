@@ -10,8 +10,7 @@ repositories {
 micronautBom {
     propertyName.set("platform")
     extraExcludedProjects.add("parent")
-    excludeFromInlining(
-        "micronaut-core-bom",
+    excludedInlinedAliases.addAll(
         "boms-kotlin-coroutines",
         "kotlinx-coroutines-*",
         "reactor",
