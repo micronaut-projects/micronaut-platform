@@ -6,3 +6,9 @@ This section documents breaking changes between Micronaut versions
 
 - `micronaut-microstream` has been removed from the Micronaut platform.
 - `micronaut-rxjava2` has been removed from the Micronaut platform.
+
+=== Build Tool Support
+
+Starting with Micronaut Platform 5.0, Kotlin applications built with Maven are not supported. This support-policy change is limited to the Kotlin and Maven combination: Java applications built with Maven remain supported, and Kotlin applications built with Gradle remain supported.
+
+Kotlin Micronaut applications should move to Gradle when upgrading to Micronaut Platform 5.0 or later. Applications that require Maven with Kotlin should remain on a supported Micronaut 4.x release line until they can migrate their build.
