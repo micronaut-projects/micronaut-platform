@@ -6,6 +6,8 @@ It aggregates many of the individual Micronaut module BOMs and provides a single
 
 If you use either the https://micronaut-projects.github.io/micronaut-gradle-plugin/latest/[Micronaut Gradle Plugin] or the https://micronaut-projects.github.io/micronaut-maven-plugin/latest/[Micronaut Maven Plugin], you do not need to add this module to your project as it will be added automatically.
 
+NOTE: Starting with Micronaut Platform 5.0, Kotlin applications built with Maven are not supported. Java applications built with Maven remain supported, and Kotlin applications built with Gradle remain supported.
+
 NOTE: The Micronaut Platform BOM exists since Micronaut Framework 4, and corresponds to the Micronaut Framework  3 BOM which was published at `io.micronaut:micronaut-bom`. In Micronaut 4, we provide both the Micronaut Platform BOM (`io.micronaut.platform:micronaut-platform`) and the Micronaut Core BOM (`io.micronaut:micronaut-core-bom`).
 
 == The Micronaut Platform catalog
