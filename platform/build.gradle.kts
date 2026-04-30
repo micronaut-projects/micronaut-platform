@@ -20,6 +20,7 @@ micronautBom {
         "micronaut-reactor-bom",
         "boms-reactor"
     )
+    excludeFromInlining("micronaut-openapi-bom", "html2md-converter")
 
     suppressions {
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
