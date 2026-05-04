@@ -16,13 +16,20 @@ fun normalizeDuplicatePomProperties(pomFile: File) {
         val replacementPattern = Regex("""<${Regex.escape(replacement)}>([^<]+)</${Regex.escape(replacement)}>""")
         val duplicateVersion = duplicatePattern.find(pom)?.groupValues?.get(1)
         val replacementVersion = replacementPattern.find(pom)?.groupValues?.get(1)
+        val hasDuplicateReference = pom.contains("$" + "{$duplicate}")
+        if ((duplicateVersion != null || hasDuplicateReference) && replacementVersion == null) {
+            throw GradleException(
+                "Cannot normalize duplicate POM property '$duplicate' to '$replacement' " +
+                    "because the replacement property is missing"
+            )
+        }
         if (duplicateVersion != null && replacementVersion != null && duplicateVersion != replacementVersion) {
             throw GradleException(
                 "Cannot normalize duplicate POM property '$duplicate' to '$replacement' " +
                     "because they use different versions: $duplicateVersion and $replacementVersion"
             )
         }
-        pom = pom.replace(Regex("""(?m)^    <${Regex.escape(duplicate)}>[^<]+</${Regex.escape(duplicate)}>\R?"""), "")
+        pom = pom.replace(Regex("""(?m)^\s*<${Regex.escape(duplicate)}>[^<]+</${Regex.escape(duplicate)}>\R?"""), "")
         pom = pom.replace("$" + "{$duplicate}", "$" + "{$replacement}")
     }
     pomFile.writeText(pom)
@@ -263,6 +270,13 @@ tasks {
             duplicateVersionAliases.forEach { (duplicate, replacement) ->
                 val duplicateVersion = versions[duplicate]
                 val replacementVersion = versions[replacement]
+                val hasDuplicateReference = catalogLines.any { it.contains("""version.ref = "$duplicate"""") }
+                if ((duplicateVersion != null || hasDuplicateReference) && replacementVersion == null) {
+                    throw GradleException(
+                        "Cannot normalize duplicate version alias '$duplicate' to '$replacement' " +
+                            "because the replacement alias is missing"
+                    )
+                }
                 if (duplicateVersion != null && replacementVersion != null && duplicateVersion != replacementVersion) {
                     throw GradleException(
                         "Cannot normalize duplicate version alias '$duplicate' to '$replacement' " +
