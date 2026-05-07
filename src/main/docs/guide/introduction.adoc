@@ -8,7 +8,7 @@ If you use either the https://micronaut-projects.github.io/micronaut-gradle-plug
 
 NOTE: Starting with Micronaut Platform 5.0, Kotlin applications built with Maven are not supported. Java applications built with Maven remain supported, and Kotlin applications built with Gradle remain supported.
 
-NOTE: The Micronaut Platform BOM exists since Micronaut Framework 4, and corresponds to the Micronaut Framework  3 BOM which was published at `io.micronaut:micronaut-bom`. In Micronaut 4, we provide both the Micronaut Platform BOM (`io.micronaut.platform:micronaut-platform`) and the Micronaut Core BOM (`io.micronaut:micronaut-core-bom`).
+NOTE: The Micronaut Platform BOM has existed since Micronaut Framework 4, and corresponds to the Micronaut Framework 3 BOM which was published at `io.micronaut:micronaut-bom`. In Micronaut 4, we provide both the Micronaut Platform BOM (`io.micronaut.platform:micronaut-platform`) and the Micronaut Core BOM (`io.micronaut:micronaut-core-bom`).
 
 == The Micronaut Platform catalog
 
