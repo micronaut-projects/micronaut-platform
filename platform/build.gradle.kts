@@ -148,6 +148,12 @@ micronautBom {
                 "micronaut-oraclecloud-bmc-globallydistributeddatabase",
             )
         }
+        "oracle jdbc aliases removed from imported BOMs".apply {
+            acceptedLibraryRegressions.addAll(
+                "ojdbc8",
+                "ucp",
+            )
+        }
         "neo4j changes".apply {
             acceptedVersionRegressions.addAll(
                 "neo4j"
