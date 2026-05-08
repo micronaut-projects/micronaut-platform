@@ -55,5 +55,18 @@ abstract class VerifyManagedDependenciesGuide : DefaultTask() {
         if (unresolvedGeneratedTokens.isNotEmpty()) {
             throw GradleException("Managed dependencies guide contains unresolved generated tokens: $unresolvedGeneratedTokens")
         }
+
+        val activeAsciiDocTokens = listOf(
+            "include::",
+            "pass:",
+            "pass::",
+            "link:",
+            "image:",
+            "xref:",
+            "<script"
+        ).filter { text.contains(it, ignoreCase = true) }
+        if (activeAsciiDocTokens.isNotEmpty()) {
+            throw GradleException("Managed dependencies guide contains active AsciiDoc or HTML tokens: $activeAsciiDocTokens")
+        }
     }
 }
