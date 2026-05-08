@@ -1,6 +1,6 @@
 introduction:
   title: Introduction
+managedDependencies: Managed Dependencies
 releaseHistory: Release History
 breaks: Breaking Changes
 repository: Repository
-
