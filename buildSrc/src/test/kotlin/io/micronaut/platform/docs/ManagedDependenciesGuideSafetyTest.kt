@@ -40,15 +40,31 @@ class ManagedDependenciesGuideSafetyTest {
     @Test
     fun generatedAsciiDocCellsNeutralizeMacrosAndRawHtml() {
         val escaped = ManagedDependenciesGuideSafety.escapeCell(
-            "include::/etc/passwd[] pass:[<script>alert(1)</script>] image:http://example.test/a.png[] a|b"
+            "include::/etc/passwd[] pass:[<script>alert(1)</script>] image:http://example.test/a.png[] a|b {docdir}"
         )
 
         assertFalse(escaped.contains("include::"))
         assertFalse(escaped.contains("pass:"))
         assertFalse(escaped.contains("image:"))
+        assertFalse(escaped.contains("{docdir}"))
         assertFalse(escaped.contains("<script", ignoreCase = true))
         assertTrue(escaped.contains("\\|"))
         assertTrue(escaped.contains("include&#58;&#58;"))
         assertTrue(escaped.contains("pass&#58;"))
+        assertTrue(escaped.contains("&#123;docdir&#125;"))
+        assertTrue(ManagedDependenciesGuideSafety.activeAsciiDocTokens(escaped).isEmpty())
+    }
+
+    @Test
+    fun activeAsciiDocTokenDetectionIncludesAttributesAndConditionals() {
+        val activeTokens = ManagedDependenciesGuideSafety.activeAsciiDocTokens(
+            "{includedir}/demo ifdef::unsafe[] ifndef::unsafe[] ifeval::[1 == 1] endif::[]"
+        )
+
+        assertTrue(activeTokens.contains("{includedir}"))
+        assertTrue(activeTokens.contains("ifdef::"))
+        assertTrue(activeTokens.contains("ifndef::"))
+        assertTrue(activeTokens.contains("ifeval::"))
+        assertTrue(activeTokens.contains("endif::"))
     }
 }

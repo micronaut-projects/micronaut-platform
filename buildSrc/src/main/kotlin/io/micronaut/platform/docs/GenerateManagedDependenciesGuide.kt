@@ -341,6 +341,15 @@ abstract class GenerateManagedDependenciesGuide : DefaultTask() {
 
 internal object ManagedDependenciesGuideSafety {
     private val asciiDocMacroPattern = Regex("""(?i)\b(include|pass|link|image|xref|ifdef|ifndef|ifeval|endif)::?""")
+    private val asciiDocAttributePattern = Regex("""\{[A-Za-z0-9_][A-Za-z0-9_.-]*}""")
+    private val rawHtmlPattern = Regex("""(?i)<script""")
+
+    fun activeAsciiDocTokens(value: String): List<String> =
+        (asciiDocMacroPattern.findAll(value).map { it.value } +
+            asciiDocAttributePattern.findAll(value).map { it.value } +
+            rawHtmlPattern.findAll(value).map { it.value })
+            .distinct()
+            .toList()
 
     fun secureDocumentBuilderFactory(): DocumentBuilderFactory =
         DocumentBuilderFactory.newInstance().apply {
@@ -367,6 +376,8 @@ internal object ManagedDependenciesGuideSafety {
                 .replace("|", "\\|")
                 .replace("<", "&#60;")
                 .replace(">", "&#62;")
+                .replace("{", "&#123;")
+                .replace("}", "&#125;")
                 .replace("[", "\\[")
                 .replace("]", "\\]")
         ) { matchResult -> matchResult.value.replace(":", "&#58;") }
