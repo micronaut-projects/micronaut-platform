@@ -34,6 +34,16 @@ explains how users consume the platform.
   with `micronaut-project-template` unless the task explicitly asks for a local
   override.
 
+## Contributing Guidelines
+
+- Before opening or updating a pull request, read this repository's
+  `CONTRIBUTING.md` and follow every repo-specific PR requirement it names.
+- Treat contributor-checklist items as handoff requirements. If a requirement is
+  not applicable, state that explicitly in the PR description or handoff note.
+- For UI-visible changes, confirm whether screenshots or other visual evidence
+  are required and include them in the PR description; if screenshots cannot be
+  provided, explain why and describe the verification that was performed.
+
 ## Verification
 
 Use the Gradle wrapper. This repository currently builds on Java 25, matching
