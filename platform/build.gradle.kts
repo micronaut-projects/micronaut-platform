@@ -241,7 +241,7 @@ micronautBom {
 }
 
 micronautBuild {
-    binaryCompatibility.enabled.set(version != "4.0.0-SNAPSHOT")
+    binaryCompatibility.enabledAfter("5.0.0")
 }
 
 tasks {
