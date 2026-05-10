@@ -196,6 +196,7 @@ micronautBom {
                 "micronaut-rxjava2",
                 "micronaut-rxjava2-http-client",
                 "micronaut-rxjava2-http-server-netty",
+                "micronaut-kubernetes-client-rxjava2",
             )
         }
 
