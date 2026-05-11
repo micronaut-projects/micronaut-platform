@@ -84,25 +84,47 @@ abstract class GenerateManagedDependenciesGuide : DefaultTask() {
             appendSection(
                 "Platform BOMs",
                 "Micronaut Platform imports these BOM coordinates into the generated platform metadata.",
-                listOf("Alias", "Group ID", "Artifact ID", "Version", "Category"),
+                listOf(
+                    GuideColumn("Alias", code = true) { it.key },
+                    GuideColumn("Group ID", code = true) { it.groupId },
+                    GuideColumn("Artifact ID", code = true) { it.artifactId },
+                    GuideColumn("Version", code = true) { it.version }
+                ),
                 platformBoms
             )
             appendSection(
                 "Managed standalone libraries",
                 "These standalone coordinates are managed directly by the platform catalog source.",
-                listOf("Alias", "Group ID", "Artifact ID", "Version", "Category"),
+                listOf(
+                    GuideColumn("Alias", code = true) { it.key },
+                    GuideColumn("Group ID", code = true) { it.groupId },
+                    GuideColumn("Artifact ID", code = true) { it.artifactId },
+                    GuideColumn("Version", code = true) { it.version }
+                ),
                 managedLibraries
             )
             appendSection(
                 "Generated catalog coordinates",
                 "These coordinates come from the generated Gradle version catalog artifact.",
-                listOf("Alias", "Group ID", "Artifact ID / Plugin ID", "Version", "Category"),
+                listOf(
+                    GuideColumn("Alias", code = true) { it.key },
+                    GuideColumn("Group ID", code = true) { it.groupId },
+                    GuideColumn("Artifact ID / Plugin ID", code = true) { it.artifactId },
+                    GuideColumn("Version", code = true) { it.version }
+                ),
                 generatedCatalogEntries
             )
             appendSection(
                 "Parent POM plugin and property versions",
                 "These properties and plugin coordinates come from the generated parent POM and parent catalog metadata.",
-                listOf("Property", "Alias", "Group ID", "Artifact ID", "Version", "Category"),
+                listOf(
+                    GuideColumn("Property", code = true) { it.key },
+                    GuideColumn("Alias", code = true) { it.secondary },
+                    GuideColumn("Group ID", code = true) { it.groupId },
+                    GuideColumn("Artifact ID", code = true) { it.artifactId },
+                    GuideColumn("Version", code = true) { it.version },
+                    GuideColumn("Category") { it.category }
+                ),
                 parentEntries
             )
         }
@@ -185,31 +207,35 @@ abstract class GenerateManagedDependenciesGuide : DefaultTask() {
     private fun StringBuilder.appendSection(
         title: String,
         description: String,
-        headers: List<String>,
+        columns: List<GuideColumn>,
         entries: List<GuideEntry>
     ) {
         appendLine("== $title")
         appendLine()
         appendLine(description)
         appendLine()
+        appendLine("""[%autowidth.stretch,cols="${columns.joinToString(",") { "1" }}",options="header"]""")
         appendLine("|===")
-        appendLine(headers.joinToString(" ") { "|$it" })
+        appendLine(columns.joinToString(" ") { "|${it.label}" })
         entries.forEach { entry ->
-            appendLine(entry.toRow(title))
+            appendLine(entry.toRow(title, columns))
         }
         appendLine("|===")
         appendLine()
     }
 
-    private fun GuideEntry.toRow(sectionTitle: String): String {
+    private fun GuideEntry.toRow(sectionTitle: String, columns: List<GuideColumn>): String {
         val anchor = "managed-dependencies-${slug(sectionTitle)}-${slug(category)}-${slug(key)}"
-        return if (secondary.isEmpty() && groupId.isEmpty() && artifactId.isEmpty()) {
-            "|[[$anchor]]${ManagedDependenciesGuideSafety.escapeCell(key)} | | | |${ManagedDependenciesGuideSafety.escapeCell(version)} |${ManagedDependenciesGuideSafety.escapeCell(category)}"
-        } else if (secondary.isEmpty()) {
-            "|[[$anchor]]${ManagedDependenciesGuideSafety.escapeCell(key)} |${ManagedDependenciesGuideSafety.escapeCell(groupId)} |${ManagedDependenciesGuideSafety.escapeCell(artifactId)} |${ManagedDependenciesGuideSafety.escapeCell(version)} |${ManagedDependenciesGuideSafety.escapeCell(category)}"
-        } else {
-            "|[[$anchor]]${ManagedDependenciesGuideSafety.escapeCell(key)} |${ManagedDependenciesGuideSafety.escapeCell(secondary)} |${ManagedDependenciesGuideSafety.escapeCell(groupId)} |${ManagedDependenciesGuideSafety.escapeCell(artifactId)} |${ManagedDependenciesGuideSafety.escapeCell(version)} |${ManagedDependenciesGuideSafety.escapeCell(category)}"
-        }
+        return columns.mapIndexed { index, column ->
+            val value = column.value(this)
+            val cell = if (column.code) {
+                ManagedDependenciesGuideSafety.codeCell(value)
+            } else {
+                ManagedDependenciesGuideSafety.escapeCell(value)
+            }
+            val prefix = if (index == 0) "|[[$anchor]]" else "|"
+            "$prefix$cell"
+        }.joinToString(" ")
     }
 
     private fun CatalogLibrary.toGuideEntry(category: String, key: String): GuideEntry =
@@ -333,6 +359,12 @@ abstract class GenerateManagedDependenciesGuide : DefaultTask() {
         val category: String
     )
 
+    private data class GuideColumn(
+        val label: String,
+        val code: Boolean = false,
+        val value: (GuideEntry) -> String
+    )
+
     companion object {
         private val anchorPattern = Regex("\\[\\[([^]]+)]]")
         private val propertyReferencePattern = Regex("\\$\\{([^}]+)}")
@@ -381,6 +413,13 @@ internal object ManagedDependenciesGuideSafety {
                 .replace("[", "\\[")
                 .replace("]", "\\]")
         ) { matchResult -> matchResult.value.replace(":", "&#58;") }
+
+    fun codeCell(value: String): String =
+        escapeCell(value)
+            .replace("`", "&#96;")
+            .takeIf { it.isNotBlank() }
+            ?.let { "`$it`" }
+            .orEmpty()
 
     private fun DocumentBuilderFactory.setRequiredFeature(name: String, value: Boolean) {
         try {

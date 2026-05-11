@@ -42,6 +42,7 @@ class ManagedDependenciesGuideSafetyTest {
         val escaped = ManagedDependenciesGuideSafety.escapeCell(
             "include::/etc/passwd[] pass:[<script>alert(1)</script>] image:http://example.test/a.png[] a|b {docdir}"
         )
+        val code = ManagedDependenciesGuideSafety.codeCell("io.micronaut|platform`core")
 
         assertFalse(escaped.contains("include::"))
         assertFalse(escaped.contains("pass:"))
@@ -53,6 +54,10 @@ class ManagedDependenciesGuideSafetyTest {
         assertTrue(escaped.contains("pass&#58;"))
         assertTrue(escaped.contains("&#123;docdir&#125;"))
         assertTrue(ManagedDependenciesGuideSafety.activeAsciiDocTokens(escaped).isEmpty())
+        assertTrue(code.startsWith("`"))
+        assertTrue(code.endsWith("`"))
+        assertTrue(code.contains("\\|"))
+        assertTrue(code.contains("&#96;"))
     }
 
     @Test
