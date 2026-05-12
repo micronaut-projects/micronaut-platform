@@ -63,6 +63,10 @@ micronautBom {
             "io.projectreactor:reactor-bom",
             setOf("io.projectreactor", "org.reactivestreams")
         )
+        bomAuthorizedGroupIds.put(
+            "tools.jackson:jackson-bom",
+            setOf("com.fasterxml.jackson.core", "tools.jackson")
+        )
         // micronaut-oraclecloud (since v3.6.0) pulls in the ojdbc-bom which imports dependencies from many groups
         bomAuthorizedGroupIds.put(
             "com.oracle.database.jdbc:ojdbc-bom",
@@ -80,8 +84,9 @@ micronautBom {
         dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:6.0.3")
 
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.61.0")
-        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.40.0-alpha")
+        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.61.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.27.0")
+        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.40.0")
 
         // modules no longer published by the OCI SDK
         acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-applicationmigration")
