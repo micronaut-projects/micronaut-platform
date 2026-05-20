@@ -140,11 +140,11 @@ object PlatformMigrationImpact {
         val entries = parseMetadata(metadataFile)
         validateEntries(entries, metadataFile)
         validateCoverage(entries, scanAcceptedRegressions(buildFile), metadataFile, buildFile)
-        val expected = generateAsciiDoc(entries)
+        val expected = normalizeLineEndings(generateAsciiDoc(entries))
         if (!appendixFile.exists()) {
             throw GradleException("Generated appendix is missing: ${appendixFile.path}")
         }
-        val actual = appendixFile.readText()
+        val actual = normalizeLineEndings(appendixFile.readText())
         if (actual != expected) {
             throw GradleException(
                 "Generated appendix is stale: ${appendixFile.path}. " +
@@ -241,6 +241,10 @@ object PlatformMigrationImpact {
     private fun escapeCell(value: String): String = value
         .replace("\\", "\\\\")
         .replace("|", "\\|")
+
+    fun normalizeLineEndings(value: String): String = value
+        .replace("\r\n", "\n")
+        .replace("\r", "\n")
 }
 
 abstract class UpdatePlatformMigrationImpactAppendix : DefaultTask() {
@@ -255,7 +259,9 @@ abstract class UpdatePlatformMigrationImpactAppendix : DefaultTask() {
     fun update() {
         val entries = PlatformMigrationImpact.parseMetadata(metadataFile.get().asFile)
         PlatformMigrationImpact.validateEntries(entries, metadataFile.get().asFile)
-        appendixFile.get().asFile.writeText(PlatformMigrationImpact.generateAsciiDoc(entries))
+        appendixFile.get().asFile.writeText(
+            PlatformMigrationImpact.normalizeLineEndings(PlatformMigrationImpact.generateAsciiDoc(entries))
+        )
     }
 }
 

@@ -106,5 +106,22 @@ class PlatformMigrationImpactTest {
         assertTrue(asciidoc.contains("Removed by upstream module"))
     }
 
+    @Test
+    fun `validate accepts appendix with crlf line endings`() {
+        val metadata = tempFile(
+            """
+            releaseLine	surface	id	acceptedRegressionKind	changeType	sourceOrReason	guidance	document	documentationSuppressionReason
+            5.0.x	library-alias	reactor-netty-http	library	removed	Removed by upstream module	No direct replacement recorded	true
+            """.trimIndent()
+        )
+        val buildFile = tempFile("""acceptedLibraryRegressions.add("reactor-netty-http")""")
+        val appendix = tempFile(
+            PlatformMigrationImpact.generateAsciiDoc(PlatformMigrationImpact.parseMetadata(metadata))
+                .replace("\n", "\r\n")
+        )
+
+        PlatformMigrationImpact.validate(metadata, buildFile, appendix)
+    }
+
     private fun tempFile(text: String): File = kotlin.io.path.createTempFile().toFile().also { it.writeText(text) }
 }
