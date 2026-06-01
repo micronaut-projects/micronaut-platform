@@ -103,7 +103,7 @@
         <h1>Micronaut Platform</h1>
         <p></p>
         <p>Bill-Of-Materials (BOM) and Gradle version catalogs for Micronaut</p>
-        <p><strong>Version:</strong> 5.0.0 </p>
+        <p><strong>Version:</strong> 5.0.1 </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
@@ -150,6 +150,55 @@ The Micronaut Platform BOM has existed since Micronaut Framework 4, and correspo
 </td>
 </tr>
 </table>
+</div>
+<div class="sect1">
+<h2 id="_using_the_micronaut_platform_bom">Using the Micronaut Platform BOM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If your build does not use the Micronaut Gradle Plugin or the Micronaut Maven Plugin, import the Micronaut Platform BOM directly to manage Micronaut dependency versions.</p>
+</div>
+<div class="paragraph">
+<p>For Gradle builds, add the platform dependency and then declare Micronaut dependencies without versions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">val micronautVersion: String by project // from gradle.properties
+
+dependencies {
+    implementation(platform("io.micronaut.platform:micronaut-platform:$micronautVersion"))
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For Maven builds, import the platform BOM in <code>dependencyManagement</code> and then declare Micronaut dependencies without versions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependencyManagement&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;io.micronaut.platform&lt;/groupId&gt;
+      &lt;artifactId&gt;micronaut-platform&lt;/artifactId&gt;
+      &lt;version&gt;${micronaut.version}&lt;/version&gt;
+      &lt;type&gt;pom&lt;/type&gt;
+      &lt;scope&gt;import&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.data&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-data-jdbc&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The BOM manages dependency versions. It does not provide Gradle dependency aliases; use the Gradle version catalog when you want catalog aliases such as <code>mn.micronaut.data.jdbc</code>.</p>
+</div>
+</div>
 </div>
 <div class="sect1">
 <h2 id="_the_micronaut_platform_catalog">The Micronaut Platform catalog</h2>
@@ -199,7 +248,7 @@ dependencyResolutionManagement {
 <p>The managed dependency matrix is generated for the current Micronaut Platform guide version from repository sources. It summarizes the platform BOM coordinates, standalone managed libraries, generated Gradle catalog coordinates, and generated parent POM plugin and property versions.</p>
 </div>
 <div class="paragraph">
-<p>This matrix is generated for Micronaut Platform 5.0.0.</p>
+<p>This matrix is generated for Micronaut Platform 5.0.1.</p>
 </div>
 <div class="sect1">
 <h2 id="_platform_boms">Platform BOMs</h2>
@@ -287,7 +336,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-platform-boms-platform-bom-boms-micronaut-core"></a><code>boms-micronaut-core</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-core-bom</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-platform-boms-platform-bom-boms-micronaut-crac"></a><code>boms-micronaut-crac</code></p></td>
@@ -299,7 +348,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-platform-boms-platform-bom-boms-micronaut-data"></a><code>boms-micronaut-data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-bom</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-platform-boms-platform-bom-boms-micronaut-discovery"></a><code>boms-micronaut-discovery</code></p></td>
@@ -347,7 +396,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-platform-boms-platform-bom-boms-micronaut-graphql"></a><code>boms-micronaut-graphql</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.graphql</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-graphql-bom</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-platform-boms-platform-bom-boms-micronaut-groovy"></a><code>boms-micronaut-groovy</code></p></td>
@@ -407,7 +456,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-platform-boms-platform-bom-boms-micronaut-json-schema"></a><code>boms-micronaut-json-schema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.jsonschema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-schema-bom</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-platform-boms-platform-bom-boms-micronaut-kafka"></a><code>boms-micronaut-kafka</code></p></td>
@@ -2025,7 +2074,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-aop"></a><code>micronaut-aop</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-aop</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-aot-api"></a><code>micronaut-aot-api</code></p></td>
@@ -2199,7 +2248,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-buffer-netty"></a><code>micronaut-buffer-netty</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-buffer-netty</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-cache-bom"></a><code>micronaut-cache-bom</code></p></td>
@@ -2409,13 +2458,13 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-context"></a><code>micronaut-context</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-context</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-context-propagation"></a><code>micronaut-context-propagation</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-context-propagation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-control-panel-bom"></a><code>micronaut-control-panel-bom</code></p></td>
@@ -2475,25 +2524,25 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-core"></a><code>micronaut-core</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-core</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-core-bom"></a><code>micronaut-core-bom</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-core-bom</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-core-processor"></a><code>micronaut-core-processor</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-core-processor</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-core-reactive"></a><code>micronaut-core-reactive</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-core-reactive</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-crac"></a><code>micronaut-crac</code></p></td>
@@ -2511,133 +2560,133 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-azure-cosmos"></a><code>micronaut-data-azure-cosmos</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-azure-cosmos</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-bom"></a><code>micronaut-data-bom</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-bom</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-connection"></a><code>micronaut-data-connection</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-connection</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-connection-hibernate"></a><code>micronaut-data-connection-hibernate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-connection-hibernate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-connection-jdbc"></a><code>micronaut-data-connection-jdbc</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-connection-jdbc</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-document-model"></a><code>micronaut-data-document-model</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-document-model</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-document-processor"></a><code>micronaut-data-document-processor</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-document-processor</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-hibernate-jpa"></a><code>micronaut-data-hibernate-jpa</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-hibernate-jpa</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-hibernate-reactive"></a><code>micronaut-data-hibernate-reactive</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-hibernate-reactive</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-jdbc"></a><code>micronaut-data-jdbc</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-jdbc</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-jpa"></a><code>micronaut-data-jpa</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-jpa</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-model"></a><code>micronaut-data-model</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-model</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-mongodb"></a><code>micronaut-data-mongodb</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-mongodb</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-processor"></a><code>micronaut-data-processor</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-processor</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-r2dbc"></a><code>micronaut-data-r2dbc</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-r2dbc</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-runtime"></a><code>micronaut-data-runtime</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-runtime</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-spring"></a><code>micronaut-data-spring</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-spring</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-spring-jdbc"></a><code>micronaut-data-spring-jdbc</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-spring-jdbc</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-spring-jpa"></a><code>micronaut-data-spring-jpa</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-spring-jpa</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-tx"></a><code>micronaut-data-tx</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-tx</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-tx-hibernate"></a><code>micronaut-data-tx-hibernate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-tx-hibernate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-data-tx-jdbc"></a><code>micronaut-data-tx-jdbc</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.data</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-data-tx-jdbc</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-discovery-client"></a><code>micronaut-discovery-client</code></p></td>
@@ -2655,7 +2704,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-discovery-core"></a><code>micronaut-discovery-core</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-discovery-core</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-eclipsestore"></a><code>micronaut-eclipsestore</code></p></td>
@@ -2781,7 +2830,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-function"></a><code>micronaut-function</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-function</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-function-aws"></a><code>micronaut-function-aws</code></p></td>
@@ -2823,7 +2872,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-function-client"></a><code>micronaut-function-client</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-function-client</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-function-client-aws"></a><code>micronaut-function-client-aws</code></p></td>
@@ -2847,7 +2896,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-function-web"></a><code>micronaut-function-web</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-function-web</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-gcp-bom"></a><code>micronaut-gcp-bom</code></p></td>
@@ -2925,7 +2974,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-graal"></a><code>micronaut-graal</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-graal</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-graal-languages-bom"></a><code>micronaut-graal-languages-bom</code></p></td>
@@ -2943,13 +2992,13 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-graphql"></a><code>micronaut-graphql</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.graphql</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-graphql</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-graphql-bom"></a><code>micronaut-graphql-bom</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.graphql</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-graphql-bom</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-groovy-bom"></a><code>micronaut-groovy-bom</code></p></td>
@@ -3069,43 +3118,43 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http"></a><code>micronaut-http</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-client"></a><code>micronaut-http-client</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-client</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-client-core"></a><code>micronaut-http-client-core</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-client-core</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-client-jdk"></a><code>micronaut-http-client-jdk</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-client-jdk</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-client-tck"></a><code>micronaut-http-client-tck</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-client-tck</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-netty"></a><code>micronaut-http-netty</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-netty</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-netty-http3"></a><code>micronaut-http-netty-http3</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-netty-http3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-poja-apache"></a><code>micronaut-http-poja-apache</code></p></td>
@@ -3129,7 +3178,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-server"></a><code>micronaut-http-server</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-server</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-server-jdk"></a><code>micronaut-http-server-jdk</code></p></td>
@@ -3147,13 +3196,13 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-server-netty"></a><code>micronaut-http-server-netty</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-server-netty</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-server-tck"></a><code>micronaut-http-server-tck</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-server-tck</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-server-tomcat"></a><code>micronaut-http-server-tomcat</code></p></td>
@@ -3171,55 +3220,55 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-tck"></a><code>micronaut-http-tck</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-tck</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-http-validation"></a><code>micronaut-http-validation</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-http-validation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-inject"></a><code>micronaut-inject</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-inject</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-inject-groovy"></a><code>micronaut-inject-groovy</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-inject-groovy</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-inject-groovy-test"></a><code>micronaut-inject-groovy-test</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-inject-groovy-test</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-inject-java"></a><code>micronaut-inject-java</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-inject-java</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-inject-java-test"></a><code>micronaut-inject-java-test</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-inject-java-test</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-inject-kotlin"></a><code>micronaut-inject-kotlin</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-inject-kotlin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-inject-kotlin-test"></a><code>micronaut-inject-kotlin-test</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-inject-kotlin-test</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-itunespodcast"></a><code>micronaut-itunespodcast</code></p></td>
@@ -3231,13 +3280,13 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-jackson-core"></a><code>micronaut-jackson-core</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-jackson-core</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-jackson-databind"></a><code>micronaut-jackson-databind</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-jackson-databind</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-jackson-xml"></a><code>micronaut-jackson-xml</code></p></td>
@@ -3399,55 +3448,55 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-json-core"></a><code>micronaut-json-core</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-core</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-json-schema-annotations"></a><code>micronaut-json-schema-annotations</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.jsonschema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-schema-annotations</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-json-schema-bom"></a><code>micronaut-json-schema-bom</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.jsonschema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-schema-bom</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-json-schema-common"></a><code>micronaut-json-schema-common</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.jsonschema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-schema-common</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-json-schema-configuration-validator"></a><code>micronaut-json-schema-configuration-validator</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.jsonschema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-schema-configuration-validator</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-json-schema-generator"></a><code>micronaut-json-schema-generator</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.jsonschema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-schema-generator</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-json-schema-processor"></a><code>micronaut-json-schema-processor</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.jsonschema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-schema-processor</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-json-schema-utils"></a><code>micronaut-json-schema-utils</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.jsonschema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-schema-utils</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-json-schema-validation"></a><code>micronaut-json-schema-validation</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.jsonschema</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-json-schema-validation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-jsonfeed"></a><code>micronaut-jsonfeed</code></p></td>
@@ -3771,7 +3820,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-management"></a><code>micronaut-management</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-management</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-mcp"></a><code>micronaut-mcp</code></p></td>
@@ -3813,7 +3862,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-messaging"></a><code>micronaut-messaging</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-messaging</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-micrometer-annotation"></a><code>micronaut-micrometer-annotation</code></p></td>
@@ -3987,13 +4036,13 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-module-info"></a><code>micronaut-module-info</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-module-info</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-module-info-runtime"></a><code>micronaut-module-info-runtime</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-module-info-runtime</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-mongo-bom"></a><code>micronaut-mongo-bom</code></p></td>
@@ -5355,7 +5404,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-parent"></a><code>micronaut-parent</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.platform</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-parent</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-picocli"></a><code>micronaut-picocli</code></p></td>
@@ -5373,7 +5422,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-platform"></a><code>micronaut-platform</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut.platform</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-platform</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-problem-json"></a><code>micronaut-problem-json</code></p></td>
@@ -5499,13 +5548,13 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-retry"></a><code>micronaut-retry</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-retry</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-router"></a><code>micronaut-router</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-router</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-rss"></a><code>micronaut-rss</code></p></td>
@@ -5535,7 +5584,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-runtime"></a><code>micronaut-runtime</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-runtime</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-runtime-groovy"></a><code>micronaut-runtime-groovy</code></p></td>
@@ -5547,7 +5596,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-runtime-osx"></a><code>micronaut-runtime-osx</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-runtime-osx</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-rxjava3"></a><code>micronaut-rxjava3</code></p></td>
@@ -6483,7 +6532,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-micronaut-websocket"></a><code>micronaut-websocket</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.micronaut</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-websocket</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a id="managed-dependencies-generated-catalog-coordinates-generated-catalog-library-mockito-core"></a><code>mockito-core</code></p></td>
@@ -7466,7 +7515,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>parent-maven-failsafe-plugin</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.apache.maven.plugins</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maven-failsafe-plugin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.5.5</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.5.6</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parent POM Plugin</p></td>
 </tr>
 <tr>
@@ -7506,7 +7555,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>parent-maven-surefire-plugin</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.apache.maven.plugins</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maven-surefire-plugin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.5.5</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.5.6</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parent POM Plugin</p></td>
 </tr>
 <tr>
@@ -7514,7 +7563,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>parent-maven-native-plugin</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.graalvm.buildtools</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>native-maven-plugin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1.1.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1.1.1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parent POM Plugin</p></td>
 </tr>
 <tr>
@@ -7570,7 +7619,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5.0.1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parent POM Property</p></td>
 </tr>
 <tr>
