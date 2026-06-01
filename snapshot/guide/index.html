@@ -152,6 +152,55 @@ The Micronaut Platform BOM has existed since Micronaut Framework 4, and correspo
 </table>
 </div>
 <div class="sect1">
+<h2 id="_using_the_micronaut_platform_bom">Using the Micronaut Platform BOM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If your build does not use the Micronaut Gradle Plugin or the Micronaut Maven Plugin, import the Micronaut Platform BOM directly to manage Micronaut dependency versions.</p>
+</div>
+<div class="paragraph">
+<p>For Gradle builds, add the platform dependency and then declare Micronaut dependencies without versions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">val micronautVersion: String by project // from gradle.properties
+
+dependencies {
+    implementation(platform("io.micronaut.platform:micronaut-platform:$micronautVersion"))
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For Maven builds, import the platform BOM in <code>dependencyManagement</code> and then declare Micronaut dependencies without versions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependencyManagement&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;io.micronaut.platform&lt;/groupId&gt;
+      &lt;artifactId&gt;micronaut-platform&lt;/artifactId&gt;
+      &lt;version&gt;${micronaut.version}&lt;/version&gt;
+      &lt;type&gt;pom&lt;/type&gt;
+      &lt;scope&gt;import&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.data&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-data-jdbc&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The BOM manages dependency versions. It does not provide Gradle dependency aliases; use the Gradle version catalog when you want catalog aliases such as <code>mn.micronaut.data.jdbc</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_the_micronaut_platform_catalog">The Micronaut Platform catalog</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -7466,7 +7515,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>parent-maven-failsafe-plugin</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.apache.maven.plugins</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maven-failsafe-plugin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.5.5</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.5.6</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parent POM Plugin</p></td>
 </tr>
 <tr>
@@ -7506,7 +7555,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>parent-maven-surefire-plugin</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.apache.maven.plugins</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maven-surefire-plugin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.5.5</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.5.6</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parent POM Plugin</p></td>
 </tr>
 <tr>
@@ -7514,7 +7563,7 @@ dependencyResolutionManagement {
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>parent-maven-native-plugin</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.graalvm.buildtools</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>native-maven-plugin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1.1.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1.1.1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parent POM Plugin</p></td>
 </tr>
 <tr>
