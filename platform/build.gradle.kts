@@ -88,6 +88,9 @@ micronautBom {
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.27.0")
         dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.41.1")
 
+        // wavefront is End of Life
+        acceptedLibraryRegressions.add("micronaut-micrometer-registry-wavefront")
+        
         // modules no longer published by the OCI SDK
         acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-applicationmigration")
         acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-aianomalydetection")
