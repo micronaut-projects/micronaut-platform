@@ -83,11 +83,14 @@ micronautBom {
         dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:3.5.3")
         dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:6.0.3")
 
-        dependencies.add("io.opentelemetry:opentelemetry-bom:1.62.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom:1.63.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.61.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.27.0")
         dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.41.1")
 
+        // wavefront is End of Life
+        acceptedLibraryRegressions.add("micronaut-micrometer-registry-wavefront")
+        
         // modules no longer published by the OCI SDK
         acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-applicationmigration")
         acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-aianomalydetection")
@@ -122,7 +125,7 @@ micronautBom {
         acceptedVersionRegressions.add("langchain4j")
         acceptedLibraryRegressions.add("boms-langchain4j")
 
-        dependencies.add("io.opentelemetry:opentelemetry-bom:1.62.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom:1.63.0")
         dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.41.1")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.50.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.27.0")
