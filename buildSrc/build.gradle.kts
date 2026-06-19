@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.micronaut.build.internal.publishing:io.micronaut.build.internal.publishing.gradle.plugin:8.0.0")
+    implementation("io.micronaut.build.internal.publishing:io.micronaut.build.internal.publishing.gradle.plugin:8.0.1")
     implementation("org.tomlj:tomlj:1.1.1")
     testImplementation(kotlin("test"))
 }
