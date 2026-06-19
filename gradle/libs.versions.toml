@@ -81,7 +81,7 @@ managed-micronaut-validation = "5.0.0"
 managed-micronaut-views = "6.0.0"
 managed-micronaut-jackson-xml = "5.0.0"
 managed-spock = "2.4-groovy-5.0"
-managed-spotbugs = "4.9.8"
+managed-spotbugs = "4.10.2"
 
 ## Versions which start with parent- are used to be included in the parent POM as properties
 ## using the following mapping rule:
