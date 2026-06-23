@@ -12,7 +12,7 @@ NOTE: The Micronaut Platform BOM is available starting with Micronaut Framework 
 
 If you are not using the Micronaut Gradle or Maven plugin, import the Micronaut Platform BOM in your build and omit versions for dependencies managed by the platform.
 
-For Gradle, add the platform as a dependency constraint:
+For Gradle, add the platform as a platform dependency:
 
 [source,kotlin]
 ----
