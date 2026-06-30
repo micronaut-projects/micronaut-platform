@@ -20,6 +20,7 @@ micronautBom {
         "micronaut-reactor-bom",
         "boms-reactor"
     )
+    excludeFromInlining("micronaut-openapi-bom", "html2md-converter")
 
     suppressions {
         // https://github.com/micronaut-projects/micronaut-core/pull/7631#issuecomment-1174702395
@@ -253,6 +254,33 @@ micronautBuild {
 }
 
 tasks {
+    generateCatalogAsToml {
+        doLast {
+            val catalogFile = outputFile.get().asFile
+            val lines = catalogFile.readLines()
+            val newCatalogFile = lines.flatMap {
+                when {
+                    it.startsWith("flexmark = ") && lines.none { line -> line.startsWith("html2md-converter = ") } -> {
+                        val versionPart = it.substringAfterLast(" = ")
+                        listOf(
+                            it,
+                            "# Compatibility alias for the former Micronaut OpenAPI-managed name.",
+                            "html2md-converter = $versionPart"
+                        )
+                    }
+                    it.startsWith("flexmark-html2md-converter = ") && lines.none { line -> line.startsWith("html2md-converter = {") } -> {
+                        listOf(
+                            "# Compatibility alias for the former Micronaut OpenAPI-managed name.",
+                            "html2md-converter = {group = \"com.vladsch.flexmark\", name = \"flexmark-html2md-converter\", version.ref = \"html2md-converter\" }",
+                            it
+                        )
+                    }
+                    else -> listOf(it)
+                }
+            }
+            catalogFile.writeText(newCatalogFile.joinToString("\n"))
+        }
+    }
     // This is a workaround for the `jackson-databind` version being removed from the catalog
     // because it's not referenced anywhere anymore. However we must keep it for backwards
     // compatibility. This canbe removed after the next major release.
