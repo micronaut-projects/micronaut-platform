@@ -59,6 +59,7 @@ managed-micronaut-openrewrite = "1.0.0"
 managed-micronaut-oraclecloud = "6.1.1"
 managed-micronaut-picocli = "6.1.0"
 managed-micronaut-problem = "5.0.0"
+managed-micronaut-projectgen = "1.1.0"
 managed-micronaut-pulsar = "3.0.0"
 managed-micronaut-rabbitmq = "5.0.0"
 managed-micronaut-r2dbc = "7.1.0"
@@ -158,6 +159,7 @@ boms-micronaut-openrewrite = { module = "io.micronaut.openrewrite:micronaut-open
 boms-micronaut-oraclecloud = { module = "io.micronaut.oraclecloud:micronaut-oraclecloud-bom", version.ref = "managed-micronaut-oraclecloud" }
 boms-micronaut-picocli = { module = "io.micronaut.picocli:micronaut-picocli-bom", version.ref = "managed-micronaut-picocli" }
 boms-micronaut-problem-json = { module = "io.micronaut.problem:micronaut-problem-json-bom", version.ref = "managed-micronaut-problem" }
+boms-micronaut-projectgen = { module = "io.micronaut.projectgen:micronaut-projectgen-bom", version.ref = "managed-micronaut-projectgen" }
 boms-micronaut-pulsar = { module = "io.micronaut.pulsar:micronaut-pulsar-bom", version.ref = "managed-micronaut-pulsar" }
 boms-micronaut-r2dbc = { module = "io.micronaut.r2dbc:micronaut-r2dbc-bom", version.ref = "managed-micronaut-r2dbc" }
 boms-micronaut-rabbitmq = { module = "io.micronaut.rabbitmq:micronaut-rabbitmq-bom", version.ref = "managed-micronaut-rabbitmq" }
