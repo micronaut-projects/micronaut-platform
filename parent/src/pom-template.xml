@@ -258,6 +258,14 @@
                     <artifactId>native-maven-plugin</artifactId>
                     <version>${maven.native.plugin.version}</version>
                     <extensions>true</extensions>
+                    <dependencies>
+                        <!-- Required by the CycloneDX plugin bundled with native-maven-plugin. -->
+                        <dependency>
+                            <groupId>org.apache.maven.shared</groupId>
+                            <artifactId>maven-shared-utils</artifactId>
+                            <version>3.4.2</version>
+                        </dependency>
+                    </dependencies>
                     <configuration>
                         <imageName>${project.artifactId}</imageName>
                         <mainClass>${exec.mainClass}</mainClass>
