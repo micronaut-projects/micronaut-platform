@@ -1,5 +1,38 @@
+import org.gradle.api.publish.maven.tasks.GenerateMavenPom
+
 plugins {
     id("io.micronaut.build.internal.bom")
+}
+
+fun normalizeDuplicatePomProperties(pomFile: File) {
+    val duplicatePomProperties = mapOf(
+        "micronaut.mongodb.version" to "micronaut.mongo.version",
+        "micronaut.oracle.cloud.version" to "micronaut.oraclecloud.version",
+        "micronaut.problem.json.version" to "micronaut.problem.version"
+    )
+    var pom = pomFile.readText()
+    duplicatePomProperties.forEach { (duplicate, replacement) ->
+        val duplicatePattern = Regex("""<${Regex.escape(duplicate)}>([^<]+)</${Regex.escape(duplicate)}>""")
+        val replacementPattern = Regex("""<${Regex.escape(replacement)}>([^<]+)</${Regex.escape(replacement)}>""")
+        val duplicateVersion = duplicatePattern.find(pom)?.groupValues?.get(1)
+        val replacementVersion = replacementPattern.find(pom)?.groupValues?.get(1)
+        val hasDuplicateReference = pom.contains("$" + "{$duplicate}")
+        if ((duplicateVersion != null || hasDuplicateReference) && replacementVersion == null) {
+            throw GradleException(
+                "Cannot normalize duplicate POM property '$duplicate' to '$replacement' " +
+                    "because the replacement property is missing"
+            )
+        }
+        if (duplicateVersion != null && replacementVersion != null && duplicateVersion != replacementVersion) {
+            throw GradleException(
+                "Cannot normalize duplicate POM property '$duplicate' to '$replacement' " +
+                    "because they use different versions: $duplicateVersion and $replacementVersion"
+            )
+        }
+        pom = pom.replace(Regex("""(?m)^\s*<${Regex.escape(duplicate)}>[^<]+</${Regex.escape(duplicate)}>\R?"""), "")
+        pom = pom.replace("$" + "{$duplicate}", "$" + "{$replacement}")
+    }
+    pomFile.writeText(pom)
 }
 
 repositories {
@@ -170,7 +203,13 @@ micronautBom {
                 "neo4j-harness",
             )
         }
-
+        "duplicate Micronaut module aliases are normalized in Micronaut 5.0.0".apply {
+            acceptedVersionRegressions.addAll(
+                "micronaut-mongodb",
+                "micronaut-oracle-cloud",
+                "micronaut-problem-json"
+            )
+        }
 
         "microstream was removed in Micronaut 5.0.0".apply {
             acceptedVersionRegressions.addAll(
@@ -253,6 +292,57 @@ micronautBuild {
 }
 
 tasks {
+    withType<GenerateMavenPom>().configureEach {
+        doLast {
+            normalizeDuplicatePomProperties(destination)
+        }
+    }
+
+    generateCatalogAsToml {
+        doLast {
+            val duplicateVersionAliases = mapOf(
+                "micronaut-mongodb" to "micronaut-mongo",
+                "micronaut-oracle-cloud" to "micronaut-oraclecloud",
+                "micronaut-problem-json" to "micronaut-problem"
+            )
+            val catalogFile = outputFile.get().asFile
+            val catalogLines = catalogFile.readLines()
+            val versions = catalogLines.mapNotNull {
+                Regex("""^([A-Za-z0-9_.-]+) = "([^"]+)"""").find(it)?.destructured?.let { (alias, version) ->
+                    alias to version
+                }
+            }.toMap()
+            duplicateVersionAliases.forEach { (duplicate, replacement) ->
+                val duplicateVersion = versions[duplicate]
+                val replacementVersion = versions[replacement]
+                val hasDuplicateReference = catalogLines.any { it.contains("""version.ref = "$duplicate"""") }
+                if ((duplicateVersion != null || hasDuplicateReference) && replacementVersion == null) {
+                    throw GradleException(
+                        "Cannot normalize duplicate version alias '$duplicate' to '$replacement' " +
+                            "because the replacement alias is missing"
+                    )
+                }
+                if (duplicateVersion != null && replacementVersion != null && duplicateVersion != replacementVersion) {
+                    throw GradleException(
+                        "Cannot normalize duplicate version alias '$duplicate' to '$replacement' " +
+                            "because they use different versions: $duplicateVersion and $replacementVersion"
+                    )
+                }
+            }
+            val normalizedCatalog = catalogLines.mapNotNull { line ->
+                val duplicateAlias = duplicateVersionAliases.keys.firstOrNull { line.startsWith("$it = \"") }
+                if (duplicateAlias != null) {
+                    null
+                } else {
+                    duplicateVersionAliases.entries.fold(line) { current, (duplicate, replacement) ->
+                        current.replace("""version.ref = "$duplicate"""", """version.ref = "$replacement"""")
+                    }
+                }
+            }
+            catalogFile.writeText(normalizedCatalog.joinToString("\n"))
+        }
+    }
+
     // This is a workaround for the `jackson-databind` version being removed from the catalog
     // because it's not referenced anywhere anymore. However we must keep it for backwards
     // compatibility. This canbe removed after the next major release.
