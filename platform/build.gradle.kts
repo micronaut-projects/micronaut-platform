@@ -1,3 +1,7 @@
+import io.micronaut.platform.pom.OverrideableBomImport
+import io.micronaut.platform.pom.checkOverrideableBomImports
+import io.micronaut.platform.pom.configureOverrideableBomImports
+
 plugins {
     id("io.micronaut.build.internal.bom")
 }
@@ -253,6 +257,24 @@ micronautBuild {
 }
 
 tasks {
+    val generatedMavenPom = layout.buildDirectory.file("publications/maven/pom-default.xml")
+    val overrideableBomImports = listOf(
+        OverrideableBomImport(
+            propertyName = "netty.version",
+            importedBomGroupId = "io.netty",
+            importedBomArtifactId = "netty-bom",
+            owningBomGroupId = "io.micronaut",
+            owningBomArtifactId = "micronaut-core-bom",
+            owningBomVersionProperty = "micronaut.core.version"
+        )
+    )
+
+    named("generatePomFileForMavenPublication") {
+        doLast {
+            configureOverrideableBomImports(generatedMavenPom.get().asFile, overrideableBomImports)
+        }
+    }
+
     // This is a workaround for the `jackson-databind` version being removed from the catalog
     // because it's not referenced anywhere anymore. However we must keep it for backwards
     // compatibility. This canbe removed after the next major release.
@@ -278,5 +300,20 @@ tasks {
             println(baseline.get().asFile)
             println(current.get().asFile)
         }
+    }
+
+    val checkOverrideableBomImports by registering {
+        description = "Verifies the published Maven platform POM exposes allowlisted overrideable BOM imports."
+        group = LifecycleBasePlugin.VERIFICATION_GROUP
+        dependsOn("generatePomFileForMavenPublication")
+        inputs.file(generatedMavenPom)
+
+        doLast {
+            checkOverrideableBomImports(generatedMavenPom.get().asFile, overrideableBomImports)
+        }
+    }
+
+    check {
+        dependsOn(checkOverrideableBomImports)
     }
 }
