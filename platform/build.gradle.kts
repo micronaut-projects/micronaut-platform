@@ -84,9 +84,9 @@ micronautBom {
         dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:6.0.3")
 
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.64.0")
-        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.61.0-alpha")
+        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.64.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.30.0")
-        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.42.0")
+        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.43.0")
 
         // wavefront is End of Life
         acceptedLibraryRegressions.add("micronaut-micrometer-registry-wavefront")
@@ -126,7 +126,7 @@ micronautBom {
         acceptedLibraryRegressions.add("boms-langchain4j")
 
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.64.0")
-        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.42.0")
+        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.43.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.50.0-alpha")
         dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.30.0")
 
