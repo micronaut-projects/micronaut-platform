@@ -35,6 +35,7 @@ managed-micronaut-grpc = "5.1.0"
 managed-micronaut-guice = "2.1.0"
 managed-micronaut-guides = "0.3.0"
 managed-micronaut-hibernate-validator = "5.1.0"
+managed-micronaut-jakarta-el = "1.0.0"
 managed-micronaut-jaxrs = "5.1.0"
 managed-micronaut-jms = "5.1.0"
 managed-micronaut-jmx = "5.1.0"
@@ -135,6 +136,7 @@ boms-micronaut-guice = { module = "io.micronaut.guice:micronaut-guice-bom", vers
 boms-micronaut-guides = { module = "io.micronaut.guides:micronaut-guides-bom", version.ref = "managed-micronaut-guides" }
 boms-micronaut-hibernate-validator = { module = "io.micronaut.beanvalidation:micronaut-hibernate-validator-bom", version.ref = "managed-micronaut-hibernate-validator" }
 boms-micronaut-jackson-xml = { module = "io.micronaut.xml:micronaut-jackson-xml-bom", version.ref = "managed-micronaut-jackson-xml" }
+boms-micronaut-jakarta-el = { module = "io.micronaut.el:micronaut-jakarta-el-bom", version.ref = "managed-micronaut-jakarta-el" }
 boms-micronaut-jaxrs = { module = "io.micronaut.jaxrs:micronaut-jaxrs-bom", version.ref = "managed-micronaut-jaxrs" }
 boms-micronaut-jms = { module = "io.micronaut.jms:micronaut-jms-bom", version.ref = "managed-micronaut-jms" }
 boms-micronaut-jmx = { module = "io.micronaut.jmx:micronaut-jmx-bom", version.ref = "managed-micronaut-jmx" }
