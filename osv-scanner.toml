@@ -1,0 +1,3 @@
+[[IgnoredVulns]]
+id = "GHSA-m6vm-37g8-gqvh"
+reason = "No fixed version is published for the legacy mysql:mysql-connector-java coordinate; com.mysql:mysql-connector-j is managed separately."
