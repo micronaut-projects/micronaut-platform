@@ -1,0 +1,87 @@
+This appendix is generated from `platform/src/main/migration-impact/platform-5.tsv`.
+It lists accepted Platform 5 BOM and version-catalog regressions that may affect application upgrades.
+The managed dependency matrix remains the reference for dependencies currently managed by the platform.
+Maintainers refresh this page with `./gradlew :micronaut-platform:updatePlatformMigrationImpactAppendix` and verify it with `./gradlew :micronaut-platform:verifyPlatformMigrationImpactAppendix`.
+
+[[platform-5-migration-impact]]
+== Platform 5 Migration Impact
+
+[cols="1,1,1,1,2,2",options="header"]
+|===
+|Artifact or alias |Surface |Change type |Release line |Source or reason |Guidance
+|`boms-kotlin-coroutines` |BOM alias |Library regression |5.0.x |Reactor and Kotlin coroutines dependency management is provided by module BOMs in Platform 5. |Import the Micronaut module BOM that manages Kotlin coroutines, or declare the Kotlin coroutines BOM directly if your build still needs it.
+|`boms-langchain4j` |BOM alias |Removed |5.0.x |LangChain4j BOM is no longer imported by Platform 5. |Import the LangChain4j BOM directly if your build still needs its dependency management.
+|`boms-reactor` |BOM alias |Library regression |5.0.x |Reactor and Kotlin coroutines dependency management is provided by module BOMs in Platform 5. |Import the Micronaut module BOM that manages Reactor, or declare the Reactor BOM directly if your build still needs it.
+|`micronaut-microstream-bom` |BOM alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`micronaut-rxjava2-bom` |BOM alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`coherence-grpc-proxy` |Library alias |Library regression |5.0.x |Micronaut Coherence 5 regression accepted in Platform 5. |No direct replacement recorded.
+|`coherence-java-client` |Library alias |Library regression |5.0.x |Micronaut Coherence 5 regression accepted in Platform 5. |No direct replacement recorded.
+|`graal` |Library alias |Deprecated removal |5.0.x |Deprecated Graal/native-image-era library alias removed for Platform 5. |Use current GraalVM tooling coordinates directly when needed.
+|`graal-sdk` |Library alias |Deprecated removal |5.0.x |Deprecated Graal/native-image-era library alias removed for Platform 5. |Use current GraalVM tooling coordinates directly when needed.
+|`jackson-datatype-jdk8` |Library alias |Library regression |5.0.x |Jackson datatype alias accepted as a Platform 5 library regression during JUnit/Jackson dependency changes. |No direct replacement recorded.
+|`jackson-datatype-jsr310` |Library alias |Library regression |5.0.x |Jackson datatype alias accepted as a Platform 5 library regression during JUnit/Jackson dependency changes. |No direct replacement recorded.
+|`jackson-module-parameterNames` |Library alias |Library regression |5.0.x |Jackson module alias accepted as a Platform 5 library regression during JUnit/Jackson dependency changes. |No direct replacement recorded.
+|`junit-platform-jfr` |Library alias |Library regression |5.0.x |JUnit Platform changed in JUnit 6. |Use current JUnit Platform artifacts directly if your build still needs this module.
+|`junit-platform-runner` |Library alias |Library regression |5.0.x |JUnit Platform changed in JUnit 6. |Migrate away from the legacy JUnit Platform runner or declare it directly if still required.
+|`kafka` |Library alias |Library regression |5.0.x |Kafka compatibility entry accepted as a Platform 5 library regression. |No direct replacement recorded.
+|`kotlinx-coroutines-core` |Library alias |Library regression |5.0.x |Kotlin coroutines dependency management is provided by module BOMs in Platform 5. |Declare the Kotlin coroutines artifact directly if your application still requires this alias.
+|`kotlinx-coroutines-jdk8` |Library alias |Library regression |5.0.x |Kotlin coroutines dependency management is provided by module BOMs in Platform 5. |Declare the Kotlin coroutines artifact directly if your application still requires this alias.
+|`kotlinx-coroutines-reactive` |Library alias |Library regression |5.0.x |Kotlin coroutines dependency management is provided by module BOMs in Platform 5. |Declare the Kotlin coroutines artifact directly if your application still requires this alias.
+|`kotlinx-coroutines-reactor` |Library alias |Library regression |5.0.x |Kotlin coroutines dependency management is provided by module BOMs in Platform 5. |Declare the Kotlin coroutines artifact directly if your application still requires this alias.
+|`kotlinx-coroutines-rx2` |Library alias |Library regression |5.0.x |Kotlin coroutines dependency management is provided by module BOMs in Platform 5. |Declare the Kotlin coroutines artifact directly if your application still requires this alias.
+|`kotlinx-coroutines-slf4j` |Library alias |Library regression |5.0.x |Kotlin coroutines dependency management is provided by module BOMs in Platform 5. |Declare the Kotlin coroutines artifact directly if your application still requires this alias.
+|`micronaut-coherence-grpc-client` |Library alias |Library regression |5.0.x |Micronaut Coherence 5 regression accepted in Platform 5. |No direct replacement recorded.
+|`micronaut-coherence-grpc-test` |Library alias |Library regression |5.0.x |Micronaut Coherence 5 regression accepted in Platform 5. |No direct replacement recorded.
+|`micronaut-kubernetes-client-rxjava2` |Library alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`micronaut-microstream` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`micronaut-microstream-annotations` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`micronaut-microstream-cache` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`micronaut-microstream-rest` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`micronaut-openapi-generator` |Library alias |Temporarily absent |5.0.x |OpenAPI generator is temporarily removed in Micronaut 5.0.0. |Declare the generator directly until Platform 5 records it again.
+|`micronaut-oraclecloud-bmc-aianomalydetection` |Library alias |Removed |5.0.x |Module is no longer published by the Oracle Cloud Infrastructure SDK. |No direct replacement recorded.
+|`micronaut-oraclecloud-bmc-applicationmigration` |Library alias |Removed |5.0.x |Module is no longer published by the Oracle Cloud Infrastructure SDK. |No direct replacement recorded.
+|`micronaut-oraclecloud-bmc-dts` |Library alias |Removed |5.0.x |Module is no longer published by the Oracle Cloud Infrastructure SDK. |No direct replacement recorded.
+|`micronaut-oraclecloud-bmc-globallydistributeddatabase` |Library alias |Library regression |5.0.x |Oracle Cloud SDK change accepted as a Platform 5 library regression. |No direct replacement recorded.
+|`micronaut-oraclecloud-bmc-osmanagement` |Library alias |Removed |5.0.x |Module is no longer published by the Oracle Cloud Infrastructure SDK. |No direct replacement recorded.
+|`micronaut-oraclecloud-bmc-servicemesh` |Library alias |Removed |5.0.x |Module is no longer published by the Oracle Cloud Infrastructure SDK. |No direct replacement recorded.
+|`micronaut-rxjava2` |Library alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`micronaut-rxjava2-http-client` |Library alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`micronaut-rxjava2-http-server-netty` |Library alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`micronaut-test-resources-elasticsearch` |Library alias |Library regression |5.0.x |Test Resources Elasticsearch alias accepted as a Platform 5 library regression. |No direct replacement recorded.
+|`microstream` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`microstream-aws-dynamodb` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`microstream-aws-s3` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`microstream-cache` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`microstream-sql` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`microstream-storage-embedded-configuration` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`microstream-storage-restservice` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`neo4j-harness` |Library alias |Library regression |5.0.x |Neo4j changes accepted as a Platform 5 library regression. |No direct replacement recorded.
+|`netty-contrib-multipart-vintage` |Library alias |Library regression |5.0.x |Netty multipart vintage alias accepted as a Platform 5 library regression. |No direct replacement recorded.
+|`netty-incubator-codec-http3` |Library alias |Moved or renamed |5.0.x |Netty 4.2 moved HTTP/3 support from incubator modules into the Netty monorepo. |Use the Netty 4.2 managed coordinates instead of incubator aliases.
+|`ojdbc8` |Library alias |Library regression |5.0.x |Oracle JDBC aliases were removed from imported BOMs in Platform 5. |Declare Oracle JDBC artifacts directly if your application still requires these aliases.
+|`r2dbc-io-asyncer-mysql` |Library alias |Removed |5.0.x |Removed in Micronaut R2DBC 6.0.0. |Declare the asyncer MySQL R2DBC driver directly if your application still uses it.
+|`reactor` |Library alias |Library regression |5.0.x |Reactor dependency management is provided by module BOMs in Platform 5. |Declare the Reactor artifact directly if your application still requires this alias.
+|`reactor-netty-http` |Library alias |Removed |5.0.x |`reactor-netty-http` was removed by Micronaut R2DBC upstream changes. |Use the Reactor Netty coordinates managed by current Micronaut modules, or declare the artifact directly if required.
+|`reactor-test` |Library alias |Library regression |5.0.x |Reactor dependency management is provided by module BOMs in Platform 5. |Declare the Reactor test artifact directly if your application still requires this alias.
+|`rxjava2` |Library alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`ucp` |Library alias |Library regression |5.0.x |Oracle JDBC aliases were removed from imported BOMs in Platform 5. |Declare Oracle JDBC artifacts directly if your application still requires these aliases.
+|`graal` |Version alias |Deprecated removal |5.0.x |Deprecated Graal/native-image-era version alias removed for Platform 5. |Use current GraalVM tooling coordinates directly when needed.
+|`graal-sdk` |Version alias |Deprecated removal |5.0.x |Deprecated Graal/native-image-era version alias removed for Platform 5. |Use current GraalVM tooling coordinates directly when needed.
+|`graal-svm` |Version alias |Deprecated removal |5.0.x |Deprecated Graal/native-image-era version alias removed for Platform 5. |Use current GraalVM tooling coordinates directly when needed.
+|`jackson-databind` |Version alias |Version regression |5.0.x |`jackson-databind` is accepted as a Platform 5 version-catalog compatibility regression. |No direct replacement recorded.
+|`junit-platform` |Version alias |Version regression |5.0.x |JUnit Platform changed in JUnit 6. |Use the current JUnit Platform version managed by JUnit 6 or declare a direct override if needed.
+|`kafka-compat` |Version alias |Version regression |5.0.x |Kafka compatibility entry accepted as a Platform 5 version regression. |No direct replacement recorded.
+|`kotlin-coroutines` |Version alias |Version regression |5.0.x |Kotlin coroutines dependency management is provided by module BOMs in Platform 5. |Import the Micronaut module BOM that manages Kotlin coroutines, or declare a direct Kotlin coroutines version if required.
+|`langchain4j` |Version alias |Version regression |5.0.x |LangChain4j BOM is no longer imported by Platform 5. |Import the LangChain4j BOM directly if your build still needs its dependency management.
+|`micronaut-microstream` |Version alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`micronaut-rxjava2` |Version alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`microstream` |Version alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
+|`neo4j` |Version alias |Version regression |5.0.x |Neo4j changes accepted as a Platform 5 version regression. |No direct replacement recorded.
+|`netty-http3` |Version alias |Moved or renamed |5.0.x |Netty 4.2 moved HTTP/3 support from incubator modules into the Netty monorepo. |Use the Netty 4.2 managed coordinates instead of incubator aliases.
+|`netty-iouring` |Version alias |Moved or renamed |5.0.x |Netty 4.2 moved io_uring support from incubator modules into the Netty monorepo. |Use the Netty 4.2 managed coordinates instead of incubator aliases.
+|`r2dbc-io-asyncer-mysql` |Version alias |Removed |5.0.x |Removed in Micronaut R2DBC 6.0.0. |Declare the asyncer MySQL R2DBC driver directly if your application still uses it.
+|`reactor` |Version alias |Version regression |5.0.x |Reactor dependency management is provided by module BOMs in Platform 5. |Import the Micronaut module BOM that manages Reactor, or declare a direct Reactor version if required.
+|`reactor-bom` |Version alias |Version regression |5.0.x |Reactor dependency management is provided by module BOMs in Platform 5. |Import the Micronaut module BOM that manages Reactor, or declare the Reactor BOM directly if required.
+|`reactor-netty` |Version alias |Removed |5.0.x |`reactor-netty-http` was removed by Micronaut R2DBC upstream changes. |Use the Reactor Netty coordinates managed by current Micronaut modules, or declare a direct version if required.
+|`rxjava2` |Version alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|===

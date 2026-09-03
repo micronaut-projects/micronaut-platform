@@ -1,3 +1,6 @@
+import io.micronaut.build.internal.UpdatePlatformMigrationImpactAppendix
+import io.micronaut.build.internal.VerifyPlatformMigrationImpactAppendix
+
 plugins {
     id("io.micronaut.build.internal.bom")
 }
@@ -253,6 +256,28 @@ micronautBuild {
 }
 
 tasks {
+    val migrationImpactMetadata = layout.projectDirectory.file("src/main/migration-impact/platform-5.tsv")
+    val migrationImpactAppendix = rootProject.layout.projectDirectory.file("src/main/docs/guide/platform5MigrationImpact.adoc")
+
+    val updatePlatformMigrationImpactAppendix by registering(UpdatePlatformMigrationImpactAppendix::class) {
+        description = "Regenerates the Platform 5 migration impact appendix from metadata."
+        group = "documentation"
+        metadataFile.set(migrationImpactMetadata)
+        appendixFile.set(migrationImpactAppendix)
+    }
+
+    val verifyPlatformMigrationImpactAppendix by registering(VerifyPlatformMigrationImpactAppendix::class) {
+        description = "Verifies the Platform 5 migration impact appendix and accepted regression metadata coverage."
+        group = "verification"
+        metadataFile.set(migrationImpactMetadata)
+        buildFile.set(layout.projectDirectory.file("build.gradle.kts"))
+        appendixFile.set(migrationImpactAppendix)
+    }
+
+    check {
+        dependsOn(verifyPlatformMigrationImpactAppendix)
+    }
+
     // This is a workaround for the `jackson-databind` version being removed from the catalog
     // because it's not referenced anywhere anymore. However we must keep it for backwards
     // compatibility. This canbe removed after the next major release.
