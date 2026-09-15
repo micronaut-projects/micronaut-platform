@@ -85,7 +85,7 @@ micronautBom {
 
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.65.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.64.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.30.0")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.31.1")
         dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.43.0")
 
         // wavefront is End of Life
@@ -128,7 +128,7 @@ micronautBom {
         dependencies.add("io.opentelemetry:opentelemetry-bom:1.65.0")
         dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.43.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.50.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.30.0")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.31.1")
 
         acceptedVersionRegressions.add("jackson-databind")
 
