@@ -1,3 +1,37 @@
 plugins {
     id "io.micronaut.build.internal.parent"
 }
+
+import io.micronaut.build.docs.PublishGuideTask
+import io.micronaut.platform.docs.GenerateManagedDependenciesGuide
+import io.micronaut.platform.docs.VerifyManagedDependenciesGuide
+import org.gradle.api.tasks.PathSensitivity
+
+def managedDependenciesGuideFile = layout.buildDirectory.file("generated/docs/managed-dependencies/managedDependencies.adoc")
+
+def generateManagedDependenciesGuide = tasks.register("generateManagedDependenciesGuide", GenerateManagedDependenciesGuide) {
+    rootCatalogFile.set(layout.projectDirectory.file("gradle/libs.versions.toml"))
+    generatedCatalogFile.set(project(":micronaut-platform").layout.buildDirectory.file("version-catalog/libs.versions.toml"))
+    parentPomFile.set(project(":micronaut-parent").layout.buildDirectory.file("publications/parent/pom-default.xml"))
+    parentPomTemplateFile.set(project(":micronaut-parent").layout.projectDirectory.file("src/pom-template.xml"))
+    releaseVersion.set(providers.provider { version.toString() })
+    outputFile.set(managedDependenciesGuideFile)
+    dependsOn(":micronaut-platform:generateCatalogAsToml", ":micronaut-parent:rewritePomFile")
+}
+
+tasks.register("verifyManagedDependenciesGuide", VerifyManagedDependenciesGuide) {
+    guideFile.set(managedDependenciesGuideFile)
+    dependsOn(generateManagedDependenciesGuide)
+}
+
+tasks.withType(PublishGuideTask).configureEach {
+    dependsOn(generateManagedDependenciesGuide)
+    inputs.file(managedDependenciesGuideFile)
+        .withPropertyName("managedDependenciesGuideFile")
+        .withPathSensitivity(PathSensitivity.RELATIVE)
+    properties.put("managedDependenciesGuide", managedDependenciesGuideFile.map { it.asFile.absolutePath })
+}
+
+tasks.named("check") {
+    dependsOn("verifyManagedDependenciesGuide")
+}

@@ -1,3 +1,6 @@
+import io.micronaut.build.internal.UpdatePlatformMigrationImpactAppendix
+import io.micronaut.build.internal.VerifyPlatformMigrationImpactAppendix
+
 plugins {
     id("io.micronaut.build.internal.bom")
 }
@@ -64,6 +67,10 @@ micronautBom {
             "io.projectreactor:reactor-bom",
             setOf("io.projectreactor", "org.reactivestreams")
         )
+        bomAuthorizedGroupIds.put(
+            "tools.jackson:jackson-bom",
+            setOf("com.fasterxml.jackson.core", "tools.jackson")
+        )
         // micronaut-oraclecloud (since v3.6.0) pulls in the ojdbc-bom which imports dependencies from many groups
         bomAuthorizedGroupIds.put(
             "com.oracle.database.jdbc:ojdbc-bom",
@@ -80,10 +87,14 @@ micronautBom {
         dependencies.add("io.zipkin.reporter2:zipkin-reporter-bom:3.5.3")
         dependencies.add("io.zipkin.brave:brave-instrumentation-benchmarks:6.0.3")
 
-        dependencies.add("io.opentelemetry:opentelemetry-bom:1.61.0")
-        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.40.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.27.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom:1.65.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.64.0-alpha")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.30.0")
+        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.43.0")
 
+        // wavefront is End of Life
+        acceptedLibraryRegressions.add("micronaut-micrometer-registry-wavefront")
+        
         // modules no longer published by the OCI SDK
         acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-applicationmigration")
         acceptedLibraryRegressions.add("micronaut-oraclecloud-bmc-aianomalydetection")
@@ -118,10 +129,10 @@ micronautBom {
         acceptedVersionRegressions.add("langchain4j")
         acceptedLibraryRegressions.add("boms-langchain4j")
 
-        dependencies.add("io.opentelemetry:opentelemetry-bom:1.61.0")
-        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.41.0")
+        dependencies.add("io.opentelemetry:opentelemetry-bom:1.65.0")
+        dependencies.add("io.opentelemetry.semconv:opentelemetry-semconv:1.43.0")
         dependencies.add("io.opentelemetry:opentelemetry-bom-alpha:1.50.0-alpha")
-        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.27.0")
+        dependencies.add("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.30.0")
 
         acceptedVersionRegressions.add("jackson-databind")
 
@@ -147,6 +158,12 @@ micronautBom {
         "oracle cloud sdk changes".apply {
             acceptedLibraryRegressions.addAll(
                 "micronaut-oraclecloud-bmc-globallydistributeddatabase",
+            )
+        }
+        "oracle jdbc aliases removed from imported BOMs".apply {
+            acceptedLibraryRegressions.addAll(
+                "ojdbc8",
+                "ucp",
             )
         }
         "neo4j changes".apply {
@@ -191,6 +208,7 @@ micronautBom {
                 "micronaut-rxjava2",
                 "micronaut-rxjava2-http-client",
                 "micronaut-rxjava2-http-server-netty",
+                "micronaut-kubernetes-client-rxjava2",
             )
         }
 
@@ -235,7 +253,7 @@ micronautBom {
 }
 
 micronautBuild {
-    binaryCompatibility.enabled.set(version != "4.0.0-SNAPSHOT")
+    binaryCompatibility.enabledAfter("5.0.0")
 }
 
 tasks {
@@ -266,6 +284,28 @@ tasks {
             catalogFile.writeText(newCatalogFile.joinToString("\n"))
         }
     }
+    val migrationImpactMetadata = layout.projectDirectory.file("src/main/migration-impact/platform-5.tsv")
+    val migrationImpactAppendix = rootProject.layout.projectDirectory.file("src/main/docs/guide/platform5MigrationImpact.adoc")
+
+    val updatePlatformMigrationImpactAppendix by registering(UpdatePlatformMigrationImpactAppendix::class) {
+        description = "Regenerates the Platform 5 migration impact appendix from metadata."
+        group = "documentation"
+        metadataFile.set(migrationImpactMetadata)
+        appendixFile.set(migrationImpactAppendix)
+    }
+
+    val verifyPlatformMigrationImpactAppendix by registering(VerifyPlatformMigrationImpactAppendix::class) {
+        description = "Verifies the Platform 5 migration impact appendix and accepted regression metadata coverage."
+        group = "verification"
+        metadataFile.set(migrationImpactMetadata)
+        buildFile.set(layout.projectDirectory.file("build.gradle.kts"))
+        appendixFile.set(migrationImpactAppendix)
+    }
+
+    check {
+        dependsOn(verifyPlatformMigrationImpactAppendix)
+    }
+
     // This is a workaround for the `jackson-databind` version being removed from the catalog
     // because it's not referenced anywhere anymore. However we must keep it for backwards
     // compatibility. This canbe removed after the next major release.

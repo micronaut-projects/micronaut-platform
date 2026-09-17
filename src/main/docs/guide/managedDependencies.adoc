@@ -1,0 +1,3 @@
+The managed dependency matrix is generated for the current Micronaut Platform guide version from repository sources. It summarizes the platform BOM coordinates, standalone managed libraries, generated Gradle catalog coordinates, and generated parent POM plugin and property versions.
+
+include::{managedDependenciesGuide}[]
