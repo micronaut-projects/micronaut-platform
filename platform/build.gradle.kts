@@ -1,3 +1,6 @@
+import io.micronaut.platform.pom.OverrideableBomImport
+import io.micronaut.platform.pom.checkOverrideableBomImports
+import io.micronaut.platform.pom.configureOverrideableBomImports
 import io.micronaut.build.internal.UpdatePlatformMigrationImpactAppendix
 import io.micronaut.build.internal.VerifyPlatformMigrationImpactAppendix
 
@@ -256,6 +259,24 @@ micronautBuild {
 }
 
 tasks {
+    val generatedMavenPom = layout.buildDirectory.file("publications/maven/pom-default.xml")
+    val overrideableBomImports = listOf(
+        OverrideableBomImport(
+            propertyName = "netty.version",
+            importedBomGroupId = "io.netty",
+            importedBomArtifactId = "netty-bom",
+            owningBomGroupId = "io.micronaut",
+            owningBomArtifactId = "micronaut-core-bom",
+            owningBomVersionProperty = "micronaut.core.version"
+        )
+    )
+
+    named("generatePomFileForMavenPublication") {
+        doLast {
+            configureOverrideableBomImports(generatedMavenPom.get().asFile, overrideableBomImports)
+        }
+    }
+
     val migrationImpactMetadata = layout.projectDirectory.file("src/main/migration-impact/platform-5.tsv")
     val migrationImpactAppendix = rootProject.layout.projectDirectory.file("src/main/docs/guide/platform5MigrationImpact.adoc")
 
@@ -303,5 +324,20 @@ tasks {
             println(baseline.get().asFile)
             println(current.get().asFile)
         }
+    }
+
+    val checkOverrideableBomImports by registering {
+        description = "Verifies the published Maven platform POM exposes allowlisted overrideable BOM imports."
+        group = LifecycleBasePlugin.VERIFICATION_GROUP
+        dependsOn("generatePomFileForMavenPublication")
+        inputs.file(generatedMavenPom)
+
+        doLast {
+            checkOverrideableBomImports(generatedMavenPom.get().asFile, overrideableBomImports)
+        }
+    }
+
+    check {
+        dependsOn(checkOverrideableBomImports)
     }
 }
