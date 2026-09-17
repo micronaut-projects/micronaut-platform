@@ -4,6 +4,8 @@
 *.java   text eol=lf
 *.groovy text eol=lf
 *.html   text eol=lf
+*.adoc   text eol=lf
+*.tsv    text eol=lf
 *.kt     text eol=lf
 *.kts    text eol=lf
 *.md     text diff=markdown eol=lf
