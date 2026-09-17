@@ -54,7 +54,9 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#breaks"><strong>4</strong><span>Breaking Changes</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>5</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#platform5MigrationImpact"><strong>5</strong><span>Platform 5 Migration Impact</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>6</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -93,7 +95,9 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-breaks"><a href="#breaks"><strong>4</strong><span>Breaking Changes</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>5</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-platform5MigrationImpact"><a href="#platform5MigrationImpact"><strong>5</strong><span>Platform 5 Migration Impact</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>6</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -7996,6 +8000,9 @@ dependencyResolutionManagement {
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>See <a href="#platform-5-migration-impact">Platform 5 Migration Impact</a> for the generated appendix of accepted Platform 5 BOM and version-catalog regressions.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_build_tool_support">Build Tool Support</h3>
@@ -8009,7 +8016,658 @@ dependencyResolutionManagement {
 </div>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>5 Repository</h1>
+<h1 id="platform5MigrationImpact"><a class="anchor" href="#platform5MigrationImpact"></a>5 Platform 5 Migration Impact</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-platform/edit/5.2.x/src/main/docs/guide/platform5MigrationImpact.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>This appendix is generated from <code>platform/src/main/migration-impact/platform-5.tsv</code>.
+It lists accepted Platform 5 BOM and version-catalog regressions that may affect application upgrades.
+The managed dependency matrix remains the reference for dependencies currently managed by the platform.
+Maintainers refresh this page with <code>./gradlew :micronaut-platform:updatePlatformMigrationImpactAppendix</code> and verify it with <code>./gradlew :micronaut-platform:verifyPlatformMigrationImpactAppendix</code>.</p>
+</div>
+<div class="sect1">
+<h2 id="platform-5-migration-impact">Platform 5 Migration Impact</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Artifact or alias</th>
+<th class="tableblock halign-left valign-top">Surface</th>
+<th class="tableblock halign-left valign-top">Change type</th>
+<th class="tableblock halign-left valign-top">Release line</th>
+<th class="tableblock halign-left valign-top">Source or reason</th>
+<th class="tableblock halign-left valign-top">Guidance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boms-kotlin-coroutines</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOM alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reactor and Kotlin coroutines dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Import the Micronaut module BOM that manages Kotlin coroutines, or declare the Kotlin coroutines BOM directly if your build still needs it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boms-langchain4j</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOM alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LangChain4j BOM is no longer imported by Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Import the LangChain4j BOM directly if your build still needs its dependency management.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boms-reactor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOM alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reactor and Kotlin coroutines dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Import the Micronaut module BOM that manages Reactor, or declare the Reactor BOM directly if your build still needs it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-microstream-bom</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOM alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-rxjava2-bom</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOM alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2 support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence-grpc-proxy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Micronaut Coherence 5 regression accepted in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence-java-client</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Micronaut Coherence 5 regression accepted in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>graal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated removal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated Graal/native-image-era library alias removed for Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use current GraalVM tooling coordinates directly when needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>graal-sdk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated removal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated Graal/native-image-era library alias removed for Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use current GraalVM tooling coordinates directly when needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jackson-datatype-jdk8</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jackson datatype alias accepted as a Platform 5 library regression during JUnit/Jackson dependency changes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jackson-datatype-jsr310</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jackson datatype alias accepted as a Platform 5 library regression during JUnit/Jackson dependency changes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jackson-module-parameterNames</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jackson module alias accepted as a Platform 5 library regression during JUnit/Jackson dependency changes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>junit-platform-jfr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JUnit Platform changed in JUnit 6.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use current JUnit Platform artifacts directly if your build still needs this module.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>junit-platform-runner</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JUnit Platform changed in JUnit 6.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migrate away from the legacy JUnit Platform runner or declare it directly if still required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kafka</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kafka compatibility entry accepted as a Platform 5 library regression.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kotlinx-coroutines-core</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kotlin coroutines dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the Kotlin coroutines artifact directly if your application still requires this alias.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kotlinx-coroutines-jdk8</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kotlin coroutines dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the Kotlin coroutines artifact directly if your application still requires this alias.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kotlinx-coroutines-reactive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kotlin coroutines dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the Kotlin coroutines artifact directly if your application still requires this alias.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kotlinx-coroutines-reactor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kotlin coroutines dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the Kotlin coroutines artifact directly if your application still requires this alias.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kotlinx-coroutines-rx2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kotlin coroutines dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the Kotlin coroutines artifact directly if your application still requires this alias.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kotlinx-coroutines-slf4j</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kotlin coroutines dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the Kotlin coroutines artifact directly if your application still requires this alias.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-coherence-grpc-client</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Micronaut Coherence 5 regression accepted in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-coherence-grpc-test</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Micronaut Coherence 5 regression accepted in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-kubernetes-client-rxjava2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2 support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-micrometer-registry-wavefront</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wavefront is end of life, so the Micrometer Wavefront registry is no longer managed by Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use another Micronaut Micrometer registry, or declare the Wavefront registry coordinates directly if your build still needs it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-microstream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-microstream-annotations</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-microstream-cache</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-microstream-rest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-openapi-generator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Temporarily absent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenAPI generator is temporarily removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the generator directly until Platform 5 records it again.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-oraclecloud-bmc-aianomalydetection</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Module is no longer published by the Oracle Cloud Infrastructure SDK.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-oraclecloud-bmc-applicationmigration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Module is no longer published by the Oracle Cloud Infrastructure SDK.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-oraclecloud-bmc-dts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Module is no longer published by the Oracle Cloud Infrastructure SDK.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-oraclecloud-bmc-globallydistributeddatabase</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Cloud SDK change accepted as a Platform 5 library regression.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-oraclecloud-bmc-osmanagement</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Module is no longer published by the Oracle Cloud Infrastructure SDK.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-oraclecloud-bmc-servicemesh</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Module is no longer published by the Oracle Cloud Infrastructure SDK.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-rxjava2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2 support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-rxjava2-http-client</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2 support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-rxjava2-http-server-netty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2 support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-test-resources-elasticsearch</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test Resources Elasticsearch alias accepted as a Platform 5 library regression.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>microstream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>microstream-aws-dynamodb</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>microstream-aws-s3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>microstream-cache</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>microstream-sql</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>microstream-storage-embedded-configuration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>microstream-storage-restservice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>neo4j-harness</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Neo4j changes accepted as a Platform 5 library regression.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>netty-contrib-multipart-vintage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Netty multipart vintage alias accepted as a Platform 5 library regression.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>netty-incubator-codec-http3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moved or renamed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Netty 4.2 moved HTTP/3 support from incubator modules into the Netty monorepo.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use the Netty 4.2 managed coordinates instead of incubator aliases.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ojdbc8</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle JDBC aliases were removed from imported BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare Oracle JDBC artifacts directly if your application still requires these aliases.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>r2dbc-io-asyncer-mysql</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed in Micronaut R2DBC 6.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the asyncer MySQL R2DBC driver directly if your application still uses it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reactor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reactor dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the Reactor artifact directly if your application still requires this alias.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reactor-netty-http</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reactor-netty-http</code> was removed by Micronaut R2DBC upstream changes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use the Reactor Netty coordinates managed by current Micronaut modules, or declare the artifact directly if required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reactor-test</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reactor dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the Reactor test artifact directly if your application still requires this alias.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rxjava2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2 support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ucp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Library regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle JDBC aliases were removed from imported BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare Oracle JDBC artifacts directly if your application still requires these aliases.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>graal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated removal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated Graal/native-image-era version alias removed for Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use current GraalVM tooling coordinates directly when needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>graal-sdk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated removal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated Graal/native-image-era version alias removed for Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use current GraalVM tooling coordinates directly when needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>graal-svm</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated removal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deprecated Graal/native-image-era version alias removed for Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use current GraalVM tooling coordinates directly when needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jackson-databind</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jackson-databind</code> is accepted as a Platform 5 version-catalog compatibility regression.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>junit-platform</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JUnit Platform changed in JUnit 6.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use the current JUnit Platform version managed by JUnit 6 or declare a direct override if needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kafka-compat</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kafka compatibility entry accepted as a Platform 5 version regression.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kotlin-coroutines</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kotlin coroutines dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Import the Micronaut module BOM that manages Kotlin coroutines, or declare a direct Kotlin coroutines version if required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>langchain4j</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LangChain4j BOM is no longer imported by Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Import the LangChain4j BOM directly if your build still needs its dependency management.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-microstream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut-rxjava2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2 support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>microstream</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MicroStream support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement is recorded in Platform 5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>neo4j</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Neo4j changes accepted as a Platform 5 version regression.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No direct replacement recorded.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>netty-http3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moved or renamed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Netty 4.2 moved HTTP/3 support from incubator modules into the Netty monorepo.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use the Netty 4.2 managed coordinates instead of incubator aliases.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>netty-iouring</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moved or renamed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Netty 4.2 moved io_uring support from incubator modules into the Netty monorepo.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use the Netty 4.2 managed coordinates instead of incubator aliases.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>r2dbc-io-asyncer-mysql</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed in Micronaut R2DBC 6.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare the asyncer MySQL R2DBC driver directly if your application still uses it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reactor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reactor dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Import the Micronaut module BOM that manages Reactor, or declare a direct Reactor version if required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reactor-bom</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version regression</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reactor dependency management is provided by module BOMs in Platform 5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Import the Micronaut module BOM that manages Reactor, or declare the Reactor BOM directly if required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reactor-netty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reactor-netty-http</code> was removed by Micronaut R2DBC upstream changes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use the Reactor Netty coordinates managed by current Micronaut modules, or declare a direct version if required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rxjava2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2 support was removed in Micronaut 5.0.0.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<h1 id="repository"><a class="anchor" href="#repository"></a>6 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-platform/edit/5.2.x/src/main/docs/guide/repository.adoc"'>
