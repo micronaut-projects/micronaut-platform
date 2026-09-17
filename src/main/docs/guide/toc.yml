@@ -3,4 +3,5 @@ introduction:
 managedDependencies: Managed Dependencies
 releaseHistory: Release History
 breaks: Breaking Changes
+platform5MigrationImpact: Platform 5 Migration Impact
 repository: Repository
