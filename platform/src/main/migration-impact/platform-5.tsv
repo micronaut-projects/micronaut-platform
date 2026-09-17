@@ -28,6 +28,7 @@ releaseLine	surface	id	acceptedRegressionKind	changeType	sourceOrReason	guidance
 5.0.x	version-alias	langchain4j	version	version-regression	LangChain4j BOM is no longer imported by Platform 5.	Import the LangChain4j BOM directly if your build still needs its dependency management.	true
 5.0.x	library-alias	micronaut-coherence-grpc-client	library	library-regression	Micronaut Coherence 5 regression accepted in Platform 5.	No direct replacement recorded.	true
 5.0.x	library-alias	micronaut-coherence-grpc-test	library	library-regression	Micronaut Coherence 5 regression accepted in Platform 5.	No direct replacement recorded.	true
+5.0.x	library-alias	micronaut-micrometer-registry-wavefront	library	removed	Wavefront is end of life, so the Micrometer Wavefront registry is no longer managed by Platform 5.	Use another Micronaut Micrometer registry, or declare the Wavefront registry coordinates directly if your build still needs it.	true
 5.0.x	library-alias	micronaut-microstream	library	removed	MicroStream support was removed in Micronaut 5.0.0.	No direct replacement is recorded in Platform 5.	true
 5.0.x	version-alias	micronaut-microstream	version	removed	MicroStream support was removed in Micronaut 5.0.0.	No direct replacement is recorded in Platform 5.	true
 5.0.x	library-alias	micronaut-microstream-annotations	library	removed	MicroStream support was removed in Micronaut 5.0.0.	No direct replacement is recorded in Platform 5.	true
