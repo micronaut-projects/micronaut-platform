@@ -33,6 +33,7 @@ Maintainers refresh this page with `./gradlew :micronaut-platform:updatePlatform
 |`micronaut-coherence-grpc-client` |Library alias |Library regression |5.0.x |Micronaut Coherence 5 regression accepted in Platform 5. |No direct replacement recorded.
 |`micronaut-coherence-grpc-test` |Library alias |Library regression |5.0.x |Micronaut Coherence 5 regression accepted in Platform 5. |No direct replacement recorded.
 |`micronaut-kubernetes-client-rxjava2` |Library alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`micronaut-micrometer-registry-wavefront` |Library alias |Removed |5.0.x |Wavefront is end of life, so the Micrometer Wavefront registry is no longer managed by Platform 5. |Use another Micronaut Micrometer registry, or declare the Wavefront registry coordinates directly if your build still needs it.
 |`micronaut-microstream` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
 |`micronaut-microstream-annotations` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
 |`micronaut-microstream-cache` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
