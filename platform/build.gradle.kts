@@ -205,7 +205,7 @@ micronautBom {
                 "neo4j-harness",
             )
         }
-        "duplicate Micronaut module aliases are normalized in Micronaut 5.0.0".apply {
+        "duplicate Micronaut module aliases are normalized in Micronaut Platform 5.2.0".apply {
             acceptedVersionRegressions.addAll(
                 "micronaut-mongodb",
                 "micronaut-oracle-cloud",

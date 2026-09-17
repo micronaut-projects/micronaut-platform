@@ -33,6 +33,7 @@ Maintainers refresh this page with `./gradlew :micronaut-platform:updatePlatform
 |`micronaut-coherence-grpc-client` |Library alias |Library regression |5.0.x |Micronaut Coherence 5 regression accepted in Platform 5. |No direct replacement recorded.
 |`micronaut-coherence-grpc-test` |Library alias |Library regression |5.0.x |Micronaut Coherence 5 regression accepted in Platform 5. |No direct replacement recorded.
 |`micronaut-kubernetes-client-rxjava2` |Library alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`micronaut-micrometer-registry-wavefront` |Library alias |Removed |5.0.x |Wavefront is end of life, so the Micrometer Wavefront registry is no longer managed by Platform 5. |Use another Micronaut Micrometer registry, or declare the Wavefront registry coordinates directly if your build still needs it.
 |`micronaut-microstream` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
 |`micronaut-microstream-annotations` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
 |`micronaut-microstream-cache` |Library alias |Removed |5.0.x |MicroStream support was removed in Micronaut 5.0.0. |No direct replacement is recorded in Platform 5.
@@ -84,4 +85,7 @@ Maintainers refresh this page with `./gradlew :micronaut-platform:updatePlatform
 |`reactor-bom` |Version alias |Version regression |5.0.x |Reactor dependency management is provided by module BOMs in Platform 5. |Import the Micronaut module BOM that manages Reactor, or declare the Reactor BOM directly if required.
 |`reactor-netty` |Version alias |Removed |5.0.x |`reactor-netty-http` was removed by Micronaut R2DBC upstream changes. |Use the Reactor Netty coordinates managed by current Micronaut modules, or declare a direct version if required.
 |`rxjava2` |Version alias |Removed |5.0.x |RxJava 2 support was removed in Micronaut 5.0.0. |Migrate to Reactor, RxJava 3, or declare legacy RxJava 2 artifacts directly if your application still requires them.
+|`micronaut-mongodb` |Version alias |Moved or renamed |5.2.x |Duplicate Micronaut MongoDB version alias removed so the platform declares a single canonical MongoDB version. |Use the `micronaut-mongo` version alias, or the `micronaut.mongo.version` property in Maven builds.
+|`micronaut-oracle-cloud` |Version alias |Moved or renamed |5.2.x |Duplicate Micronaut Oracle Cloud version alias removed so the platform declares a single canonical Oracle Cloud version. |Use the `micronaut-oraclecloud` version alias, or the `micronaut.oraclecloud.version` property in Maven builds.
+|`micronaut-problem-json` |Version alias |Moved or renamed |5.2.x |Duplicate Micronaut Problem JSON version alias removed so the platform declares a single canonical Problem JSON version. |Use the `micronaut-problem` version alias, or the `micronaut.problem.version` property in Maven builds.
 |===
