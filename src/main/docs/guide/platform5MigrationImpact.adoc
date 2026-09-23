@@ -69,6 +69,7 @@ Maintainers refresh this page with `./gradlew :micronaut-platform:updatePlatform
 |`graal` |Version alias |Deprecated removal |5.0.x |Deprecated Graal/native-image-era version alias removed for Platform 5. |Use current GraalVM tooling coordinates directly when needed.
 |`graal-sdk` |Version alias |Deprecated removal |5.0.x |Deprecated Graal/native-image-era version alias removed for Platform 5. |Use current GraalVM tooling coordinates directly when needed.
 |`graal-svm` |Version alias |Deprecated removal |5.0.x |Deprecated Graal/native-image-era version alias removed for Platform 5. |Use current GraalVM tooling coordinates directly when needed.
+|`graalpy-embedding` |Version alias |Version regression |5.0.x |GraalPy embedding now shares the `graalpy` version alias in the Micronaut Core BOM. |Use the `graalpy` version alias or declare `org.graalvm.python:python-embedding` directly.
 |`jackson-databind` |Version alias |Version regression |5.0.x |`jackson-databind` is accepted as a Platform 5 version-catalog compatibility regression. |No direct replacement recorded.
 |`junit-platform` |Version alias |Version regression |5.0.x |JUnit Platform changed in JUnit 6. |Use the current JUnit Platform version managed by JUnit 6 or declare a direct override if needed.
 |`kafka-compat` |Version alias |Version regression |5.0.x |Kafka compatibility entry accepted as a Platform 5 version regression. |No direct replacement recorded.

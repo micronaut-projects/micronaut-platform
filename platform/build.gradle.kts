@@ -248,6 +248,10 @@ micronautBom {
                 "graal-sdk"
             )
         }
+
+        "graalpy embedding now shares the graalpy version alias".apply {
+            acceptedVersionRegressions.add("graalpy-embedding")
+        }
     }
 }
 

@@ -9,6 +9,7 @@ releaseLine	surface	id	acceptedRegressionKind	changeType	sourceOrReason	guidance
 5.0.x	version-alias	graal-sdk	version	deprecated-removal	Deprecated Graal/native-image-era version alias removed for Platform 5.	Use current GraalVM tooling coordinates directly when needed.	true
 5.0.x	library-alias	graal-sdk	library	deprecated-removal	Deprecated Graal/native-image-era library alias removed for Platform 5.	Use current GraalVM tooling coordinates directly when needed.	true
 5.0.x	version-alias	graal-svm	version	deprecated-removal	Deprecated Graal/native-image-era version alias removed for Platform 5.	Use current GraalVM tooling coordinates directly when needed.	true
+5.0.x	version-alias	graalpy-embedding	version	version-regression	GraalPy embedding now shares the `graalpy` version alias in the Micronaut Core BOM.	Use the `graalpy` version alias or declare `org.graalvm.python:python-embedding` directly.	true
 5.0.x	version-alias	jackson-databind	version	version-regression	`jackson-databind` is accepted as a Platform 5 version-catalog compatibility regression.	No direct replacement recorded.	true
 5.0.x	library-alias	jackson-datatype-jdk8	library	library-regression	Jackson datatype alias accepted as a Platform 5 library regression during JUnit/Jackson dependency changes.	No direct replacement recorded.	true
 5.0.x	library-alias	jackson-datatype-jsr310	library	library-regression	Jackson datatype alias accepted as a Platform 5 library regression during JUnit/Jackson dependency changes.	No direct replacement recorded.	true
