@@ -9,7 +9,7 @@ The `exec-maven-plugin` configuration of `micronaut-parent`, which `mvn exec:exe
 JMX keeps working without the flag:
 
 - JConsole, VisualVM and JMC attach to the running JVM through the Attach API, which starts the local agent on demand. `jcmd` does not need the agent.
-- Setting `com.sun.management.jmxremote.port` (with its `authenticate` and `ssl` properties) on its own still starts the agent, with both the local and the remote connector.
+- Adding `-Dcom.sun.management.jmxremote.port=<port>` (with its `authenticate` and `ssl` properties) to the application's arguments, in either of the ways shown below, starts the agent without `-Dcom.sun.management.jmxremote`, with both the local and the remote connector. Passing it to `mvn` itself is not enough, because `exec:exec` runs the application in a separate JVM that does not get Maven's system properties.
 - A JVM started with `-XX:+DisableAttachMechanism` cannot start the agent on demand, so local tools need the flag there.
 
 To pass the flag again for one run, replace the arguments with `exec.args`. The single quotes keep the shell from expanding `${exec.mainClass}`, so that Maven resolves it:
