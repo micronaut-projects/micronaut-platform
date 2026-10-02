@@ -1,5 +1,43 @@
 This section documents breaking changes between Micronaut versions
 
+== 5.3.0
+
+=== Parent POM
+
+The `exec-maven-plugin` configuration of `micronaut-parent`, which `mvn exec:exec` uses to run the application, no longer passes `-Dcom.sun.management.jmxremote`. The JVM therefore no longer starts the JMX management agent and its local RMI connector before `main`, which shortens the application's startup. The `mn:run` goal and the Gradle `run` task configure their own JVM arguments and are not affected by this change.
+
+JMX keeps working without the flag:
+
+- JConsole, VisualVM and JMC attach to the running JVM through the Attach API, which starts the local agent on demand. `jcmd` does not need the agent.
+- Setting `com.sun.management.jmxremote.port` (with its `authenticate` and `ssl` properties) on its own still starts the agent, with both the local and the remote connector.
+- A JVM started with `-XX:+DisableAttachMechanism` cannot start the agent on demand, so local tools need the flag there.
+
+To pass the flag again for one run, replace the arguments with `exec.args`. The single quotes keep the shell from expanding `${exec.mainClass}`, so that Maven resolves it:
+
+[source,bash]
+----
+./mvnw exec:exec -Dexec.args='-classpath %classpath -XX:TieredStopAtLevel=1 -Dcom.sun.management.jmxremote ${exec.mainClass}'
+----
+
+To pass it on every run, override the arguments in the application's POM:
+
+[source,xml]
+----
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <configuration>
+        <arguments combine.self="override">
+            <argument>-classpath</argument>
+            <classpath/>
+            <argument>-XX:TieredStopAtLevel=1</argument>
+            <argument>-Dcom.sun.management.jmxremote</argument>
+            <argument>${exec.mainClass}</argument>
+        </arguments>
+    </configuration>
+</plugin>
+----
+
 == 5.0.0
 
 === Removals
