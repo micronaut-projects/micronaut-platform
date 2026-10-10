@@ -1,0 +1,20 @@
+# Modules released by the release train (.github/workflows/release-train.yml).
+#
+# Each table is keyed by the module's version entry in gradle/libs.versions.toml.
+# By default the module lives in micronaut-projects/<key without "managed-"> and the
+# train releases the <major>.<minor>.x branch of its managed version, so
+# managed-micronaut-data = "5.2.2" tracks micronaut-projects/micronaut-data on 5.2.x.
+#
+# Optional overrides:
+#   repo   = "micronaut-projects/micronaut-serialization"
+#   branch = "3.2.x"
+#
+# The next version of a module always comes from the tracked branch's projectVersion
+# (5.2.3-SNAPSHOT releases as 5.2.3). To release a minor, bump the branch to the next
+# minor snapshot, or create the new branch and set `branch` here.
+
+[modules.managed-micronaut-core]
+
+[modules.managed-micronaut-data]
+
+[modules.managed-micronaut-serialization]
