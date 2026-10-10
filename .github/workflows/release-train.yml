@@ -1,0 +1,150 @@
+# Release train dry run: decides which modules in gradle/release-train.toml need a release,
+# compares the published dependencies of modules whose catalog changed, and drafts the release
+# notes for review.
+#
+# This workflow is specific to micronaut-platform and is not synced from micronaut-project-template.
+#
+# Writing module draft releases needs a GitHub App installed on the module repositories:
+# set the RELEASE_TRAIN_CLIENT_ID variable and the RELEASE_TRAIN_PRIVATE_KEY secret.
+name: Release Train
+on:
+  workflow_dispatch:
+    inputs:
+      write-drafts:
+        description: 'Create or update the module and platform draft releases'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: release-train-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      dependency-checks: ${{ steps.plan.outputs.dependency-checks }}
+      has-dependency-checks: ${{ steps.plan.outputs.has-dependency-checks }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - name: Plan the release train
+        id: plan
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 .github/scripts/release-train.py plan
+      - name: Upload plan
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-train-plan
+          path: build/release-train/plan.json
+          retention-days: 5
+
+  dependencies:
+    needs: plan
+    if: needs.plan.outputs.has-dependency-checks == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        check: ${{ fromJSON(needs.plan.outputs.dependency-checks) }}
+    name: dependencies (${{ matrix.check.key }})
+    steps:
+      - name: Remove system JDKs
+        run: |
+          sudo rm -rf /usr/lib/jvm/*
+          unset JAVA_HOME
+          export PATH=$(echo "$PATH" | tr ':' '\n' | grep -v '/usr/lib/jvm' | paste -sd:)
+      - name: Checkout platform
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          path: platform
+      - name: Checkout last release
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: ${{ matrix.check.repo }}
+          ref: ${{ matrix.check.base }}
+          path: base
+      - name: Checkout branch head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: ${{ matrix.check.repo }}
+          ref: ${{ matrix.check.head }}
+          path: head
+      - name: Set up JDK
+        uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6
+        with:
+          distribution: 'temurin'
+          java-version: |
+            25
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
+      - name: Generate published POMs
+        env:
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          DEVELOCITY_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+        run: |
+          (cd base && ./gradlew -q generatePomFileForMavenPublication)
+          (cd head && ./gradlew -q generatePomFileForMavenPublication)
+      - name: Compare published dependencies
+        env:
+          MODULE_KEY: ${{ matrix.check.key }}
+        run: |
+          python3 platform/.github/scripts/release-train.py pom-diff \
+            --key "$MODULE_KEY" --base-dir base --head-dir head --output dependency-check.json
+      - name: Upload result
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dependency-check-${{ matrix.check.key }}
+          path: dependency-check.json
+          retention-days: 5
+
+  drafts:
+    needs: [plan, dependencies]
+    # A failed dependency check still drafts: the module is then planned as a release for review.
+    if: always() && needs.plan.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # To create or update the platform draft release.
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Download plan
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-train-plan
+          path: build/release-train
+      - name: Download dependency checks
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: dependency-check-*
+          path: build/release-train/dependency-checks
+      - name: Create module token
+        id: app-token
+        if: inputs.write-drafts && vars.RELEASE_TRAIN_CLIENT_ID != ''
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.RELEASE_TRAIN_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_TRAIN_PRIVATE_KEY }}
+          owner: micronaut-projects
+          permission-contents: write
+      - name: Draft release notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODULES_TOKEN: ${{ steps.app-token.outputs.token }}
+          WRITE_DRAFTS: ${{ inputs.write-drafts }}
+        run: |
+          args=(--results build/release-train/dependency-checks)
+          if [ "$WRITE_DRAFTS" == "true" ]; then
+            args+=(--write-drafts)
+          fi
+          python3 .github/scripts/release-train.py drafts "${args[@]}"
+      - name: Upload final plan
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-train-plan-final
+          path: build/release-train/plan-final.json
+          retention-days: 5
