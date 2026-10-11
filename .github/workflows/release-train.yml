@@ -1,6 +1,7 @@
 # Release train dry run: decides which modules in gradle/release-train.toml need a release,
-# compares the published dependencies of modules whose catalog changed, and drafts the release
-# notes for review.
+# rehearses each module's release (vulnerability audit, release bundle at the release version,
+# docs, and a comparison of published dependencies when only the catalog changed), and drafts
+# the release notes for review. Nothing is tagged, signed or published.
 #
 # This workflow is specific to micronaut-platform and is not synced from micronaut-project-template.
 #
@@ -23,8 +24,8 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     outputs:
-      dependency-checks: ${{ steps.plan.outputs.dependency-checks }}
-      has-dependency-checks: ${{ steps.plan.outputs.has-dependency-checks }}
+      release-checks: ${{ steps.plan.outputs.release-checks }}
+      has-release-checks: ${{ steps.plan.outputs.has-release-checks }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -42,37 +43,48 @@ jobs:
           path: build/release-train/plan.json
           retention-days: 5
 
-  dependencies:
+  release-check:
     needs: plan
-    if: needs.plan.outputs.has-dependency-checks == 'true'
+    if: needs.plan.outputs.has-release-checks == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        check: ${{ fromJSON(needs.plan.outputs.dependency-checks) }}
-    name: dependencies (${{ matrix.check.key }})
+        module: ${{ fromJSON(needs.plan.outputs.release-checks) }}
+    # One job per module, named after the release it rehearses: a red job is a release that would fail.
+    name: release check (${{ matrix.module.title }} ${{ matrix.module.version }})
     steps:
       - name: Remove system JDKs
         run: |
           sudo rm -rf /usr/lib/jvm/*
           unset JAVA_HOME
           export PATH=$(echo "$PATH" | tr ':' '\n' | grep -v '/usr/lib/jvm' | paste -sd:)
+      - name: "🗑 Free disk space"
+        run: |
+         sudo rm -rf "/usr/local/share/boost"
+         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+         sudo rm -rf "/opt/ghc"
+         sudo rm -rf "/usr/share/dotnet"
+         sudo rm -rf "/usr/local/lib/android"
+         sudo apt-get clean
+         df -h
       - name: Checkout platform
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           path: platform
-      - name: Checkout last release
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          repository: ${{ matrix.check.repo }}
-          ref: ${{ matrix.check.base }}
-          path: base
       - name: Checkout branch head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          repository: ${{ matrix.check.repo }}
-          ref: ${{ matrix.check.head }}
+          repository: ${{ matrix.module.repo }}
+          ref: ${{ matrix.module.head }}
           path: head
+      - name: Checkout last release
+        if: matrix.module.check-dependencies
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: ${{ matrix.module.repo }}
+          ref: ${{ matrix.module.base }}
+          path: base
       - name: Set up JDK
         uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6
         with:
@@ -81,30 +93,90 @@ jobs:
             25
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
-      - name: Generate published POMs
+      # Each check continues on error so every result is recorded; the last step fails the job.
+      - name: Compare published dependencies
+        id: dependencies
+        if: matrix.module.check-dependencies
+        continue-on-error: true
         env:
+          MODULE_KEY: ${{ matrix.module.key }}
           DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           DEVELOCITY_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           DEVELOCITY_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
         run: |
           (cd base && ./gradlew -q generatePomFileForMavenPublication)
           (cd head && ./gradlew -q generatePomFileForMavenPublication)
-      - name: Compare published dependencies
-        env:
-          MODULE_KEY: ${{ matrix.check.key }}
-        run: |
           python3 platform/.github/scripts/release-train.py pom-diff \
             --key "$MODULE_KEY" --base-dir base --head-dir head --output dependency-check.json
+      # The same audit release.yml runs before publishing: advisory for milestones and release candidates.
+      - name: Vulnerability audit
+        id: audit
+        continue-on-error: true
+        working-directory: head
+        env:
+          RELEASE_VERSION: ${{ matrix.module.version }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          DEVELOCITY_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+        run: |
+          set -o pipefail
+          if [[ ! -x .github/scripts/vulnerability-audit.sh ]]; then
+            echo "No .github/scripts/vulnerability-audit.sh: the release workflow would fail" | tee ../audit.log
+            exit 1
+          fi
+          if [[ "${RELEASE_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+-(M|RC)[0-9]+$ ]]; then
+            export VULNERABILITY_AUDIT_ENFORCEMENT=advisory
+          fi
+          .github/scripts/vulnerability-audit.sh 2>&1 | tee ../audit.log
+      # Builds what publishToMavenCentral would upload, at the release version, without signing or uploading.
+      - name: Release build
+        id: build
+        continue-on-error: true
+        working-directory: head
+        env:
+          RELEASE_VERSION: ${{ matrix.module.version }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          DEVELOCITY_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+        run: ./gradlew preReleaseCheck prepareBundle -PprojectVersion="$RELEASE_VERSION" -PskipSigning
+      - name: Docs
+        id: docs
+        continue-on-error: true
+        working-directory: head
+        env:
+          RELEASE_VERSION: ${{ matrix.module.version }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          DEVELOCITY_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+        run: ./gradlew docs -PprojectVersion="$RELEASE_VERSION"
+      - name: Record results
+        if: always()
+        env:
+          MODULE_KEY: ${{ matrix.module.key }}
+          DEPENDENCIES_OUTCOME: ${{ steps.dependencies.outcome }}
+          AUDIT_OUTCOME: ${{ steps.audit.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          DOCS_OUTCOME: ${{ steps.docs.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 platform/.github/scripts/release-train.py release-check \
+            --key "$MODULE_KEY" --audit-log audit.log --dependency-result dependency-check.json \
+            --output release-check.json
       - name: Upload result
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: dependency-check-${{ matrix.check.key }}
-          path: dependency-check.json
+          name: release-check-${{ matrix.module.key }}
+          path: release-check.json
           retention-days: 5
 
   drafts:
-    needs: [plan, dependencies]
-    # A failed dependency check still drafts: the module is then planned as a release for review.
+    needs: [plan, release-check]
+    # Runs even when a release check fails: the summary is where the failures are shown.
     if: always() && needs.plan.result == 'success'
     runs-on: ubuntu-latest
     permissions:
@@ -117,11 +189,11 @@ jobs:
         with:
           name: release-train-plan
           path: build/release-train
-      - name: Download dependency checks
+      - name: Download release checks
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          pattern: dependency-check-*
-          path: build/release-train/dependency-checks
+          pattern: release-check-*
+          path: build/release-train/release-checks
       - name: Create module token
         id: app-token
         if: inputs.write-drafts && vars.RELEASE_TRAIN_CLIENT_ID != ''
@@ -137,7 +209,7 @@ jobs:
           MODULES_TOKEN: ${{ steps.app-token.outputs.token }}
           WRITE_DRAFTS: ${{ inputs.write-drafts }}
         run: |
-          args=(--results build/release-train/dependency-checks)
+          args=(--results build/release-train/release-checks)
           if [ "$WRITE_DRAFTS" == "true" ]; then
             args+=(--write-drafts)
           fi

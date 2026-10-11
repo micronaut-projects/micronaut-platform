@@ -4,6 +4,7 @@
 Subcommands:
   plan      Compare each module's tracked branch with its last release and decide what to release.
   pom-diff  Compare the published POMs of a module at two revisions.
+  release-check  Record the outcome of a module's release checks (audit, release build, docs).
   drafts    Fold the dependency checks into the plan, write the summary and the draft releases.
 """
 
@@ -30,6 +31,8 @@ RELEASE_COMMIT = re.compile(r"^\[skip ci\] Release v(\S+)")
 MAVEN_NAMESPACE = "{http://maven.apache.org/POM/4.0.0}"
 NON_PUBLISHED_ROOTS = ("test-", "tests", "doc-examples", "examples", "benchmarks")
 BUILD_LOGIC_ROOTS = ("buildSrc/", "build-logic/", ".github/", "gradle/", "config/")
+FAILED_CONCLUSIONS = {"failure", "timed_out", "cancelled", "action_required", "startup_failure"}
+AUDIT_FINDINGS_HEADER = "Actionable vulnerability findings:"
 TRAIN_START = "<!-- release-train:start -->"
 TRAIN_END = "<!-- release-train:end -->"
 
@@ -158,6 +161,21 @@ def decide(changes, files, released_since, truncated):
     return UNCHANGED, ["no changes since the last release"]
 
 
+def branch_ci(github, repo, sha):
+    """Summarise the check runs on the branch head the train would release."""
+    response = github.request(f"/repos/{repo}/commits/{sha}/check-runs?per_page=100") or {"check_runs": []}
+    runs = response["check_runs"]
+    failing = sorted({run["name"] for run in runs if run["conclusion"] in FAILED_CONCLUSIONS})
+    pending = sorted({run["name"] for run in runs if run["status"] != "completed"})
+    if failing:
+        state = "failure"
+    elif pending:
+        state = "pending"
+    else:
+        state = "success" if runs else "none"
+    return {"state": state, "failing": failing, "pending": pending, "url": f"https://github.com/{repo}/commit/{sha}"}
+
+
 def plan_module(github, module):
     repo, branch = module["repo"], module["branch"]
     base = f"v{module['current']}"
@@ -197,13 +215,15 @@ def plan_module(github, module):
     if not changes:
         files = {category: [] for category in files}
     decision, reasons = decide(changes, files, released_since, truncated)
+    head = comparison["commits"][-1]["sha"] if comparison["commits"] else base
 
     return {
         **module,
         "title": properties.get("title", repo.split("/")[1]),
         "lastRelease": released_since or module["current"],
         "base": base,
-        "head": comparison["commits"][-1]["sha"] if comparison["commits"] else base,
+        "head": head,
+        "ci": branch_ci(github, repo, head) if decision in (RELEASE, CHECK_DEPENDENCIES) else None,
         "nextVersion": project_version.removesuffix("-SNAPSHOT"),
         "projectVersion": project_version,
         "decision": decision,
@@ -271,12 +291,21 @@ def command_plan(arguments):
     Path(arguments.output).parent.mkdir(parents=True, exist_ok=True)
     Path(arguments.output).write_text(json.dumps(plan, indent=2))
 
+    # Every module that may release gets a release check; catalog-only changes also compare their POMs.
     checks = [
-        {"key": module["key"], "repo": module["repo"], "base": module["base"], "head": module["head"]}
-        for module in modules if module["decision"] == CHECK_DEPENDENCIES
+        {
+            "key": module["key"],
+            "title": module["title"],
+            "repo": module["repo"],
+            "base": module["base"],
+            "head": module["head"],
+            "version": module["nextVersion"],
+            "check-dependencies": module["decision"] == CHECK_DEPENDENCIES,
+        }
+        for module in modules if module["decision"] in (RELEASE, CHECK_DEPENDENCIES)
     ]
-    write_output("dependency-checks", json.dumps(checks))
-    write_output("has-dependency-checks", str(bool(checks)).lower())
+    write_output("release-checks", json.dumps(checks))
+    write_output("has-release-checks", str(bool(checks)).lower())
     for module in modules:
         print(f"{module['key']}: {module['decision']} ({'; '.join(module['reasons'])})")
 
@@ -338,15 +367,59 @@ def command_pom_diff(arguments):
     print(json.dumps(result, indent=2))
 
 
-def apply_dependency_checks(plan, results_dir):
+def audit_findings(log_text):
+    """Return the actionable findings the vulnerability audit printed, one entry per vulnerable component."""
+    findings, collecting = [], False
+    for line in log_text.splitlines():
+        line = re.sub(r"^\S+Z ", "", line.rstrip())
+        if line.strip() == AUDIT_FINDINGS_HEADER:
+            collecting = True
+        elif collecting and line.startswith("- "):
+            findings.append(line[2:])
+        elif collecting and line.startswith("  ") and findings:
+            findings[-1] += f" {line.strip()}"
+        elif collecting and line.strip():
+            collecting = False
+    return findings
+
+
+def command_release_check(arguments):
+    """Record the outcome of each release check for one module, as reported by the workflow steps."""
+    checks = {
+        "dependencies": os.environ.get("DEPENDENCIES_OUTCOME") or "skipped",
+        "audit": os.environ.get("AUDIT_OUTCOME") or "skipped",
+        "build": os.environ.get("BUILD_OUTCOME") or "skipped",
+        "docs": os.environ.get("DOCS_OUTCOME") or "skipped",
+    }
+    result = {"key": arguments.key, "checks": checks, "runUrl": os.environ.get("RUN_URL")}
+    audit_log = Path(arguments.audit_log) if arguments.audit_log else None
+    if audit_log and audit_log.exists():
+        text = audit_log.read_text(errors="replace")
+        result["auditFindings"] = audit_findings(text)
+        result["auditAdvisory"] = "Vulnerability audit advisory" in text
+    dependency_result = Path(arguments.dependency_result) if arguments.dependency_result else None
+    if dependency_result and dependency_result.exists():
+        result["dependencyDiff"] = json.loads(dependency_result.read_text())
+    elif checks["dependencies"] == "success":
+        checks["dependencies"] = "failure"
+    Path(arguments.output).write_text(json.dumps(result, indent=2))
+    print(json.dumps(result, indent=2))
+    failed = [name for name, outcome in checks.items() if outcome == "failure"]
+    if failed:
+        raise SystemExit(f"Release checks failed for {arguments.key}: {', '.join(failed)}")
+
+
+def apply_release_checks(plan, results_dir):
     results = {}
-    for path in Path(results_dir).glob("**/*.json") if results_dir else []:
+    for path in Path(results_dir).glob("**/release-check.json") if results_dir else []:
         result = json.loads(path.read_text())
         results[result["key"]] = result
     for module in plan["modules"]:
+        if module["key"] in results:
+            module["releaseCheck"] = results[module["key"]]
         if module["decision"] != CHECK_DEPENDENCIES:
             continue
-        result = results.get(module["key"])
+        result = results.get(module["key"], {}).get("dependencyDiff")
         if result is None:
             module["decision"] = RELEASE
             module["reasons"] = ["dependency check did not complete; releasing to be safe, review before the real run"]
@@ -362,11 +435,6 @@ def apply_dependency_checks(plan, results_dir):
             module["reasons"] = ["only build or test dependencies changed"]
     plan["platform"]["release"] = platform_releases(plan)
     return plan
-
-
-def module_notes(module):
-    lines = [f"- {change['message']} ({change['author']})" for change in module["changes"]]
-    return "\n".join(lines) or "- No changes"
 
 
 def module_draft(github, module):
@@ -451,6 +519,100 @@ def platform_draft(github, repository, plan):
     })
 
 
+CHECK_LABELS = {
+    "audit": "vulnerability audit",
+    "build": "release build",
+    "docs": "docs",
+    "dependencies": "dependency check",
+}
+ICONS = {"success": "✅", "failure": "❌", "cancelled": "❌", "advisory": "⚠️", "pending": "⏳", "skipped": "➖", "none": "➖"}
+
+
+def check_names(names, limit=3):
+    shown = ", ".join(name if len(name) <= 60 else f"{name[:57]}..." for name in names[:limit])
+    return f"{shown} and {len(names) - limit} more" if len(names) > limit else shown
+
+
+def readiness(module):
+    """Return (cells, blocking, warnings) for a module the train would release."""
+    result = module.get("releaseCheck")
+    if result is None:
+        cells = {name: "failure" for name in CHECK_LABELS}
+        return cells, ["release checks did not run"], []
+    cells = dict(result["checks"])
+    if cells["audit"] == "success" and result.get("auditAdvisory"):
+        cells["audit"] = "advisory"
+    ci = module.get("ci") or {"state": "none"}
+    cells["ci"] = ci["state"]
+    blocking = [CHECK_LABELS[name] for name in CHECK_LABELS if cells[name] in ("failure", "cancelled")]
+    # The release workflow does not run the branch's CI, so a red branch warns rather than blocks.
+    warnings = []
+    if ci["state"] == "failure":
+        warnings.append(f"branch CI failing: {check_names(ci['failing'])}")
+    elif ci["state"] == "pending":
+        warnings.append(f"branch CI still running: {check_names(ci['pending'])}")
+    if cells["audit"] == "advisory":
+        warnings.append("vulnerability audit findings are advisory for milestones and release candidates")
+    return cells, blocking, warnings
+
+
+def readiness_section(plan):
+    releasing = [module for module in plan["modules"] if module["decision"] == RELEASE]
+    if not releasing:
+        return []
+    states = {module["key"]: readiness(module) for module in releasing}
+    blocked = [module for module in releasing if states[module["key"]][1]]
+    if blocked:
+        verdict = f"❌ **{len(blocked)} of {len(releasing)} modules would fail their release:** " + "; ".join(
+            f"{module['title']} ({', '.join(states[module['key']][1])})" for module in blocked
+        )
+    else:
+        verdict = f"✅ **All {len(releasing)} releasing modules pass their release checks.**"
+    lines = [
+        "## Release readiness",
+        "",
+        verdict,
+        "",
+        "| Module | Version | Vulnerability audit | Release build | Docs | Dependencies | Branch CI |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for module in releasing:
+        cells = states[module["key"]][0]
+        run = (module.get("releaseCheck") or {}).get("runUrl")
+        title = f"[{module['title']}]({run})" if run else module["title"]
+        ci = f"[{ICONS[cells['ci']]}]({module['ci']['url']})" if module.get("ci") else ICONS["none"]
+        lines.append(
+            f"| {title} | {module['nextVersion']} | {ICONS[cells['audit']]} | {ICONS[cells['build']]} |"
+            f" {ICONS[cells['docs']]} | {ICONS[cells['dependencies']]} | {ci} |"
+        )
+    for module in releasing:
+        findings = (module.get("releaseCheck") or {}).get("auditFindings")
+        if findings:
+            failed = states[module["key"]][0]["audit"] == "failure"
+            count = f"{len(findings)} vulnerability finding{'s' if len(findings) != 1 else ''}"
+            lines += ["", f"<details{' open' if failed else ''}><summary>{module['title']}: {count}</summary>", ""]
+            lines += [f"- {finding}" for finding in findings]
+            lines += ["", "</details>"]
+        for warning in states[module["key"]][2]:
+            lines += ["", f"> ⚠️ {module['title']}: {warning}"]
+    lines.append("")
+    return lines
+
+
+def annotations(plan):
+    """GitHub workflow commands that surface blocked modules on the run page."""
+    lines = []
+    for module in plan["modules"]:
+        if module["decision"] != RELEASE:
+            continue
+        _, blocking, warnings = readiness(module)
+        if blocking:
+            lines.append(f"::error title={module['title']} {module['nextVersion']} would fail::{'; '.join(blocking)}")
+        for warning in warnings:
+            lines.append(f"::warning title={module['title']} {module['nextVersion']}::{warning}")
+    return lines
+
+
 def summary(plan, write_drafts):
     platform = plan["platform"]
     lines = [
@@ -458,6 +620,9 @@ def summary(plan, write_drafts):
         "",
         f"Platform {platform['nextVersion']} (previous {platform['previousTag'] or 'none'}): "
         + ("**releases**" if platform["release"] else "nothing to release"),
+        "",
+        *readiness_section(plan),
+        "## Modules",
         "",
         "| Module | Branch | Last release | Next | Decision | Why | Changes |",
         "| --- | --- | --- | --- | --- | --- | --- |",
@@ -484,7 +649,7 @@ def summary(plan, write_drafts):
 
 
 def command_drafts(arguments):
-    plan = apply_dependency_checks(json.loads(Path(arguments.plan).read_text()), arguments.results)
+    plan = apply_release_checks(json.loads(Path(arguments.plan).read_text()), arguments.results)
     if arguments.write_drafts:
         module_github = GitHub(os.environ.get("MODULES_TOKEN"))
         for module in plan["modules"]:
@@ -504,6 +669,8 @@ def command_drafts(arguments):
         with open(step_summary, "a") as file:
             file.write(text)
     print(text)
+    for line in annotations(plan):
+        print(line)
 
 
 def main(argv=None):
@@ -523,9 +690,16 @@ def main(argv=None):
     pom_diff.add_argument("--output", required=True)
     pom_diff.set_defaults(handler=command_pom_diff)
 
+    release_check = subcommands.add_parser("release-check")
+    release_check.add_argument("--key", required=True)
+    release_check.add_argument("--audit-log", help="Output of the vulnerability audit")
+    release_check.add_argument("--dependency-result", help="pom-diff result, when the dependencies were compared")
+    release_check.add_argument("--output", required=True)
+    release_check.set_defaults(handler=command_release_check)
+
     drafts = subcommands.add_parser("drafts")
     drafts.add_argument("--plan", default="build/release-train/plan.json")
-    drafts.add_argument("--results", help="Directory holding the pom-diff results")
+    drafts.add_argument("--results", help="Directory holding the release-check results")
     drafts.add_argument("--output", default="build/release-train/plan-final.json")
     drafts.add_argument("--repository", default=os.environ.get("GITHUB_REPOSITORY", f"{ORG}/micronaut-platform"))
     drafts.add_argument("--write-drafts", action="store_true")

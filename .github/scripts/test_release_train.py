@@ -4,6 +4,7 @@
 import importlib.util
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
 
 SCRIPT = Path(__file__).with_name("release-train.py")
@@ -144,6 +145,89 @@ class PomDiffTest(unittest.TestCase):
             self.write(after, "data-jdbc", pom("micronaut-data-jdbc", [("org.t", "t", "2.0", "test")]))
             differences = train.compare_published(train.published_dependencies(before), train.published_dependencies(after))
             self.assertEqual(differences, [])
+
+
+AUDIT_LOG = """2026-10-11T10:00:00.0000000Z Scanning CycloneDX SBOM with OSV-Scanner
+2026-10-11T10:00:01.0000000Z Actionable vulnerability findings:
+2026-10-11T10:00:01.0000000Z - org.mongodb:bson:5.7.0 (GHSA-xxxx-yyyy-zzzz; fixed: 5.7.1)
+2026-10-11T10:00:01.0000000Z   Reason: direct dependency
+2026-10-11T10:00:01.0000000Z - io.netty:netty-codec:4.2.1.Final (CVE-2026-0001; fixed: 4.2.2.Final)
+2026-10-11T10:00:02.0000000Z Process completed with exit code 1.
+"""
+
+
+class ReleaseCheckTest(unittest.TestCase):
+    def test_audit_findings_are_extracted(self):
+        findings = train.audit_findings(AUDIT_LOG)
+        self.assertEqual(len(findings), 2)
+        self.assertEqual(findings[0], "org.mongodb:bson:5.7.0 (GHSA-xxxx-yyyy-zzzz; fixed: 5.7.1) Reason: direct dependency")
+
+    def test_clean_audit_has_no_findings(self):
+        self.assertEqual(train.audit_findings("No known vulnerabilities found.\n"), [])
+
+    def test_release_check_records_outcomes_and_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory, "audit.log")
+            log.write_text(AUDIT_LOG)
+            output = Path(directory, "release-check.json")
+            environment = {"AUDIT_OUTCOME": "failure", "BUILD_OUTCOME": "success", "DOCS_OUTCOME": "success"}
+            with unittest.mock.patch.dict("os.environ", environment):
+                with self.assertRaises(SystemExit):
+                    train.main(["release-check", "--key", "managed-micronaut-data", "--audit-log", str(log), "--output", str(output)])
+            result = train.json.loads(output.read_text())
+            self.assertEqual(result["checks"]["audit"], "failure")
+            self.assertEqual(result["checks"]["dependencies"], "skipped")
+            self.assertEqual(len(result["auditFindings"]), 2)
+
+
+class ReadinessTest(unittest.TestCase):
+    def module(self, checks=None, ci="success", advisory=False):
+        module = {
+            "key": "managed-micronaut-data", "title": "Micronaut Data", "nextVersion": "5.2.3", "decision": train.RELEASE,
+            "ci": {"state": ci, "failing": ["build"] if ci == "failure" else [], "pending": [], "url": "https://example.com"},
+        }
+        if checks is not None:
+            module["releaseCheck"] = {"checks": checks, "auditAdvisory": advisory}
+        return module
+
+    def passing(self, **overrides):
+        return {"dependencies": "skipped", "audit": "success", "build": "success", "docs": "success", **overrides}
+
+    def test_all_checks_pass(self):
+        _, blocking, warnings = train.readiness(self.module(self.passing()))
+        self.assertEqual((blocking, warnings), ([], []))
+
+    def test_failed_audit_blocks(self):
+        _, blocking, _ = train.readiness(self.module(self.passing(audit="failure")))
+        self.assertEqual(blocking, ["vulnerability audit"])
+
+    def test_advisory_audit_warns(self):
+        cells, blocking, warnings = train.readiness(self.module(self.passing(), advisory=True))
+        self.assertEqual(cells["audit"], "advisory")
+        self.assertEqual(blocking, [])
+        self.assertEqual(len(warnings), 1)
+
+    def test_failing_branch_ci_warns(self):
+        _, blocking, warnings = train.readiness(self.module(self.passing(), ci="failure"))
+        self.assertEqual(blocking, [])
+        self.assertEqual(warnings, ["branch CI failing: build"])
+
+    def test_long_check_lists_are_shortened(self):
+        self.assertEqual(train.check_names(["a", "b", "c", "d", "e"]), "a, b, c and 2 more")
+
+    def test_missing_release_check_blocks(self):
+        _, blocking, _ = train.readiness(self.module())
+        self.assertEqual(blocking, ["release checks did not run"])
+
+    def test_summary_shows_verdict_and_annotation(self):
+        plan = {
+            "platform": {"nextVersion": "5.2.3", "previousTag": "v5.2.2", "release": True, "thirdPartyChanges": []},
+            "modules": [{**self.module(self.passing(audit="failure")), "branch": "5.2.x", "lastRelease": "5.2.2",
+                         "current": "5.2.2", "reasons": ["published sources changed"], "changes": [], "compareUrl": "https://example.com"}],
+        }
+        text = train.summary(plan, False)
+        self.assertIn("1 of 1 modules would fail their release", text)
+        self.assertEqual(train.annotations(plan), ["::error title=Micronaut Data 5.2.3 would fail::vulnerability audit"])
 
 
 class ReleaseNotesTest(unittest.TestCase):
