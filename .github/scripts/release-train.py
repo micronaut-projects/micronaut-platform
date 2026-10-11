@@ -15,6 +15,7 @@ import os
 import re
 import subprocess
 import sys
+import tarfile
 import time
 import tomllib
 import urllib.error
@@ -31,7 +32,12 @@ RELEASE_COMMIT = re.compile(r"^\[skip ci\] Release v(\S+)")
 MAVEN_NAMESPACE = "{http://maven.apache.org/POM/4.0.0}"
 NON_PUBLISHED_ROOTS = ("test-", "tests", "doc-examples", "examples", "benchmarks")
 BUILD_LOGIC_ROOTS = ("buildSrc/", "build-logic/", ".github/", "gradle/", "config/")
-FAILED_CONCLUSIONS = {"failure", "timed_out", "cancelled", "action_required", "startup_failure"}
+# The Central Portal accepts uploads up to 1 GB: https://central.sonatype.org/publish/publish-portal-upload/
+UPLOAD_LIMIT_BYTES = 1_000_000_000
+UPLOAD_WARNING_BYTES = UPLOAD_LIMIT_BYTES * 8 // 10
+PUBLISHING_LIMITS_URL = "https://central.sonatype.org/publish/maven-central-publishing-limits/"
+CHECKSUM_SUFFIXES = (".md5", ".sha1", ".sha256", ".sha512")
+FAILED_CONCLUSIONS ={"failure", "timed_out", "cancelled", "action_required", "startup_failure"}
 AUDIT_FINDINGS_HEADER = "Actionable vulnerability findings:"
 TRAIN_START = "<!-- release-train:start -->"
 TRAIN_END = "<!-- release-train:end -->"
@@ -383,6 +389,19 @@ def audit_findings(log_text):
     return findings
 
 
+def bundle_stats(bundle_dir):
+    """Size and file count of the bundle a release would upload to the Central Portal."""
+    bundles = sorted(Path(bundle_dir).glob("*.tgz")) + sorted(Path(bundle_dir).glob("*.tar*")) if bundle_dir else []
+    if not bundles:
+        return None
+    bundle = bundles[0]
+    with tarfile.open(bundle) as archive:
+        names = [member.name for member in archive.getmembers() if member.isfile()]
+    # The rehearsal is not signed: a release adds one .asc signature per file that is not a checksum.
+    signed = [name for name in names if not name.endswith(CHECKSUM_SUFFIXES + (".asc",))]
+    return {"name": bundle.name, "bytes": bundle.stat().st_size, "files": len(names) + len(signed)}
+
+
 def command_release_check(arguments):
     """Record the outcome of each release check for one module, as reported by the workflow steps."""
     checks = {
@@ -397,6 +416,9 @@ def command_release_check(arguments):
         text = audit_log.read_text(errors="replace")
         result["auditFindings"] = audit_findings(text)
         result["auditAdvisory"] = "Vulnerability audit advisory" in text
+    bundle = bundle_stats(arguments.bundle_dir)
+    if bundle:
+        result["bundle"] = bundle
     dependency_result = Path(arguments.dependency_result) if arguments.dependency_result else None
     if dependency_result and dependency_result.exists():
         result["dependencyDiff"] = json.loads(dependency_result.read_text())
@@ -553,7 +575,35 @@ def readiness(module):
         warnings.append(f"branch CI still running: {check_names(ci['pending'])}")
     if cells["audit"] == "advisory":
         warnings.append("vulnerability audit findings are advisory for milestones and release candidates")
+    bundle = result.get("bundle")
+    if bundle and bundle["bytes"] > UPLOAD_LIMIT_BYTES:
+        blocking.append(f"bundle is {megabytes(bundle['bytes'])}, over the Central Portal's 1 GB upload limit")
+    elif bundle and bundle["bytes"] > UPLOAD_WARNING_BYTES:
+        warnings.append(f"bundle is {megabytes(bundle['bytes'])}, close to the Central Portal's 1 GB upload limit")
     return cells, blocking, warnings
+
+
+def megabytes(size):
+    return f"{size / 1_000_000:,.1f} MB"
+
+
+def train_upload(releasing):
+    """One line totalling what the train would upload to the Central Portal."""
+    bundles = [(module, (module.get("releaseCheck") or {}).get("bundle")) for module in releasing]
+    measured = [(module, bundle) for module, bundle in bundles if bundle]
+    if not measured:
+        return None
+    total = sum(bundle["bytes"] for _, bundle in measured)
+    files = sum(bundle["files"] for _, bundle in measured)
+    largest_module, largest = max(measured, key=lambda entry: entry[1]["bytes"])
+    unmeasured = len(bundles) - len(measured)
+    return (
+        f"**Central upload:** {len(measured)} deployment{'s' if len(measured) != 1 else ''}, {megabytes(total)} and about {files:,} files once signed"
+        + (f" ({unmeasured} not measured)" if unmeasured else "")
+        + f". Each module is uploaded separately; the largest is {largest_module['title']} at {megabytes(largest['bytes'])}"
+        f" (limit 1 GB per upload). Everything counts toward the organization's monthly"
+        f" [publishing limits]({PUBLISHING_LIMITS_URL}): check the Central Portal usage page before the real run."
+    )
 
 
 def readiness_section(plan):
@@ -568,22 +618,26 @@ def readiness_section(plan):
         )
     else:
         verdict = f"✅ **All {len(releasing)} releasing modules pass their release checks.**"
+    upload = train_upload(releasing)
     lines = [
         "## Release readiness",
         "",
         verdict,
         "",
-        "| Module | Version | Vulnerability audit | Release build | Docs | Dependencies | Branch CI |",
-        "| --- | --- | --- | --- | --- | --- | --- |",
+        *([upload, ""] if upload else []),
+        "| Module | Version | Vulnerability audit | Release build | Docs | Dependencies | Branch CI | Bundle |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for module in releasing:
         cells = states[module["key"]][0]
         run = (module.get("releaseCheck") or {}).get("runUrl")
         title = f"[{module['title']}]({run})" if run else module["title"]
         ci = f"[{ICONS[cells['ci']]}]({module['ci']['url']})" if module.get("ci") else ICONS["none"]
+        bundle = (module.get("releaseCheck") or {}).get("bundle")
+        size = f"{megabytes(bundle['bytes'])}, {bundle['files']:,} files" if bundle else ICONS["none"]
         lines.append(
             f"| {title} | {module['nextVersion']} | {ICONS[cells['audit']]} | {ICONS[cells['build']]} |"
-            f" {ICONS[cells['docs']]} | {ICONS[cells['dependencies']]} | {ci} |"
+            f" {ICONS[cells['docs']]} | {ICONS[cells['dependencies']]} | {ci} | {size} |"
         )
     for module in releasing:
         findings = (module.get("releaseCheck") or {}).get("auditFindings")
@@ -694,6 +748,7 @@ def main(argv=None):
     release_check.add_argument("--key", required=True)
     release_check.add_argument("--audit-log", help="Output of the vulnerability audit")
     release_check.add_argument("--dependency-result", help="pom-diff result, when the dependencies were compared")
+    release_check.add_argument("--bundle-dir", help="Directory holding the rehearsed Central Portal bundle")
     release_check.add_argument("--output", required=True)
     release_check.set_defaults(handler=command_release_check)
 

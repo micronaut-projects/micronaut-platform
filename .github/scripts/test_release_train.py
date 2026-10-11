@@ -230,6 +230,48 @@ class ReadinessTest(unittest.TestCase):
         self.assertEqual(train.annotations(plan), ["::error title=Micronaut Data 5.2.3 would fail::vulnerability audit"])
 
 
+class BundleTest(unittest.TestCase):
+    def test_bundle_stats_count_signatures(self):
+        with tempfile.TemporaryDirectory() as directory:
+            files = ["a/1.0/a-1.0.jar", "a/1.0/a-1.0.jar.md5", "a/1.0/a-1.0.jar.sha1", "a/1.0/a-1.0.pom"]
+            for name in files:
+                Path(directory, "repo", name).parent.mkdir(parents=True, exist_ok=True)
+                Path(directory, "repo", name).write_text("x")
+            bundle_dir = Path(directory, "maven-bundle")
+            bundle_dir.mkdir()
+            with train.tarfile.open(bundle_dir / "a-maven-bundle-1.0.tgz", "w:gz") as archive:
+                for name in files:
+                    archive.add(Path(directory, "repo", name), arcname=name)
+            stats = train.bundle_stats(bundle_dir)
+            self.assertEqual(stats["name"], "a-maven-bundle-1.0.tgz")
+            self.assertEqual(stats["files"], 6)
+
+    def test_missing_bundle(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertIsNone(train.bundle_stats(directory))
+
+    def module(self, size):
+        checks = {"dependencies": "skipped", "audit": "success", "build": "success", "docs": "success"}
+        return {
+            "key": "managed-micronaut-data", "title": "Micronaut Data", "nextVersion": "5.2.3", "decision": train.RELEASE,
+            "releaseCheck": {"checks": checks, "bundle": {"name": "b.tgz", "bytes": size, "files": 100}},
+        }
+
+    def test_oversized_bundle_blocks(self):
+        _, blocking, _ = train.readiness(self.module(1_200_000_000))
+        self.assertEqual(blocking, ["bundle is 1,200.0 MB, over the Central Portal's 1 GB upload limit"])
+
+    def test_large_bundle_warns(self):
+        _, blocking, warnings = train.readiness(self.module(900_000_000))
+        self.assertEqual(blocking, [])
+        self.assertEqual(len(warnings), 1)
+
+    def test_train_upload_totals(self):
+        line = train.train_upload([self.module(60_000_000), {**self.module(20_000_000), "title": "Micronaut Core"}])
+        self.assertIn("2 deployments, 80.0 MB and about 200 files once signed", line)
+        self.assertIn("the largest is Micronaut Data at 60.0 MB", line)
+
+
 class ReleaseNotesTest(unittest.TestCase):
     def test_train_section_is_replaced_in_place(self):
         body = f"Intro\n\n{train.TRAIN_START}\nold\n{train.TRAIN_END}\n\n## Bugs\n- fix"
