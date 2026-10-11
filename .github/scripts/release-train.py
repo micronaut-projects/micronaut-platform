@@ -35,6 +35,7 @@ BUILD_LOGIC_ROOTS = ("buildSrc/", "build-logic/", ".github/", "gradle/", "config
 # The Central Portal accepts uploads up to 1 GB: https://central.sonatype.org/publish/publish-portal-upload/
 UPLOAD_LIMIT_BYTES = 1_000_000_000
 UPLOAD_WARNING_BYTES = UPLOAD_LIMIT_BYTES * 8 // 10
+MONTHLY_SHARE_WARNING = 0.25
 PUBLISHING_LIMITS_URL = "https://central.sonatype.org/publish/maven-central-publishing-limits/"
 CHECKSUM_SUFFIXES = (".md5", ".sha1", ".sha256", ".sha512")
 FAILED_CONCLUSIONS ={"failure", "timed_out", "cancelled", "action_required", "startup_failure"}
@@ -293,6 +294,7 @@ def command_plan(arguments):
     github = GitHub(os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN"))
     modules = [plan_module(github, module) for module in train_modules(manifest, versions)]
     plan = {"platform": plan_platform(versions, modules), "modules": modules}
+    plan["platform"]["centralLimits"] = manifest.get("central-limits")
     plan["platform"]["release"] = platform_releases(plan)
     Path(arguments.output).parent.mkdir(parents=True, exist_ok=True)
     Path(arguments.output).write_text(json.dumps(plan, indent=2))
@@ -587,7 +589,27 @@ def megabytes(size):
     return f"{size / 1_000_000:,.1f} MB"
 
 
-def train_upload(releasing):
+def monthly_share(total_bytes, files, releases, limits):
+    """The train's share of the namespace's monthly publishing limits, and a warning when it is large."""
+    if not limits:
+        return "", None
+    shares = {
+        "size": (total_bytes / limits["bytes"], f"{limits['bytes'] / 1e9:g} GB"),
+        "files": (files / limits["files"], f"{limits['files']:,} files"),
+        "releases": (releases / limits["releases"], f"{limits['releases']:,} releases"),
+    }
+    text = " This train uses " + ", ".join(
+        f"{share:.1%} of the monthly {name} limit ({limit})" for name, (share, limit) in shares.items()
+    ) + "."
+    large = [name for name, (share, _) in shares.items() if share > MONTHLY_SHARE_WARNING]
+    warning = (
+        f"this train alone uses over {MONTHLY_SHARE_WARNING:.0%} of the monthly {' and '.join(large)} limit"
+        if large else None
+    )
+    return text, warning
+
+
+def train_upload(releasing, limits=None):
     """One line totalling what the train would upload to the Central Portal."""
     bundles = [(module, (module.get("releaseCheck") or {}).get("bundle")) for module in releasing]
     measured = [(module, bundle) for module, bundle in bundles if bundle]
@@ -597,13 +619,16 @@ def train_upload(releasing):
     files = sum(bundle["files"] for _, bundle in measured)
     largest_module, largest = max(measured, key=lambda entry: entry[1]["bytes"])
     unmeasured = len(bundles) - len(measured)
-    return (
+    # The platform BOM is one more release; its size is negligible.
+    share, warning = monthly_share(total, files, len(bundles) + 1, limits)
+    line = (
         f"**Central upload:** {len(measured)} deployment{'s' if len(measured) != 1 else ''}, {megabytes(total)} and about {files:,} files once signed"
         + (f" ({unmeasured} not measured)" if unmeasured else "")
         + f". Each module is uploaded separately; the largest is {largest_module['title']} at {megabytes(largest['bytes'])}"
-        f" (limit 1 GB per upload). Everything counts toward the organization's monthly"
-        f" [publishing limits]({PUBLISHING_LIMITS_URL}): check the Central Portal usage page before the real run."
+        f" (limit 1 GB per upload).{share} Check the namespace's usage this month on the Central Portal before the real run"
+        f" ([publishing limits]({PUBLISHING_LIMITS_URL}))."
     )
+    return line + (f"\n\n> ⚠️ {warning[0].upper()}{warning[1:]}." if warning else "")
 
 
 def readiness_section(plan):
@@ -618,7 +643,7 @@ def readiness_section(plan):
         )
     else:
         verdict = f"✅ **All {len(releasing)} releasing modules pass their release checks.**"
-    upload = train_upload(releasing)
+    upload = train_upload(releasing, plan["platform"].get("centralLimits"))
     lines = [
         "## Release readiness",
         "",

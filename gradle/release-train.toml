@@ -13,6 +13,14 @@
 # (5.2.3-SNAPSHOT releases as 5.2.3). To release a minor, bump the branch to the next
 # minor snapshot, or create the new branch and set `branch` here.
 
+# Monthly Maven Central publishing limits of the io.micronaut namespace, from the Central Portal
+# usage page (October 2026). The dry run shows each train as a share of them.
+# See https://central.sonatype.org/publish/maven-central-publishing-limits/
+[central-limits]
+bytes = 8_500_000_000
+files = 181_620
+releases = 210
+
 [modules.managed-micronaut-core]
 
 [modules.managed-micronaut-data]

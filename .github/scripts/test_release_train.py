@@ -272,6 +272,28 @@ class BundleTest(unittest.TestCase):
         self.assertIn("the largest is Micronaut Data at 60.0 MB", line)
 
 
+class MonthlyShareTest(unittest.TestCase):
+    LIMITS = {"bytes": 8_500_000_000, "files": 181_620, "releases": 210}
+
+    def test_small_train(self):
+        text, warning = train.monthly_share(85_000_000, 1_816, 3, self.LIMITS)
+        self.assertIn("1.0% of the monthly size limit (8.5 GB)", text)
+        self.assertIn("1.0% of the monthly files limit (181,620 files)", text)
+        self.assertIn("1.4% of the monthly releases limit (210 releases)", text)
+        self.assertIsNone(warning)
+
+    def test_large_train_warns(self):
+        _, warning = train.monthly_share(3_000_000_000, 10_000, 20, self.LIMITS)
+        self.assertEqual(warning, "this train alone uses over 25% of the monthly size limit")
+
+    def test_no_limits_configured(self):
+        self.assertEqual(train.monthly_share(1, 1, 1, None), ("", None))
+
+    def test_manifest_limits_parse(self):
+        manifest = train.tomllib.loads(Path(SCRIPT.parents[2], "gradle/release-train.toml").read_text())
+        self.assertEqual(manifest["central-limits"], self.LIMITS)
+
+
 class ReleaseNotesTest(unittest.TestCase):
     def test_train_section_is_replaced_in_place(self):
         body = f"Intro\n\n{train.TRAIN_START}\nold\n{train.TRAIN_END}\n\n## Bugs\n- fix"
