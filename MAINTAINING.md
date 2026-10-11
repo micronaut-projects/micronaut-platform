@@ -186,6 +186,13 @@ The train tracks the branches listed in micronaut-platform's `gradle/release-tra
 A standalone release made since the last platform release is picked up: the next platform release includes that version
 without releasing the module again.
 
+Some modules stay out of the train because their releases use a large share of the namespace's monthly
+[Maven Central publishing limits](https://central.sonatype.org/publish/maven-central-publishing-limits/). Micronaut Oracle
+Cloud is one: each release publishes 190 artifacts, about 268 MB and 9,480 files. Such a module is listed in
+`gradle/release-train.toml` with `exclude = "<reason>"`. It is never released by the train and keeps the standalone
+process, and the platform still picks up its releases. The dry run shows each train's size, file count and releases as a
+share of the monthly limits; check the namespace's current usage on the Central Portal before a real run.
+
 The platform itself is released when any module is released, or when a managed version in its catalog changed.
 
 #### Choosing the version
