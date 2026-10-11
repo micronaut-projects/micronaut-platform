@@ -185,6 +185,24 @@ def branch_ci(github, repo, sha):
     return {"state": state, "failing": failing, "pending": pending, "url": f"https://github.com/{repo}/commit/{sha}"}
 
 
+def version_key(version):
+    return [int(part) if part.isdigit() else part for part in re.split(r"[.-]", version)]
+
+
+def version_problems(project_version, last_release, branch):
+    """Problems with the branch's projectVersion that would make the train release the wrong version."""
+    if not project_version.endswith("-SNAPSHOT"):
+        return [f"`{branch}` is at `{project_version}`, not a snapshot: bump it to the next snapshot after v{last_release}"]
+    next_version = project_version.removesuffix("-SNAPSHOT")
+    try:
+        later = version_key(next_version) > version_key(last_release)
+    except TypeError:
+        later = next_version != last_release
+    if not later:
+        return [f"`{branch}` is at `{project_version}`, which is not after v{last_release}"]
+    return []
+
+
 def plan_module(github, module):
     repo, branch = module["repo"], module["branch"]
     base = f"v{module['current']}"
@@ -202,10 +220,12 @@ def plan_module(github, module):
     for index, commit in enumerate(commits):
         match = RELEASE_COMMIT.match(commit["commit"]["message"])
         if match:
-            released_since = match.group(1)
+            # The release commit of the platform's own version can follow its tag: only a later one is new.
+            if match.group(1) != module["current"]:
+                released_since = match.group(1)
             base = commit["sha"]
             commits = commits[index + 1:]
-    if released_since:
+    if base != f"v{module['current']}":
         comparison = github.request(f"/repos/{repo}/compare/{base}...{branch}")
 
     truncated = comparison["total_commits"] > len(comparison["commits"]) or len(comparison.get("files", [])) >= 300
@@ -240,6 +260,7 @@ def plan_module(github, module):
         "changes": changes,
         "files": files,
         "compareUrl": comparison["html_url"],
+        "problems": version_problems(project_version, released_since or module["current"], branch),
     }
 
 
@@ -597,13 +618,14 @@ def readiness(module):
     result = module.get("releaseCheck")
     if result is None:
         cells = {name: "failure" for name in CHECK_LABELS}
-        return cells, ["release checks did not run"], []
+        return cells, ["release checks did not run"] + module.get("problems", []), []
     cells = dict(result["checks"])
     if cells["audit"] == "success" and result.get("auditAdvisory"):
         cells["audit"] = "advisory"
     ci = module.get("ci") or {"state": "none"}
     cells["ci"] = ci["state"]
     blocking = [CHECK_LABELS[name] for name in CHECK_LABELS if cells[name] in ("failure", "cancelled")]
+    blocking += module.get("problems", [])
     # The release workflow does not run the branch's CI, so a red branch warns rather than blocks.
     warnings = []
     if ci["state"] == "failure":
@@ -751,6 +773,8 @@ def summary(plan, write_drafts):
     for module in plan["modules"]:
         if module.get("draftStatus") and module["draftStatus"] not in ("existing", "created"):
             lines += ["", f"> {module['title']}: {module['draftStatus']}"]
+        if module["decision"] != RELEASE and module.get("problems"):
+            lines += ["", *[f"> ⚠️ {module['title']}: {problem}" for problem in module["problems"]]]
         if module.get("dependencyChanges"):
             lines += ["", f"<details><summary>{module['title']} dependency changes</summary>", ""]
             unique = sorted({difference.split(": ", 1)[-1] for difference in module["dependencyChanges"]})

@@ -308,6 +308,77 @@ class MonthlyShareTest(unittest.TestCase):
         self.assertEqual(manifest["central-limits"], self.LIMITS)
 
 
+class FakeGitHub:
+    token = None
+
+    def __init__(self, responses):
+        self.responses = responses
+
+    def request(self, path, method="GET", body=None):
+        for prefix, response in self.responses.items():
+            if path.startswith(prefix):
+                return response
+        return None
+
+
+def commit(sha, message, login="someone"):
+    return {"sha": sha * 10, "author": {"login": login}, "html_url": f"https://example.com/{sha}",
+            "commit": {"message": message, "author": {"name": login}}}
+
+
+class PlanModuleTest(unittest.TestCase):
+    MODULE = {"key": "managed-micronaut-r2dbc", "repo": "micronaut-projects/micronaut-r2dbc", "branch": "7.2.x", "current": "7.2.0"}
+
+    def github(self, project_version, commits, later_commits, files):
+        properties = train.base64.b64encode(f"projectVersion={project_version}\n".encode()).decode()
+        def comparison(entries):
+            return {"commits": entries, "total_commits": len(entries), "files": files, "html_url": "https://example.com/compare"}
+        return FakeGitHub({
+            "/repos/micronaut-projects/micronaut-r2dbc/git/ref/tags/": {"ref": "refs/tags/v7.2.0"},
+            "/repos/micronaut-projects/micronaut-r2dbc/contents/gradle.properties": {"content": properties},
+            "/repos/micronaut-projects/micronaut-r2dbc/compare/v7.2.0...": comparison(commits),
+            "/repos/micronaut-projects/micronaut-r2dbc/compare/": comparison(later_commits),
+            "/repos/micronaut-projects/micronaut-r2dbc/commits/": {"check_runs": []},
+        })
+
+    def test_release_commit_of_current_version_is_not_a_standalone_release(self):
+        fix = commit("b", "Fix connection leak (#1)")
+        github = self.github(
+            "7.2.1-SNAPSHOT",
+            [commit("a", "[skip ci] Release v7.2.0", "micronaut-build"), commit("c", "chore: Bump version to 7.2.1-SNAPSHOT", "micronaut-build"), fix],
+            [commit("c", "chore: Bump version to 7.2.1-SNAPSHOT", "micronaut-build"), fix],
+            [{"filename": "r2dbc-core/src/main/java/Foo.java"}],
+        )
+        planned = train.plan_module(github, dict(self.MODULE))
+        self.assertEqual(planned["decision"], train.RELEASE)
+        self.assertEqual(planned["lastRelease"], "7.2.0")
+        self.assertEqual(planned["nextVersion"], "7.2.1")
+        self.assertEqual(planned["problems"], [])
+
+    def test_later_standalone_release_is_bumped(self):
+        github = self.github(
+            "7.2.2-SNAPSHOT",
+            [commit("a", "[skip ci] Release v7.2.1", "micronaut-build"), commit("c", "chore: Bump version to 7.2.2-SNAPSHOT", "micronaut-build")],
+            [commit("c", "chore: Bump version to 7.2.2-SNAPSHOT", "micronaut-build")],
+            [{"filename": "gradle.properties", "patch": "-projectVersion=7.2.1\n+projectVersion=7.2.2-SNAPSHOT"}],
+        )
+        planned = train.plan_module(github, dict(self.MODULE))
+        self.assertEqual(planned["decision"], train.BUMP)
+        self.assertEqual(planned["lastRelease"], "7.2.1")
+
+    def test_branch_not_bumped_after_release_is_a_problem(self):
+        problems = train.version_problems("6.2.0", "6.2.0", "6.2.x")
+        self.assertEqual(problems, ["`6.2.x` is at `6.2.0`, not a snapshot: bump it to the next snapshot after v6.2.0"])
+        self.assertEqual(train.version_problems("6.2.1-SNAPSHOT", "6.2.0", "6.2.x"), [])
+        self.assertEqual(len(train.version_problems("6.2.0-SNAPSHOT", "6.2.0", "6.2.x")), 1)
+
+    def test_problem_blocks_release(self):
+        module = {"key": "k", "title": "Micronaut Mongo", "nextVersion": "6.2.0", "decision": train.RELEASE,
+                  "problems": ["`6.2.x` is at `6.2.0`"],
+                  "releaseCheck": {"checks": {"dependencies": "skipped", "audit": "success", "build": "success", "docs": "success"}}}
+        self.assertEqual(train.readiness(module)[1], ["`6.2.x` is at `6.2.0`"])
+
+
 class ReleaseNotesTest(unittest.TestCase):
     def test_train_section_is_replaced_in_place(self):
         body = f"Intro\n\n{train.TRAIN_START}\nold\n{train.TRAIN_END}\n\n## Bugs\n- fix"

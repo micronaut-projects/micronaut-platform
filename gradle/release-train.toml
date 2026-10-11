@@ -1,22 +1,21 @@
 # Modules released by the release train (.github/workflows/release-train.yml).
 #
-# Each table is keyed by the module's version entry in gradle/libs.versions.toml.
-# By default the module lives in micronaut-projects/<key without "managed-"> and the
-# train releases the <major>.<minor>.x branch of its managed version, so
-# managed-micronaut-data = "5.2.2" tracks micronaut-projects/micronaut-data on 5.2.x.
+# Every managed Micronaut module of this platform line is listed, keyed by its version entry in
+# gradle/libs.versions.toml. `branch` is where the module's next release for this line comes from,
+# normally the <major>.<minor>.x branch of its managed version: managed-micronaut-data = "5.2.2"
+# releases from 5.2.x. Without `repo`, the module lives in micronaut-projects/<key without "managed-">.
 #
-# Optional overrides:
-#   repo    = "micronaut-projects/micronaut-serialization"
-#   branch  = "3.2.x"
+# Optional settings:
+#   repo    = "micronaut-projects/micronaut-discovery-client"
 #   exclude = "why the module releases on its own"
 #
 # An excluded module is never released by the train. It keeps releasing on its own, and the train
 # picks up those releases into the platform catalog. Exclude modules whose releases would use a
 # large share of the monthly Maven Central publishing limits below.
 #
-# The next version of a module always comes from the tracked branch's projectVersion
-# (5.2.3-SNAPSHOT releases as 5.2.3). To release a minor, bump the branch to the next
-# minor snapshot, or create the new branch and set `branch` here.
+# The next version of a module always comes from its branch's projectVersion (5.2.3-SNAPSHOT
+# releases as 5.2.3). To release a minor, bump the branch to the next minor snapshot, or create
+# the new branch and set `branch` here.
 
 # Monthly Maven Central publishing limits of the io.micronaut namespace, from the Central Portal
 # usage page (October 2026). The dry run shows each train as a share of them.
@@ -26,14 +25,226 @@ bytes = 8_500_000_000
 files = 181_620
 releases = 210
 
+[modules.managed-micronaut-acme]
+branch = "6.1.x"
+
+[modules.managed-micronaut-aot]
+branch = "3.1.x"
+
+[modules.managed-micronaut-aws]
+branch = "5.1.x"
+
+[modules.managed-micronaut-azure]
+branch = "6.2.x"
+
+[modules.managed-micronaut-cache]
+branch = "6.1.x"
+
+[modules.managed-micronaut-cassandra]
+branch = "7.1.x"
+
+[modules.managed-micronaut-chatbots]
+branch = "2.1.x"
+
+[modules.managed-micronaut-coherence]
+branch = "7.0.x"
+
+[modules.managed-micronaut-control-panel]
+branch = "2.2.x"
+
 [modules.managed-micronaut-core]
+branch = "5.2.x"
+
+[modules.managed-micronaut-crac]
+branch = "3.1.x"
 
 [modules.managed-micronaut-data]
+branch = "5.2.x"
 
-[modules.managed-micronaut-serialization]
+[modules.managed-micronaut-discovery]
+repo = "micronaut-projects/micronaut-discovery-client"
+branch = "5.1.x"
+
+[modules.managed-micronaut-eclipsestore]
+branch = "2.1.x"
+
+[modules.managed-micronaut-elasticsearch]
+branch = "6.1.x"
+
+[modules.managed-micronaut-email]
+branch = "3.2.x"
+
+[modules.managed-micronaut-flyway]
+branch = "8.1.x"
+
+[modules.managed-micronaut-gcp]
+branch = "6.2.x"
+
+[modules.managed-micronaut-graal-languages]
+branch = "2.1.x"
+
+[modules.managed-micronaut-graphql]
+branch = "5.1.x"
+
+[modules.managed-micronaut-groovy]
+branch = "5.1.x"
+
+[modules.managed-micronaut-grpc]
+branch = "5.2.x"
+
+[modules.managed-micronaut-guice]
+branch = "2.2.x"
+
+[modules.managed-micronaut-guides]
+repo = "micronaut-projects/micronaut-guides-sdk"
+branch = "0.3.x"
+
+[modules.managed-micronaut-hibernate-validator]
+branch = "5.1.x"
+
+[modules.managed-micronaut-jackson-xml]
+branch = "5.1.x"
+
+[modules.managed-micronaut-jakarta-el]
+branch = "1.1.x"
+
+[modules.managed-micronaut-jaxrs]
+branch = "5.1.x"
+
+[modules.managed-micronaut-jms]
+branch = "5.1.x"
+
+[modules.managed-micronaut-jmx]
+branch = "5.1.x"
+
+[modules.managed-micronaut-json-schema]
+branch = "2.3.x"
+
+[modules.managed-micronaut-kafka]
+branch = "6.2.x"
+
+[modules.managed-micronaut-kotlin]
+branch = "5.1.x"
+
+[modules.managed-micronaut-kubernetes]
+branch = "9.1.x"
+
+[modules.managed-micronaut-langchain4j]
+branch = "2.3.x"
+
+[modules.managed-micronaut-liquibase]
+branch = "7.2.x"
+
+[modules.managed-micronaut-logging]
+branch = "2.1.x"
+
+[modules.managed-micronaut-mcp]
+branch = "2.1.x"
+
+[modules.managed-micronaut-micrometer]
+branch = "6.1.x"
+
+[modules.managed-micronaut-mongo]
+repo = "micronaut-projects/micronaut-mongodb"
+branch = "6.2.x"
+
+[modules.managed-micronaut-mqtt]
+branch = "4.2.x"
+
+[modules.managed-micronaut-multitenancy]
+branch = "6.1.x"
+
+[modules.managed-micronaut-nats]
+branch = "5.1.x"
+
+[modules.managed-micronaut-neo4j]
+branch = "8.1.x"
+
+[modules.managed-micronaut-object-storage]
+branch = "3.1.x"
+
+[modules.managed-micronaut-openapi]
+branch = "7.3.x"
+
+[modules.managed-micronaut-openrewrite]
+branch = "1.1.x"
+
+[modules.managed-micronaut-opensearch]
+branch = "2.1.x"
 
 # 190 artifacts, about 268 MB and 9,480 files per release (6.1.3): over half of the namespace's
 # monthly file count across 14 releases in 90 days.
 [modules.managed-micronaut-oraclecloud]
 repo = "micronaut-projects/micronaut-oracle-cloud"
+branch = "6.1.x"
 exclude = "each release publishes 190 artifacts (about 268 MB and 9,480 files), a large share of the monthly Maven Central limits"
+
+[modules.managed-micronaut-picocli]
+branch = "6.1.x"
+
+[modules.managed-micronaut-problem]
+repo = "micronaut-projects/micronaut-problem-json"
+branch = "5.1.x"
+
+[modules.managed-micronaut-projectgen]
+branch = "1.1.x"
+
+[modules.managed-micronaut-pulsar]
+branch = "3.2.x"
+
+[modules.managed-micronaut-r2dbc]
+branch = "7.2.x"
+
+[modules.managed-micronaut-rabbitmq]
+branch = "5.1.x"
+
+[modules.managed-micronaut-reactor]
+branch = "4.3.x"
+
+[modules.managed-micronaut-redis]
+branch = "7.2.x"
+
+[modules.managed-micronaut-rss]
+branch = "5.2.x"
+
+[modules.managed-micronaut-rxjava3]
+branch = "4.1.x"
+
+[modules.managed-micronaut-security]
+branch = "5.4.x"
+
+[modules.managed-micronaut-serialization]
+branch = "3.2.x"
+
+[modules.managed-micronaut-servlet]
+branch = "6.2.x"
+
+[modules.managed-micronaut-session]
+branch = "5.2.x"
+
+[modules.managed-micronaut-sourcegen]
+branch = "2.2.x"
+
+[modules.managed-micronaut-spring]
+branch = "6.1.x"
+
+[modules.managed-micronaut-sql]
+branch = "7.2.x"
+
+[modules.managed-micronaut-test]
+branch = "5.2.x"
+
+[modules.managed-micronaut-test-resources]
+branch = "4.3.x"
+
+[modules.managed-micronaut-toml]
+branch = "3.1.x"
+
+[modules.managed-micronaut-tracing]
+branch = "8.3.x"
+
+[modules.managed-micronaut-validation]
+branch = "5.2.x"
+
+[modules.managed-micronaut-views]
+branch = "6.3.x"
