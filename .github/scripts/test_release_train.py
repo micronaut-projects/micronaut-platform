@@ -102,6 +102,20 @@ class ManifestTest(unittest.TestCase):
         self.assertEqual(modules[0]["branch"], "5.2.x")
         self.assertEqual(modules[1]["branch"], "3.2.x")
 
+    def test_excluded_module(self):
+        manifest = {"modules": {"managed-micronaut-oraclecloud": {"repo": "micronaut-projects/micronaut-oracle-cloud", "exclude": "too big"}}}
+        modules = train.train_modules(manifest, {"managed-micronaut-oraclecloud": "6.1.3"})
+        self.assertEqual(modules[0]["excluded"], "too big")
+        self.assertEqual(modules[0]["repo"], "micronaut-projects/micronaut-oracle-cloud")
+
+    def test_excluded_module_is_not_released(self):
+        module = {"key": "managed-micronaut-oraclecloud", "repo": "r", "branch": "6.1.x", "current": "6.1.3", "excluded": "too big"}
+        planned = {**module, "title": "Micronaut Oracle Cloud", "lastRelease": "6.1.3", "decision": train.RELEASE, "reasons": []}
+        with unittest.mock.patch.object(train, "plan_module", return_value=dict(planned)):
+            self.assertEqual(train.plan_excluded(None, module)["decision"], train.EXCLUDED)
+        with unittest.mock.patch.object(train, "plan_module", return_value={**planned, "lastRelease": "6.1.4"}):
+            self.assertEqual(train.plan_excluded(None, module)["decision"], train.BUMP)
+
     def test_unknown_module_fails(self):
         with self.assertRaises(ValueError):
             train.train_modules({"modules": {"managed-micronaut-nope": {}}}, {})

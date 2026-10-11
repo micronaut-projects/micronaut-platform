@@ -48,6 +48,7 @@ BUMP = "bump"
 CHECK_DEPENDENCIES = "check-dependencies"
 SKIP = "skip"
 UNCHANGED = "unchanged"
+EXCLUDED = "excluded"
 
 
 class GitHub:
@@ -112,6 +113,7 @@ def train_modules(manifest, versions):
             "repo": settings.get("repo", f"{ORG}/{key.removeprefix('managed-')}"),
             "branch": settings.get("branch", default_branch(current)),
             "current": current,
+            "excluded": settings.get("exclude"),
         })
     return modules
 
@@ -288,11 +290,35 @@ def write_output(name, value):
             file.write(f"{name}={value}\n")
 
 
+def plan_excluded(github, module):
+    """An excluded module releases on its own; the train only picks up those releases for the platform."""
+    reason = f"outside the train: {module['excluded']}"
+    try:
+        planned = plan_module(github, module)
+    except RuntimeError as error:
+        return {
+            **module, "title": module["key"].removeprefix("managed-"), "lastRelease": module["current"],
+            "nextVersion": "", "decision": EXCLUDED, "reasons": [reason, f"not checked: {error}"],
+            "changes": [], "files": {}, "compareUrl": f"https://github.com/{module['repo']}", "ci": None,
+        }
+    planned["ci"] = None
+    if planned["lastRelease"] != module["current"]:
+        planned["decision"] = BUMP
+        planned["reasons"] = [f"v{planned['lastRelease']} was released on its own and is not in the platform yet", reason]
+    else:
+        planned["decision"] = EXCLUDED
+        planned["reasons"] = [reason]
+    return planned
+
+
 def command_plan(arguments):
     versions = tomllib.loads(Path(arguments.catalog).read_text())["versions"]
     manifest = tomllib.loads(Path(arguments.manifest).read_text())
     github = GitHub(os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN"))
-    modules = [plan_module(github, module) for module in train_modules(manifest, versions)]
+    modules = [
+        plan_excluded(github, module) if module["excluded"] else plan_module(github, module)
+        for module in train_modules(manifest, versions)
+    ]
     plan = {"platform": plan_platform(versions, modules), "modules": modules}
     plan["platform"]["centralLimits"] = manifest.get("central-limits")
     plan["platform"]["release"] = platform_releases(plan)
@@ -488,11 +514,17 @@ def module_draft(github, module):
     return release, "created"
 
 
+def commit_count(module):
+    count = len(module["changes"])
+    return f"{count} commit{'s' if count != 1 else ''}"
+
+
 def train_section(plan):
     modules = plan["modules"]
     released = [module for module in modules if module["decision"] == RELEASE]
     bumped = [module for module in modules if module["decision"] == BUMP]
     held = [module for module in modules if module["decision"] in (SKIP, UNCHANGED)]
+    excluded = [module for module in modules if module["decision"] == EXCLUDED]
     lines = [TRAIN_START, "## Release train", ""]
     if released or bumped:
         lines += ["| Module | Version | Why |", "| --- | --- | --- |"]
@@ -500,7 +532,7 @@ def train_section(plan):
             notes = f" ([notes]({module['draftUrl']}))" if module.get("draftUrl") else ""
             lines.append(
                 f"| {module['title']} | {module['current']} → {module['nextVersion']} |"
-                f" {'; '.join(module['reasons'])}, [{len(module['changes'])} commits]({module['compareUrl']}){notes} |"
+                f" {'; '.join(module['reasons'])}, [{commit_count(module)}]({module['compareUrl']}){notes} |"
             )
         for module in bumped:
             lines.append(f"| {module['title']} | {module['current']} → {module['lastRelease']} | {'; '.join(module['reasons'])} |")
@@ -509,6 +541,9 @@ def train_section(plan):
         lines.append("Not released: " + ", ".join(
             f"{module['title']} ({'; '.join(module['reasons'])})" for module in held
         ))
+        lines.append("")
+    if excluded:
+        lines.append("Released on their own, outside the train: " + ", ".join(module["title"] for module in excluded))
         lines.append("")
     third_party = plan["platform"]["thirdPartyChanges"]
     if third_party:
@@ -711,7 +746,7 @@ def summary(plan, write_drafts):
         lines.append(
             f"| {module['title']} | `{module['branch']}` | {module['lastRelease']} | {module['nextVersion']} |"
             f" **{module['decision']}** | {'; '.join(module['reasons'])} |"
-            f" [{len(module['changes'])} commits]({module['compareUrl']}){draft} |"
+            f" [{commit_count(module)}]({module['compareUrl']}){draft} |"
         )
     for module in plan["modules"]:
         if module.get("draftStatus") and module["draftStatus"] not in ("existing", "created"):

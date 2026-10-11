@@ -6,8 +6,13 @@
 # managed-micronaut-data = "5.2.2" tracks micronaut-projects/micronaut-data on 5.2.x.
 #
 # Optional overrides:
-#   repo   = "micronaut-projects/micronaut-serialization"
-#   branch = "3.2.x"
+#   repo    = "micronaut-projects/micronaut-serialization"
+#   branch  = "3.2.x"
+#   exclude = "why the module releases on its own"
+#
+# An excluded module is never released by the train. It keeps releasing on its own, and the train
+# picks up those releases into the platform catalog. Exclude modules whose releases would use a
+# large share of the monthly Maven Central publishing limits below.
 #
 # The next version of a module always comes from the tracked branch's projectVersion
 # (5.2.3-SNAPSHOT releases as 5.2.3). To release a minor, bump the branch to the next
@@ -26,3 +31,9 @@ releases = 210
 [modules.managed-micronaut-data]
 
 [modules.managed-micronaut-serialization]
+
+# 190 artifacts, about 268 MB and 9,480 files per release (6.1.3): over half of the namespace's
+# monthly file count across 14 releases in 90 days.
+[modules.managed-micronaut-oraclecloud]
+repo = "micronaut-projects/micronaut-oracle-cloud"
+exclude = "each release publishes 190 artifacts (about 268 MB and 9,480 files), a large share of the monthly Maven Central limits"
