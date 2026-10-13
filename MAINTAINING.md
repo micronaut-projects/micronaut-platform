@@ -235,6 +235,15 @@ The dry run never tags, signs or publishes anything. It:
 Fix every failure on the module branch, for example by upgrading a vulnerable dependency, and run the dry run again
 until every release check passes.
 
+#### Releasing part of the train
+
+To release only some modules, for example to ship an urgent fix in core without waiting for other modules, list them
+in the `modules` input of the **Release Train** workflow, comma separated: `core, data, serialization`. A module can be
+named by its catalog key (`serialization`) or its repository (`micronaut-serialization`), with or without the
+`micronaut-` prefix. Only the listed modules can release. Other modules with changes are held back for a later train
+and listed as held back in the run summary and in the platform's draft release. Standalone releases of other modules
+are still picked up into the platform. An unknown module, or one excluded from the train, fails the run.
+
 #### Staged module releases
 
 In the real run, micronaut-platform dispatches each module's
