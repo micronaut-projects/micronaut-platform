@@ -8,9 +8,15 @@
 # Writing module draft releases needs a GitHub App installed on the module repositories:
 # set the RELEASE_TRAIN_CLIENT_ID variable and the RELEASE_TRAIN_PRIVATE_KEY secret.
 name: Release Train
+run-name: >-
+  ${{ inputs.modules && format('Release train dry run ({0})', inputs.modules) || 'Release train dry run' }}
 on:
   workflow_dispatch:
     inputs:
+      modules:
+        description: 'Release only these modules, comma separated (e.g. core, data). Empty: the whole train'
+        type: string
+        default: ''
       write-drafts:
         description: 'Create or update the module and platform draft releases'
         type: boolean
@@ -35,6 +41,7 @@ jobs:
         id: plan
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRAIN_MODULES: ${{ inputs.modules }}
         run: python3 .github/scripts/release-train.py plan
       - name: Upload plan
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

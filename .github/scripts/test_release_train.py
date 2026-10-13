@@ -230,8 +230,17 @@ class ReadinessTest(unittest.TestCase):
         self.assertEqual(train.check_names(["a", "b", "c", "d", "e"]), "a, b, c and 2 more")
 
     def test_missing_release_check_blocks(self):
-        _, blocking, _ = train.readiness(self.module())
+        cells, blocking, _ = train.readiness(self.module())
         self.assertEqual(blocking, ["release checks did not run"])
+        self.assertEqual(cells["ci"], "success")
+
+    def test_summary_without_release_checks(self):
+        plan = {
+            "platform": {"nextVersion": "5.2.3", "previousTag": "v5.2.2", "release": True, "thirdPartyChanges": []},
+            "modules": [{**self.module(), "branch": "5.2.x", "lastRelease": "5.2.2", "current": "5.2.2",
+                         "reasons": ["published sources changed"], "changes": [], "compareUrl": "https://example.com"}],
+        }
+        self.assertIn("1 of 1 modules would fail their release", train.summary(plan, False))
 
     def test_summary_shows_verdict_and_annotation(self):
         plan = {
@@ -377,6 +386,43 @@ class PlanModuleTest(unittest.TestCase):
                   "problems": ["`6.2.x` is at `6.2.0`"],
                   "releaseCheck": {"checks": {"dependencies": "skipped", "audit": "success", "build": "success", "docs": "success"}}}
         self.assertEqual(train.readiness(module)[1], ["`6.2.x` is at `6.2.0`"])
+
+
+class SelectionTest(unittest.TestCase):
+    MODULES = [
+        {"key": "managed-micronaut-core", "repo": "micronaut-projects/micronaut-core", "excluded": None},
+        {"key": "managed-micronaut-serialization", "repo": "micronaut-projects/micronaut-serialization", "excluded": None},
+        {"key": "managed-micronaut-mongo", "repo": "micronaut-projects/micronaut-mongodb", "excluded": None},
+        {"key": "managed-micronaut-oraclecloud", "repo": "micronaut-projects/micronaut-oracle-cloud", "excluded": "too big"},
+    ]
+
+    def test_whole_train_when_empty(self):
+        self.assertIsNone(train.select_modules(self.MODULES, ""))
+        self.assertIsNone(train.select_modules(self.MODULES, None))
+
+    def test_names_keys_and_repositories(self):
+        selected = train.select_modules(self.MODULES, "core, micronaut-serialization  mongodb")
+        self.assertEqual(selected, {"managed-micronaut-core", "managed-micronaut-serialization", "managed-micronaut-mongo"})
+        self.assertEqual(train.select_modules(self.MODULES, "managed-micronaut-mongo,Mongo"), {"managed-micronaut-mongo"})
+
+    def test_unknown_module_fails(self):
+        with self.assertRaises(SystemExit) as raised:
+            train.select_modules(self.MODULES, "core, nope")
+        self.assertIn("Unknown modules: nope", str(raised.exception))
+
+    def test_excluded_module_fails(self):
+        with self.assertRaises(SystemExit) as raised:
+            train.select_modules(self.MODULES, "oracle-cloud")
+        self.assertIn("managed-micronaut-oraclecloud", str(raised.exception))
+
+    def test_unselected_module_is_held_back(self):
+        planned = {"key": "managed-micronaut-data", "decision": train.RELEASE, "reasons": ["published sources changed"]}
+        held = train.hold_back(dict(planned), {"managed-micronaut-core"})
+        self.assertEqual(held["decision"], train.HELD_BACK)
+        self.assertEqual(held["reasons"], ["not selected for this release", "published sources changed"])
+        self.assertEqual(train.hold_back(dict(planned), None)["decision"], train.RELEASE)
+        bump = {"key": "managed-micronaut-r2dbc", "decision": train.BUMP, "reasons": []}
+        self.assertEqual(train.hold_back(dict(bump), {"managed-micronaut-core"})["decision"], train.BUMP)
 
 
 class ReleaseNotesTest(unittest.TestCase):

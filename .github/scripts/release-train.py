@@ -49,6 +49,7 @@ CHECK_DEPENDENCIES = "check-dependencies"
 SKIP = "skip"
 UNCHANGED = "unchanged"
 EXCLUDED = "excluded"
+HELD_BACK = "held-back"
 
 
 class GitHub:
@@ -332,15 +333,54 @@ def plan_excluded(github, module):
     return planned
 
 
+def module_names(module):
+    """Every name a maintainer may use for a module: its catalog key or its repository, with or without prefixes."""
+    names = set()
+    for name in (module["key"].removeprefix("managed-"), module["repo"].split("/")[-1]):
+        names |= {name, name.removeprefix("micronaut-")}
+    return names
+
+
+def select_modules(modules, selection):
+    """Resolve a comma or space separated list of module names to catalog keys, or None to release the whole train."""
+    requested = [name.strip().lower() for name in re.split(r"[,\s]+", selection or "") if name.strip()]
+    if not requested:
+        return None
+    by_name = {name: module for module in modules for name in module_names(module)}
+    unknown = [name for name in requested if name.removeprefix("managed-") not in by_name]
+    if unknown:
+        raise SystemExit(
+            f"Unknown modules: {', '.join(unknown)}. Use names from gradle/release-train.toml, "
+            f"for example: {', '.join(sorted(module['key'].removeprefix('managed-micronaut-') for module in modules)[:8])}"
+        )
+    chosen = {by_name[name.removeprefix("managed-")]["key"]: by_name[name.removeprefix("managed-")] for name in requested}
+    excluded = [module["key"] for module in chosen.values() if module["excluded"]]
+    if excluded:
+        raise SystemExit(f"Excluded from the train, they release on their own: {', '.join(excluded)}")
+    return set(chosen)
+
+
+def hold_back(planned, selected):
+    """Leave a module that is not in the selected subset out of this release, keeping why it would have released."""
+    if selected is None or planned["key"] in selected or planned["decision"] not in (RELEASE, CHECK_DEPENDENCIES):
+        return planned
+    planned["reasons"] = ["not selected for this release"] + planned["reasons"]
+    planned["decision"] = HELD_BACK
+    return planned
+
+
 def command_plan(arguments):
     versions = tomllib.loads(Path(arguments.catalog).read_text())["versions"]
     manifest = tomllib.loads(Path(arguments.manifest).read_text())
     github = GitHub(os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN"))
+    candidates = train_modules(manifest, versions)
+    selected = select_modules(candidates, arguments.modules)
     modules = [
-        plan_excluded(github, module) if module["excluded"] else plan_module(github, module)
-        for module in train_modules(manifest, versions)
+        plan_excluded(github, module) if module["excluded"] else hold_back(plan_module(github, module), selected)
+        for module in candidates
     ]
     plan = {"platform": plan_platform(versions, modules), "modules": modules}
+    plan["platform"]["selection"] = sorted(selected) if selected is not None else None
     plan["platform"]["centralLimits"] = manifest.get("central-limits")
     plan["platform"]["release"] = platform_releases(plan)
     Path(arguments.output).parent.mkdir(parents=True, exist_ok=True)
@@ -545,6 +585,7 @@ def train_section(plan):
     released = [module for module in modules if module["decision"] == RELEASE]
     bumped = [module for module in modules if module["decision"] == BUMP]
     held = [module for module in modules if module["decision"] in (SKIP, UNCHANGED)]
+    held_back = [module for module in modules if module["decision"] == HELD_BACK]
     excluded = [module for module in modules if module["decision"] == EXCLUDED]
     lines = [TRAIN_START, "## Release train", ""]
     if released or bumped:
@@ -562,6 +603,9 @@ def train_section(plan):
         lines.append("Not released: " + ", ".join(
             f"{module['title']} ({'; '.join(module['reasons'])})" for module in held
         ))
+        lines.append("")
+    if held_back:
+        lines.append("Held back from this release, with changes: " + ", ".join(module["title"] for module in held_back))
         lines.append("")
     if excluded:
         lines.append("Released on their own, outside the train: " + ", ".join(module["title"] for module in excluded))
@@ -616,13 +660,13 @@ def check_names(names, limit=3):
 def readiness(module):
     """Return (cells, blocking, warnings) for a module the train would release."""
     result = module.get("releaseCheck")
+    ci = module.get("ci") or {"state": "none"}
     if result is None:
-        cells = {name: "failure" for name in CHECK_LABELS}
+        cells = {**{name: "failure" for name in CHECK_LABELS}, "ci": ci["state"]}
         return cells, ["release checks did not run"] + module.get("problems", []), []
     cells = dict(result["checks"])
     if cells["audit"] == "success" and result.get("auditAdvisory"):
         cells["audit"] = "advisory"
-    ci = module.get("ci") or {"state": "none"}
     cells["ci"] = ci["state"]
     blocking = [CHECK_LABELS[name] for name in CHECK_LABELS if cells[name] in ("failure", "cancelled")]
     blocking += module.get("problems", [])
@@ -749,6 +793,18 @@ def annotations(plan):
     return lines
 
 
+def selection_lines(plan):
+    selection = plan["platform"].get("selection")
+    if selection is None:
+        return []
+    titles = {module["key"]: module["title"] for module in plan["modules"]}
+    held_back = [module["title"] for module in plan["modules"] if module["decision"] == HELD_BACK]
+    line = f"**Subset:** only {', '.join(titles[key] for key in selection)} can release."
+    if held_back:
+        line += f" Held back although they have changes: {', '.join(held_back)}."
+    return [line, ""]
+
+
 def summary(plan, write_drafts):
     platform = plan["platform"]
     lines = [
@@ -757,6 +813,7 @@ def summary(plan, write_drafts):
         f"Platform {platform['nextVersion']} (previous {platform['previousTag'] or 'none'}): "
         + ("**releases**" if platform["release"] else "nothing to release"),
         "",
+        *selection_lines(plan),
         *readiness_section(plan),
         "## Modules",
         "",
@@ -819,6 +876,8 @@ def main(argv=None):
     plan.add_argument("--catalog", default="gradle/libs.versions.toml")
     plan.add_argument("--manifest", default="gradle/release-train.toml")
     plan.add_argument("--output", default="build/release-train/plan.json")
+    plan.add_argument("--modules", default=os.environ.get("TRAIN_MODULES"),
+                      help="Release only these modules, comma or space separated (default: the whole train)")
     plan.set_defaults(handler=command_plan)
 
     pom_diff = subcommands.add_parser("pom-diff")
