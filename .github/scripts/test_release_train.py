@@ -1,0 +1,443 @@
+#!/usr/bin/env python3
+"""Tests for release-train.py: python3 .github/scripts/test_release_train.py"""
+
+import importlib.util
+import tempfile
+import unittest
+import unittest.mock
+from pathlib import Path
+
+SCRIPT = Path(__file__).with_name("release-train.py")
+spec = importlib.util.spec_from_file_location("release_train", SCRIPT)
+train = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(train)
+
+
+def pom(artifact_id, dependencies, version="5.2.2"):
+    entries = "".join(
+        f"<dependency><groupId>{group}</groupId><artifactId>{artifact}</artifactId>"
+        f"<version>{dependency_version}</version><scope>{scope}</scope></dependency>"
+        for group, artifact, dependency_version, scope in dependencies
+    )
+    return (
+        '<project xmlns="http://maven.apache.org/POM/4.0.0"><groupId>io.micronaut.data</groupId>'
+        f"<artifactId>{artifact_id}</artifactId><version>{version}</version>"
+        f"<dependencies>{entries}</dependencies></project>"
+    )
+
+
+class ClassifyFileTest(unittest.TestCase):
+    def classify(self, path, patch=None):
+        return train.classify_file({"filename": path, "patch": patch})
+
+    def test_sources(self):
+        self.assertEqual(self.classify("data-model/src/main/java/io/micronaut/data/Foo.java"), "source")
+        self.assertEqual(self.classify("src/main/resources/META-INF/services/x"), "source")
+
+    def test_docs_tests_and_build(self):
+        self.assertEqual(self.classify("src/main/docs/guide/index.adoc"), "docs")
+        self.assertEqual(self.classify("data-jdbc/src/test/groovy/FooSpec.groovy"), "test")
+        self.assertEqual(self.classify("test-suite-kotlin/src/main/kotlin/Foo.kt"), "test")
+        self.assertEqual(self.classify("buildSrc/src/main/groovy/Conventions.groovy"), "build")
+        self.assertEqual(self.classify(".github/workflows/gradle.yml"), "build")
+        self.assertEqual(self.classify("data-jdbc/build.gradle.kts"), "build")
+
+    def test_catalog(self):
+        self.assertEqual(self.classify("gradle/libs.versions.toml"), "catalog")
+
+    def test_gradle_properties(self):
+        version_only = "@@ -1 +1 @@\n-projectVersion=5.2.2\n+projectVersion=5.2.3-SNAPSHOT"
+        self.assertEqual(self.classify("gradle.properties", version_only), "version")
+        other = "@@ -1 +1 @@\n-org.gradle.jvmargs=-Xmx1g\n+org.gradle.jvmargs=-Xmx2g"
+        self.assertEqual(self.classify("gradle.properties", other), "build")
+
+
+class DecideTest(unittest.TestCase):
+    def files(self, **categories):
+        files = {category: [] for category in ("source", "catalog", "version", "build", "test", "docs")}
+        files.update(categories)
+        return files
+
+    def test_source_change_releases(self):
+        decision, _ = train.decide([{}], self.files(source=["a"], test=["b"]), None, False)
+        self.assertEqual(decision, train.RELEASE)
+
+    def test_catalog_change_needs_dependency_check(self):
+        decision, _ = train.decide([{}], self.files(catalog=["gradle/libs.versions.toml"]), None, False)
+        self.assertEqual(decision, train.CHECK_DEPENDENCIES)
+
+    def test_build_only_change_waits(self):
+        decision, _ = train.decide([{}], self.files(build=["a"], docs=["b"]), None, False)
+        self.assertEqual(decision, train.SKIP)
+
+    def test_standalone_release_is_bumped(self):
+        decision, _ = train.decide([], self.files(), "5.2.3", False)
+        self.assertEqual(decision, train.BUMP)
+
+    def test_no_changes(self):
+        decision, _ = train.decide([], self.files(), None, False)
+        self.assertEqual(decision, train.UNCHANGED)
+
+    def test_truncated_comparison_releases(self):
+        decision, _ = train.decide([{}], self.files(build=["a"]), None, True)
+        self.assertEqual(decision, train.RELEASE)
+
+
+class BotCommitTest(unittest.TestCase):
+    def commit(self, login, message):
+        return {"author": {"login": login}, "commit": {"message": message}}
+
+    def test_bot_commits_are_ignored(self):
+        self.assertTrue(train.is_bot_commit(self.commit("micronaut-build", "chore: Bump version to 5.2.3-SNAPSHOT")))
+        self.assertTrue(train.is_bot_commit(self.commit("someone", "[skip ci] Release v5.2.2")))
+        self.assertFalse(train.is_bot_commit(self.commit("someone", "Fix geospatial ordering (#4097)")))
+
+
+class ManifestTest(unittest.TestCase):
+    def test_defaults_and_overrides(self):
+        manifest = {"modules": {"managed-micronaut-data": {}, "managed-micronaut-serialization": {"branch": "3.2.x"}}}
+        versions = {"managed-micronaut-data": "5.2.2", "managed-micronaut-serialization": "3.2.4"}
+        modules = train.train_modules(manifest, versions)
+        self.assertEqual(modules[0]["repo"], "micronaut-projects/micronaut-data")
+        self.assertEqual(modules[0]["branch"], "5.2.x")
+        self.assertEqual(modules[1]["branch"], "3.2.x")
+
+    def test_excluded_module(self):
+        manifest = {"modules": {"managed-micronaut-oraclecloud": {"repo": "micronaut-projects/micronaut-oracle-cloud", "exclude": "too big"}}}
+        modules = train.train_modules(manifest, {"managed-micronaut-oraclecloud": "6.1.3"})
+        self.assertEqual(modules[0]["excluded"], "too big")
+        self.assertEqual(modules[0]["repo"], "micronaut-projects/micronaut-oracle-cloud")
+
+    def test_excluded_module_is_not_released(self):
+        module = {"key": "managed-micronaut-oraclecloud", "repo": "r", "branch": "6.1.x", "current": "6.1.3", "excluded": "too big"}
+        planned = {**module, "title": "Micronaut Oracle Cloud", "lastRelease": "6.1.3", "decision": train.RELEASE, "reasons": []}
+        with unittest.mock.patch.object(train, "plan_module", return_value=dict(planned)):
+            self.assertEqual(train.plan_excluded(None, module)["decision"], train.EXCLUDED)
+        with unittest.mock.patch.object(train, "plan_module", return_value={**planned, "lastRelease": "6.1.4"}):
+            self.assertEqual(train.plan_excluded(None, module)["decision"], train.BUMP)
+
+    def test_unknown_module_fails(self):
+        with self.assertRaises(ValueError):
+            train.train_modules({"modules": {"managed-micronaut-nope": {}}}, {})
+
+
+class CatalogChangesTest(unittest.TestCase):
+    def test_reports_managed_and_parent_changes(self):
+        previous = '[versions]\nmanaged-jna = "5.19.0"\nparent-foo = "1"\ngroovy = "4"\n'
+        current = {"managed-jna": "5.19.1", "parent-foo": "1", "groovy": "5", "managed-new": "1.0"}
+        changes = train.catalog_changes(previous, current)
+        self.assertEqual(
+            changes,
+            [{"key": "managed-jna", "from": "5.19.0", "to": "5.19.1"}, {"key": "managed-new", "from": None, "to": "1.0"}],
+        )
+
+
+class PomDiffTest(unittest.TestCase):
+    def write(self, root, project, content):
+        path = Path(root, project, "build/publications/maven/pom-default.xml")
+        path.parent.mkdir(parents=True)
+        path.write_text(content)
+
+    def test_runtime_dependency_change_is_detected(self):
+        with tempfile.TemporaryDirectory() as before, tempfile.TemporaryDirectory() as after:
+            self.write(before, "data-jdbc", pom("micronaut-data-jdbc", [("org.x", "x", "1.0", "compile")]))
+            self.write(after, "data-jdbc", pom("micronaut-data-jdbc", [("org.x", "x", "1.1", "compile")]))
+            differences = train.compare_published(train.published_dependencies(before), train.published_dependencies(after))
+            self.assertEqual(len(differences), 2)
+
+    def test_own_version_change_is_ignored(self):
+        with tempfile.TemporaryDirectory() as before, tempfile.TemporaryDirectory() as after:
+            own = ("io.micronaut.data", "micronaut-data-model")
+            self.write(before, "data-jdbc", pom("micronaut-data-jdbc", [(*own, "5.2.2", "compile")], "5.2.2"))
+            self.write(after, "data-jdbc", pom("micronaut-data-jdbc", [(*own, "5.2.3-SNAPSHOT", "compile")], "5.2.3-SNAPSHOT"))
+            differences = train.compare_published(train.published_dependencies(before), train.published_dependencies(after))
+            self.assertEqual(differences, [])
+
+    def test_test_scope_change_is_ignored(self):
+        with tempfile.TemporaryDirectory() as before, tempfile.TemporaryDirectory() as after:
+            self.write(before, "data-jdbc", pom("micronaut-data-jdbc", [("org.t", "t", "1.0", "test")]))
+            self.write(after, "data-jdbc", pom("micronaut-data-jdbc", [("org.t", "t", "2.0", "test")]))
+            differences = train.compare_published(train.published_dependencies(before), train.published_dependencies(after))
+            self.assertEqual(differences, [])
+
+
+AUDIT_LOG = """2026-10-11T10:00:00.0000000Z Scanning CycloneDX SBOM with OSV-Scanner
+2026-10-11T10:00:01.0000000Z Actionable vulnerability findings:
+2026-10-11T10:00:01.0000000Z - org.mongodb:bson:5.7.0 (GHSA-xxxx-yyyy-zzzz; fixed: 5.7.1)
+2026-10-11T10:00:01.0000000Z   Reason: direct dependency
+2026-10-11T10:00:01.0000000Z - io.netty:netty-codec:4.2.1.Final (CVE-2026-0001; fixed: 4.2.2.Final)
+2026-10-11T10:00:02.0000000Z Process completed with exit code 1.
+"""
+
+
+class ReleaseCheckTest(unittest.TestCase):
+    def test_audit_findings_are_extracted(self):
+        findings = train.audit_findings(AUDIT_LOG)
+        self.assertEqual(len(findings), 2)
+        self.assertEqual(findings[0], "org.mongodb:bson:5.7.0 (GHSA-xxxx-yyyy-zzzz; fixed: 5.7.1) Reason: direct dependency")
+
+    def test_clean_audit_has_no_findings(self):
+        self.assertEqual(train.audit_findings("No known vulnerabilities found.\n"), [])
+
+    def test_release_check_records_outcomes_and_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory, "audit.log")
+            log.write_text(AUDIT_LOG)
+            output = Path(directory, "release-check.json")
+            environment = {"AUDIT_OUTCOME": "failure", "BUILD_OUTCOME": "success", "DOCS_OUTCOME": "success"}
+            with unittest.mock.patch.dict("os.environ", environment):
+                with self.assertRaises(SystemExit):
+                    train.main(["release-check", "--key", "managed-micronaut-data", "--audit-log", str(log), "--output", str(output)])
+            result = train.json.loads(output.read_text())
+            self.assertEqual(result["checks"]["audit"], "failure")
+            self.assertEqual(result["checks"]["dependencies"], "skipped")
+            self.assertEqual(len(result["auditFindings"]), 2)
+
+
+class ReadinessTest(unittest.TestCase):
+    def module(self, checks=None, ci="success", advisory=False):
+        module = {
+            "key": "managed-micronaut-data", "title": "Micronaut Data", "nextVersion": "5.2.3", "decision": train.RELEASE,
+            "ci": {"state": ci, "failing": ["build"] if ci == "failure" else [], "pending": [], "url": "https://example.com"},
+        }
+        if checks is not None:
+            module["releaseCheck"] = {"checks": checks, "auditAdvisory": advisory}
+        return module
+
+    def passing(self, **overrides):
+        return {"dependencies": "skipped", "audit": "success", "build": "success", "docs": "success", **overrides}
+
+    def test_all_checks_pass(self):
+        _, blocking, warnings = train.readiness(self.module(self.passing()))
+        self.assertEqual((blocking, warnings), ([], []))
+
+    def test_failed_audit_blocks(self):
+        _, blocking, _ = train.readiness(self.module(self.passing(audit="failure")))
+        self.assertEqual(blocking, ["vulnerability audit"])
+
+    def test_advisory_audit_warns(self):
+        cells, blocking, warnings = train.readiness(self.module(self.passing(), advisory=True))
+        self.assertEqual(cells["audit"], "advisory")
+        self.assertEqual(blocking, [])
+        self.assertEqual(len(warnings), 1)
+
+    def test_failing_branch_ci_warns(self):
+        _, blocking, warnings = train.readiness(self.module(self.passing(), ci="failure"))
+        self.assertEqual(blocking, [])
+        self.assertEqual(warnings, ["branch CI failing: build"])
+
+    def test_long_check_lists_are_shortened(self):
+        self.assertEqual(train.check_names(["a", "b", "c", "d", "e"]), "a, b, c and 2 more")
+
+    def test_missing_release_check_blocks(self):
+        cells, blocking, _ = train.readiness(self.module())
+        self.assertEqual(blocking, ["release checks did not run"])
+        self.assertEqual(cells["ci"], "success")
+
+    def test_summary_without_release_checks(self):
+        plan = {
+            "platform": {"nextVersion": "5.2.3", "previousTag": "v5.2.2", "release": True, "thirdPartyChanges": []},
+            "modules": [{**self.module(), "branch": "5.2.x", "lastRelease": "5.2.2", "current": "5.2.2",
+                         "reasons": ["published sources changed"], "changes": [], "compareUrl": "https://example.com"}],
+        }
+        self.assertIn("1 of 1 modules would fail their release", train.summary(plan, False))
+
+    def test_summary_shows_verdict_and_annotation(self):
+        plan = {
+            "platform": {"nextVersion": "5.2.3", "previousTag": "v5.2.2", "release": True, "thirdPartyChanges": []},
+            "modules": [{**self.module(self.passing(audit="failure")), "branch": "5.2.x", "lastRelease": "5.2.2",
+                         "current": "5.2.2", "reasons": ["published sources changed"], "changes": [], "compareUrl": "https://example.com"}],
+        }
+        text = train.summary(plan, False)
+        self.assertIn("1 of 1 modules would fail their release", text)
+        self.assertEqual(train.annotations(plan), ["::error title=Micronaut Data 5.2.3 would fail::vulnerability audit"])
+
+
+class BundleTest(unittest.TestCase):
+    def test_bundle_stats_count_signatures(self):
+        with tempfile.TemporaryDirectory() as directory:
+            files = ["a/1.0/a-1.0.jar", "a/1.0/a-1.0.jar.md5", "a/1.0/a-1.0.jar.sha1", "a/1.0/a-1.0.pom"]
+            for name in files:
+                Path(directory, "repo", name).parent.mkdir(parents=True, exist_ok=True)
+                Path(directory, "repo", name).write_text("x")
+            bundle_dir = Path(directory, "maven-bundle")
+            bundle_dir.mkdir()
+            with train.tarfile.open(bundle_dir / "a-maven-bundle-1.0.tgz", "w:gz") as archive:
+                for name in files:
+                    archive.add(Path(directory, "repo", name), arcname=name)
+            stats = train.bundle_stats(bundle_dir)
+            self.assertEqual(stats["name"], "a-maven-bundle-1.0.tgz")
+            self.assertEqual(stats["files"], 6)
+
+    def test_missing_bundle(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertIsNone(train.bundle_stats(directory))
+
+    def module(self, size):
+        checks = {"dependencies": "skipped", "audit": "success", "build": "success", "docs": "success"}
+        return {
+            "key": "managed-micronaut-data", "title": "Micronaut Data", "nextVersion": "5.2.3", "decision": train.RELEASE,
+            "releaseCheck": {"checks": checks, "bundle": {"name": "b.tgz", "bytes": size, "files": 100}},
+        }
+
+    def test_oversized_bundle_blocks(self):
+        _, blocking, _ = train.readiness(self.module(1_200_000_000))
+        self.assertEqual(blocking, ["bundle is 1,200.0 MB, over the Central Portal's 1 GB upload limit"])
+
+    def test_large_bundle_warns(self):
+        _, blocking, warnings = train.readiness(self.module(900_000_000))
+        self.assertEqual(blocking, [])
+        self.assertEqual(len(warnings), 1)
+
+    def test_train_upload_totals(self):
+        line = train.train_upload([self.module(60_000_000), {**self.module(20_000_000), "title": "Micronaut Core"}])
+        self.assertIn("2 deployments, 80.0 MB and about 200 files once signed", line)
+        self.assertIn("the largest is Micronaut Data at 60.0 MB", line)
+
+
+class MonthlyShareTest(unittest.TestCase):
+    LIMITS = {"bytes": 8_500_000_000, "files": 181_620, "releases": 210}
+
+    def test_small_train(self):
+        text, warning = train.monthly_share(85_000_000, 1_816, 3, self.LIMITS)
+        self.assertIn("1.0% of the monthly size limit (8.5 GB)", text)
+        self.assertIn("1.0% of the monthly files limit (181,620 files)", text)
+        self.assertIn("1.4% of the monthly releases limit (210 releases)", text)
+        self.assertIsNone(warning)
+
+    def test_large_train_warns(self):
+        _, warning = train.monthly_share(3_000_000_000, 10_000, 20, self.LIMITS)
+        self.assertEqual(warning, "this train alone uses over 25% of the monthly size limit")
+
+    def test_no_limits_configured(self):
+        self.assertEqual(train.monthly_share(1, 1, 1, None), ("", None))
+
+    def test_manifest_limits_parse(self):
+        manifest = train.tomllib.loads(Path(SCRIPT.parents[2], "gradle/release-train.toml").read_text())
+        self.assertEqual(manifest["central-limits"], self.LIMITS)
+
+
+class FakeGitHub:
+    token = None
+
+    def __init__(self, responses):
+        self.responses = responses
+
+    def request(self, path, method="GET", body=None):
+        for prefix, response in self.responses.items():
+            if path.startswith(prefix):
+                return response
+        return None
+
+
+def commit(sha, message, login="someone"):
+    return {"sha": sha * 10, "author": {"login": login}, "html_url": f"https://example.com/{sha}",
+            "commit": {"message": message, "author": {"name": login}}}
+
+
+class PlanModuleTest(unittest.TestCase):
+    MODULE = {"key": "managed-micronaut-r2dbc", "repo": "micronaut-projects/micronaut-r2dbc", "branch": "7.2.x", "current": "7.2.0"}
+
+    def github(self, project_version, commits, later_commits, files):
+        properties = train.base64.b64encode(f"projectVersion={project_version}\n".encode()).decode()
+        def comparison(entries):
+            return {"commits": entries, "total_commits": len(entries), "files": files, "html_url": "https://example.com/compare"}
+        return FakeGitHub({
+            "/repos/micronaut-projects/micronaut-r2dbc/git/ref/tags/": {"ref": "refs/tags/v7.2.0"},
+            "/repos/micronaut-projects/micronaut-r2dbc/contents/gradle.properties": {"content": properties},
+            "/repos/micronaut-projects/micronaut-r2dbc/compare/v7.2.0...": comparison(commits),
+            "/repos/micronaut-projects/micronaut-r2dbc/compare/": comparison(later_commits),
+            "/repos/micronaut-projects/micronaut-r2dbc/commits/": {"check_runs": []},
+        })
+
+    def test_release_commit_of_current_version_is_not_a_standalone_release(self):
+        fix = commit("b", "Fix connection leak (#1)")
+        github = self.github(
+            "7.2.1-SNAPSHOT",
+            [commit("a", "[skip ci] Release v7.2.0", "micronaut-build"), commit("c", "chore: Bump version to 7.2.1-SNAPSHOT", "micronaut-build"), fix],
+            [commit("c", "chore: Bump version to 7.2.1-SNAPSHOT", "micronaut-build"), fix],
+            [{"filename": "r2dbc-core/src/main/java/Foo.java"}],
+        )
+        planned = train.plan_module(github, dict(self.MODULE))
+        self.assertEqual(planned["decision"], train.RELEASE)
+        self.assertEqual(planned["lastRelease"], "7.2.0")
+        self.assertEqual(planned["nextVersion"], "7.2.1")
+        self.assertEqual(planned["problems"], [])
+
+    def test_later_standalone_release_is_bumped(self):
+        github = self.github(
+            "7.2.2-SNAPSHOT",
+            [commit("a", "[skip ci] Release v7.2.1", "micronaut-build"), commit("c", "chore: Bump version to 7.2.2-SNAPSHOT", "micronaut-build")],
+            [commit("c", "chore: Bump version to 7.2.2-SNAPSHOT", "micronaut-build")],
+            [{"filename": "gradle.properties", "patch": "-projectVersion=7.2.1\n+projectVersion=7.2.2-SNAPSHOT"}],
+        )
+        planned = train.plan_module(github, dict(self.MODULE))
+        self.assertEqual(planned["decision"], train.BUMP)
+        self.assertEqual(planned["lastRelease"], "7.2.1")
+
+    def test_branch_not_bumped_after_release_is_a_problem(self):
+        problems = train.version_problems("6.2.0", "6.2.0", "6.2.x")
+        self.assertEqual(problems, ["`6.2.x` is at `6.2.0`, not a snapshot: bump it to the next snapshot after v6.2.0"])
+        self.assertEqual(train.version_problems("6.2.1-SNAPSHOT", "6.2.0", "6.2.x"), [])
+        self.assertEqual(len(train.version_problems("6.2.0-SNAPSHOT", "6.2.0", "6.2.x")), 1)
+
+    def test_problem_blocks_release(self):
+        module = {"key": "k", "title": "Micronaut Mongo", "nextVersion": "6.2.0", "decision": train.RELEASE,
+                  "problems": ["`6.2.x` is at `6.2.0`"],
+                  "releaseCheck": {"checks": {"dependencies": "skipped", "audit": "success", "build": "success", "docs": "success"}}}
+        self.assertEqual(train.readiness(module)[1], ["`6.2.x` is at `6.2.0`"])
+
+
+class SelectionTest(unittest.TestCase):
+    MODULES = [
+        {"key": "managed-micronaut-core", "repo": "micronaut-projects/micronaut-core", "excluded": None},
+        {"key": "managed-micronaut-serialization", "repo": "micronaut-projects/micronaut-serialization", "excluded": None},
+        {"key": "managed-micronaut-mongo", "repo": "micronaut-projects/micronaut-mongodb", "excluded": None},
+        {"key": "managed-micronaut-oraclecloud", "repo": "micronaut-projects/micronaut-oracle-cloud", "excluded": "too big"},
+    ]
+
+    def test_whole_train_when_empty(self):
+        self.assertIsNone(train.select_modules(self.MODULES, ""))
+        self.assertIsNone(train.select_modules(self.MODULES, None))
+
+    def test_names_keys_and_repositories(self):
+        selected = train.select_modules(self.MODULES, "core, micronaut-serialization  mongodb")
+        self.assertEqual(selected, {"managed-micronaut-core", "managed-micronaut-serialization", "managed-micronaut-mongo"})
+        self.assertEqual(train.select_modules(self.MODULES, "managed-micronaut-mongo,Mongo"), {"managed-micronaut-mongo"})
+
+    def test_unknown_module_fails(self):
+        with self.assertRaises(SystemExit) as raised:
+            train.select_modules(self.MODULES, "core, nope")
+        self.assertIn("Unknown modules: nope", str(raised.exception))
+
+    def test_excluded_module_fails(self):
+        with self.assertRaises(SystemExit) as raised:
+            train.select_modules(self.MODULES, "oracle-cloud")
+        self.assertIn("managed-micronaut-oraclecloud", str(raised.exception))
+
+    def test_unselected_module_is_held_back(self):
+        planned = {"key": "managed-micronaut-data", "decision": train.RELEASE, "reasons": ["published sources changed"]}
+        held = train.hold_back(dict(planned), {"managed-micronaut-core"})
+        self.assertEqual(held["decision"], train.HELD_BACK)
+        self.assertEqual(held["reasons"], ["not selected for this release", "published sources changed"])
+        self.assertEqual(train.hold_back(dict(planned), None)["decision"], train.RELEASE)
+        bump = {"key": "managed-micronaut-r2dbc", "decision": train.BUMP, "reasons": []}
+        self.assertEqual(train.hold_back(dict(bump), {"managed-micronaut-core"})["decision"], train.BUMP)
+
+
+class ReleaseNotesTest(unittest.TestCase):
+    def test_train_section_is_replaced_in_place(self):
+        body = f"Intro\n\n{train.TRAIN_START}\nold\n{train.TRAIN_END}\n\n## Bugs\n- fix"
+        merged = train.merge_section(body, f"{train.TRAIN_START}\nnew\n{train.TRAIN_END}")
+        self.assertIn("new", merged)
+        self.assertNotIn("old", merged)
+        self.assertTrue(merged.startswith("Intro"))
+        self.assertTrue(merged.endswith("- fix"))
+
+    def test_train_section_is_prepended(self):
+        merged = train.merge_section("## Bugs\n- fix", f"{train.TRAIN_START}\nnew\n{train.TRAIN_END}")
+        self.assertTrue(merged.startswith(train.TRAIN_START))
+
+
+if __name__ == "__main__":
+    unittest.main()
