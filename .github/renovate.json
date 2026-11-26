@@ -1,4 +1,5 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
   ],
@@ -39,17 +40,30 @@
       "groupSlug": "github-actions-digest"
     },
     {
-      "matchUpdateTypes": [
-        "patch"
-      ],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
-    },
-    {
+      "description": "Other Micronaut dependencies are grouped monthly, as in the shared configuration. Module BOMs are not.",
       "matchPackageNames": [
-        "/.*micronaut.*/"
+        "/.*micronaut.*/",
+        "!/^io\\.micronaut(\\..+)?:micronaut-.+-bom$/"
       ],
       "groupName": "Micronaut dependencies"
+    },
+    {
+      "description": "Module BOMs: one pull request per module, as soon as it is released.",
+      "matchPackageNames": [
+        "/^io\\.micronaut(\\..+)?:micronaut-.+-bom$/"
+      ],
+      "schedule": ["at any time"],
+      "prHourlyLimit": 0
+    },
+    {
+      "description": "Patch and minor module BOM updates merge once every check passes. Renovate checks the status itself, so the merge never runs ahead of CI. Major updates stay manual.",
+      "matchPackageNames": [
+        "/^io\\.micronaut(\\..+)?:micronaut-.+-bom$/"
+      ],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": false
     }
   ]
 }
