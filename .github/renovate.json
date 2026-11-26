@@ -12,6 +12,7 @@
   "prHourlyLimit": 1,
   "prConcurrentLimit": 20,
   "timezone": "Europe/Prague",
+  "platformAutomerge": false,
   "packageRules": [
     {
       "dependencyDashboardApproval": true,
