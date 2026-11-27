@@ -157,6 +157,122 @@ Note that it is perfectly possible to have new workflows that aren't part of the
 
 ## Releases
 
+Modules on a maintenance branch tracked by [Micronaut Platform](https://github.com/micronaut-projects/micronaut-platform)
+are released together with the platform by the [release train](#release-train). Modules outside the train, and urgent
+fixes that cannot wait for the next platform release, are released on their own with a
+[standalone release](#standalone-releases).
+
+### Release train
+
+The release train is driven from micronaut-platform. A platform release decides which tracked modules changed since
+their last release and releases only those, together with the platform BOM.
+
+The real run (staging, verifying and publishing from micronaut-platform) is not enabled yet. Until it is, use the dry
+run to prepare a platform release and release modules with the [standalone process](#standalone-releases).
+
+#### What gets released
+
+The train tracks the branches listed in micronaut-platform's `gradle/release-train.toml`. By default a module tracks the
+`<major>.<minor>.x` branch of its version in the platform catalog: `managed-micronaut-data = "5.2.2"` tracks
+`micronaut-data` on `5.2.x`. For each tracked branch, the train compares the branch with the module's last release tag:
+
+* Changes to published sources (`src/main`, except `src/main/docs`): the module is released.
+* Changes to `gradle/libs.versions.toml` only: the module is released only if the dependencies in its published POMs
+  changed. Upgrades of test or build-only dependencies do not trigger a release.
+* Build, test, docs, workflow or Gradle wrapper changes only: the module is not released. They go out with the next
+  change that is released.
+* Commits by `micronaut-build`, such as release commits and snapshot bumps, are ignored.
+
+A standalone release made since the last platform release is picked up: the next platform release includes that version
+without releasing the module again.
+
+Some modules stay out of the train because their releases use a large share of the namespace's monthly
+[Maven Central publishing limits](https://central.sonatype.org/publish/maven-central-publishing-limits/). Micronaut Oracle
+Cloud is one: each release publishes 190 artifacts, about 268 MB and 9,480 files. Such a module is listed in
+`gradle/release-train.toml` with `exclude = "<reason>"`. It is never released by the train and keeps the standalone
+process, and the platform still picks up its releases. The dry run shows each train's size, file count and releases as a
+share of the monthly limits; check the namespace's current usage on the Central Portal before a real run.
+
+The platform itself is released when any module is released, or when a managed version in its catalog changed.
+
+#### Choosing the version
+
+The version always comes from `projectVersion` on the tracked branch: `5.2.3-SNAPSHOT` is released as `5.2.3`.
+Post-release moves the branch to the next patch snapshot, so patch releases need no action.
+
+For a new minor or major version, either:
+
+* bump `projectVersion` on the tracked branch to the new snapshot, for example `5.3.0-SNAPSHOT`, or
+* create the new branch, for example `5.3.x`, and set `branch = "5.3.x"` for the module in micronaut-platform's
+  `gradle/release-train.toml`.
+
+#### Release notes
+
+The automatic draft release of each module remains the source of its release notes. The dry run creates or updates the
+draft for the version being released (tag `v<version>`), and adds a release train section to the platform's draft
+release, listing the modules and the third-party dependency upgrades. Review and edit the module drafts before the real
+run: they are published as written.
+
+#### Dry run
+
+In micronaut-platform, run the **Release Train** workflow from the Actions tab on the platform branch being released,
+for example `5.2.x`. Without the `write-drafts` option the run only reports; with it, the run also creates or updates
+the draft releases. Writing the module drafts needs the release train GitHub App, configured in micronaut-platform with
+the `RELEASE_TRAIN_CLIENT_ID` variable and the `RELEASE_TRAIN_PRIVATE_KEY` secret.
+
+The dry run never tags, signs or publishes anything. It:
+
+* Plans the train: for each tracked module, the last release, the next version, the commits since the last release
+  and whether it is released.
+* Rehearses each release in a `release check (<module> <version>)` job that runs what the module's release workflow
+  runs: the vulnerability audit (blocking for GA versions, advisory for milestones and release candidates), the release
+  bundle at the release version without signing (`./gradlew preReleaseCheck prepareBundle`), the docs, and the
+  published dependency comparison when only the catalog changed. A failed job is a release that would fail.
+* Summarises the run: a release readiness verdict, a table of each check per module, the vulnerability findings, and
+  the CI status of each branch head. A failing branch CI is shown as a warning, because the release workflow does not
+  run it.
+
+Fix every failure on the module branch, for example by upgrading a vulnerable dependency, and run the dry run again
+until every release check passes.
+
+#### Releasing part of the train
+
+To release only some modules, for example to ship an urgent fix in core without waiting for other modules, list them
+in the `modules` input of the **Release Train** workflow, comma separated: `core, data, serialization`. A module can be
+named by its catalog key (`serialization`) or its repository (`micronaut-serialization`), with or without the
+`micronaut-` prefix. Only the listed modules can release. Other modules with changes are held back for a later train
+and listed as held back in the run summary and in the platform's draft release. Standalone releases of other modules
+are still picked up into the platform. An unknown module, or one excluded from the train, fails the run.
+
+#### Staged module releases
+
+In the real run, micronaut-platform dispatches each module's
+[release workflow](https://github.com/micronaut-projects/micronaut-project-template/blob/master/.github/workflows/release.yml)
+twice with `workflow_dispatch`. The inputs are:
+
+* `mode`: `stage` or `finalize`.
+* `version`: the version to release, without the `v` prefix, for example `5.2.3`.
+* `branch`: the branch to release from, for example `5.2.x`.
+* `train-id`: identifies the train; runs are named `Release train <train-id> <mode> v<version>`.
+* `stage-run-id`: `finalize` only, the run of the `stage` step to take the artifacts and provenance from.
+
+`stage` runs the vulnerability audit, commits the release version and pushes the `v<version>` tag, and publishes to
+the Central Portal with `--publishing-type=USER_MANAGED`. The deployment is validated but not public. The run records
+the deployment id as the `central-deployment` artifact and generates the SLSA provenance.
+
+The platform then checks its BOM against the staged artifacts and publishes every deployment of the train, or drops
+them all if anything failed.
+
+`finalize` publishes the GitHub release from its draft with the build artifacts and provenance, publishes the docs to
+the `gh-pages` branch, and runs post-release: the next snapshot version and the milestones. If `finalize` fails, run it
+again with the same inputs. The `stage` artifacts are kept for 5 days, so `finalize` must run within that time.
+
+Do not start these modes by hand outside a train: a staged deployment that the platform does not publish is never
+released. Staging needs a version of micronaut-build that writes the Central Portal deployment id
+([micronaut-build#963](https://github.com/micronaut-projects/micronaut-build/pull/963)).
+
+### Standalone releases
+
 The release process is highly automated and normally involves just publishing a GitHub release. But before you get there,
 there are some parts you need to understand first.
 
