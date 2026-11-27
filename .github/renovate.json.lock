@@ -1,2 +1,3 @@
-The platform keeps its own Renovate configuration: module BOM updates are not grouped and merge on their own once CI
-passes (see micronaut-platform#2824). This file stops the files sync from overwriting .github/renovate.json.
+The platform extends the shared Renovate rules of micronaut-project-template and adds its own for module BOMs: they
+are not grouped and merge on their own once CI passes (see micronaut-platform#2824). This file stops the files sync
+from overwriting .github/renovate.json.
